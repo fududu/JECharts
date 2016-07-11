@@ -1,12 +1,45 @@
 *.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
 # Package Files #
+target/
 *.jar
 *.war
 *.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# eclipse ignores
+.settings/
+.project
+.classpath
+
+# idea ignores
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# temp ignore
+logs/
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db
+
+# jta files
+*.epoch
+*.lck
+
+# local dev ignore
+dev/
+*-local.properties
+local-*.properties
+
+# private secret
+*.jks
+
+# gitbook target
+_book/
