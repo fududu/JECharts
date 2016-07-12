@@ -22,6 +22,7 @@
         <animal.sniffer.version>1.14</animal.sniffer.version>
         <fastjson.version>1.2.13</fastjson.version>
         <jackson2.version>2.6.7</jackson2.version>
+        <guava.version>19.0</guava.version>
     </properties>
     <issueManagement>
         <system>GitHub Issues</system>
@@ -179,6 +180,10 @@
             <artifactId>caliper</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
@@ -251,6 +256,12 @@
                         <artifactId>guava</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

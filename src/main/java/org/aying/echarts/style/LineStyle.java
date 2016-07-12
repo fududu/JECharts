@@ -24,7 +24,7 @@ import org.aying.echarts.base.LineType;
  * @author Fuchun
  * @since 1.0
  */
-public interface LineStyle extends Style {
+public interface LineStyle extends ShadowStyle {
 
     /**
      * 线条宽度。
@@ -35,29 +35,4 @@ public interface LineStyle extends Style {
      * 线条类型。
      */
     LineType getType();
-
-    /**
-     * 图形阴影的模糊大小。
-     */
-    Integer getShadowBlur();
-
-    /**
-     * 阴影颜色。
-     */
-    String getShadowColor();
-
-    /**
-     * 阴影水平方向上的偏移距离。
-     */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透时度。{@code 0..1}
-     */
-    Double getOpacity();
 }

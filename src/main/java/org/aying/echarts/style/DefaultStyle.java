@@ -16,6 +16,8 @@
 
 package org.aying.echarts.style;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -58,6 +60,13 @@ public class DefaultStyle implements Style {
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.style.DefaultStyle{color='%s'}", color);
+        return String.format("%s{color='%s'}",
+                getClass(), color);
+    }
+
+    protected Map<String, Object> toStringMap() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("color", getColor());
+        return map;
     }
 }

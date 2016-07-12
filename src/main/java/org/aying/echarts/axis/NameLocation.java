@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.axis;
 
 /**
- * 标题组件，包含主标题和副标题。
+ * 坐标轴名称显示位置枚举。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public enum NameLocation {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    start,
 
-    public Title() {
-        super();
-    }
+    middle,
+
+    end
 }

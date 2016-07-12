@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.style;
 
 /**
- * 标题组件，包含主标题和副标题。
+ * 分隔区域的样式设置。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public interface AreaStyle extends ShadowStyle {
 
-    private static final long serialVersionUID = 4851252376021617760L;
-
-    public Title() {
-        super();
-    }
 }

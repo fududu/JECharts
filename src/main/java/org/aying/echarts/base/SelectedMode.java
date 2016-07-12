@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.base;
 
 /**
- * 标题组件，包含主标题和副标题。
+ * 选择模式。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public enum SelectedMode {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    /**
+     * 单选。
+     */
+    single,
 
-    public Title() {
-        super();
-    }
+    /**
+     * 多选。
+     */
+    multiple
 }

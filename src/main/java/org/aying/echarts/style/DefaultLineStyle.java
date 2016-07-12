@@ -24,17 +24,12 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultLineStyle extends DefaultStyle implements LineStyle {
+public class DefaultLineStyle extends DefaultShadowStyle implements LineStyle {
 
     private static final long serialVersionUID = -7035070045694988070L;
 
     private Integer width;
     private LineType type;
-    private Integer shadowBlur;
-    private String shadowColor;
-    private Integer shadowOffsetX;
-    private Integer shadowOffsetY;
-    private Double opacity;
 
     @Override
     public Integer getWidth() {
@@ -54,76 +49,17 @@ public class DefaultLineStyle extends DefaultStyle implements LineStyle {
     }
 
     @Override
-    public Integer getShadowBlur() {
-        return shadowBlur;
-    }
-
-    public void setShadowBlur(Integer shadowBlur) {
-        this.shadowBlur = shadowBlur;
-    }
-
-    @Override
-    public String getShadowColor() {
-        return shadowColor;
-    }
-
-    public void setShadowColor(String shadowColor) {
-        this.shadowColor = shadowColor;
-    }
-
-    @Override
-    public Integer getShadowOffsetX() {
-        return shadowOffsetX;
-    }
-
-    public void setShadowOffsetX(Integer shadowOffsetX) {
-        this.shadowOffsetX = shadowOffsetX;
-    }
-
-    @Override
-    public Integer getShadowOffsetY() {
-        return shadowOffsetY;
-    }
-
-    public void setShadowOffsetY(Integer shadowOffsetY) {
-        this.shadowOffsetY = shadowOffsetY;
-    }
-
-    @Override
-    public Double getOpacity() {
-        return opacity;
-    }
-
-    public void setOpacity(Double opacity) {
-        this.opacity = opacity;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DefaultLineStyle)) return false;
         if (!super.equals(o)) return false;
         DefaultLineStyle that = (DefaultLineStyle) o;
         return Objects.equals(width, that.width) &&
-                type == that.type &&
-                Objects.equals(shadowBlur, that.shadowBlur) &&
-                Objects.equals(shadowColor, that.shadowColor) &&
-                Objects.equals(shadowOffsetX, that.shadowOffsetX) &&
-                Objects.equals(shadowOffsetY, that.shadowOffsetY) &&
-                Objects.equals(opacity, that.opacity);
+                type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), width, type, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, opacity);
+        return Objects.hash(super.hashCode(), width, type);
     }
-
-    @Override
-    public String toString() {
-        return String.format("org.aying.echarts.style.DefaultLineStyle{width=%s, type=%s, shadowBlur=%s, " +
-                "shadowColor='%s', shadowOffsetX=%s, shadowOffsetY=%s, opacity=%s}",
-                width, type, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, opacity);
-    }
-
-
 }

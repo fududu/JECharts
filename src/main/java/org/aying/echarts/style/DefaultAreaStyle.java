@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.style;
 
 /**
- * 标题组件，包含主标题和副标题。
- *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public class DefaultAreaStyle extends DefaultShadowStyle {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    private static final long serialVersionUID = -3720334862022838667L;
 
-    public Title() {
+    public DefaultAreaStyle() {
         super();
     }
 }

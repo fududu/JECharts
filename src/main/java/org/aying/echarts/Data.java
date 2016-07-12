@@ -16,17 +16,23 @@
 
 package org.aying.echarts;
 
+import org.jetbrains.annotations.Contract;
+
+import java.util.List;
+
 /**
- * 标题组件，包含主标题和副标题。
+ * ECharts data model.
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public interface Data<T extends Data<T>> {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    @Contract("null -> fail")
+    T add(Data<?> d);
 
-    public Title() {
-        super();
-    }
+    @Contract("null, _, _ -> fail; _, null, _ -> fail")
+    T add(Data<?> d1, Data<?> d2, Data<?>... dn);
+
+    List<Data<?>> getData();
 }

@@ -14,19 +14,38 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.style;
 
 /**
- * 标题组件，包含主标题和副标题。
+ * 图形阴影样式。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public interface ShadowStyle extends Style {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    /**
+     * 图形阴影的模糊大小。
+     */
+    Integer getShadowBlur();
 
-    public Title() {
-        super();
-    }
+    /**
+     * 阴影颜色。
+     */
+    String getShadowColor();
+
+    /**
+     * 阴影水平方向上的偏移距离。
+     */
+    Integer getShadowOffsetX();
+
+    /**
+     * 阴影垂直方向上的偏移距离。
+     */
+    Integer getShadowOffsetY();
+
+    /**
+     * 图形透时度。{@code 0..1}
+     */
+    Double getOpacity();
 }

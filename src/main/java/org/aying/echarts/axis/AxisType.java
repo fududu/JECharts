@@ -14,19 +14,33 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.axis;
 
 /**
- * 标题组件，包含主标题和副标题。
+ * 坐标轴类型。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public enum AxisType {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    /**
+     * 类目轴。
+     */
+    category,
 
-    public Title() {
-        super();
-    }
+    /**
+     * 数值轴。
+     */
+    value,
+
+    /**
+     * 时间轴。
+     */
+    time,
+
+    /**
+     * 对数轴
+     */
+    log
 }
