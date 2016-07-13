@@ -24,6 +24,11 @@ package org.aying.echarts.base;
  */
 public enum Position {
 
+    /**
+     * 所在图形的内部中心位置，只在 trigger 为'item'的时候有效。
+     */
+    inside,
+
     left,
 
     right,

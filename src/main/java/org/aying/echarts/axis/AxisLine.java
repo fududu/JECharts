@@ -34,6 +34,7 @@ public class AxisLine implements Serializable {
     private static final long serialVersionUID = -7822103350520035007L;
 
     private Boolean show;
+    private Boolean onZero;
     private LineStyle lineStyle;
 
     public AxisLine() {
@@ -43,8 +44,10 @@ public class AxisLine implements Serializable {
     @JsonCreator
     public AxisLine(
             @JsonProperty(value = "show", required = false) Boolean show,
+            @JsonProperty(value = "onZero", required = false) Boolean onZero,
             @JsonProperty(value = "lineStyle", required = false) LineStyle lineStyle) {
         this.show = show;
+        this.onZero = onZero;
         this.lineStyle = lineStyle;
     }
 
@@ -54,6 +57,14 @@ public class AxisLine implements Serializable {
 
     public void setShow(Boolean show) {
         this.show = show;
+    }
+
+    public Boolean getOnZero() {
+        return onZero;
+    }
+
+    public void setOnZero(Boolean onZero) {
+        this.onZero = onZero;
     }
 
     public LineStyle getLineStyle() {
@@ -70,17 +81,18 @@ public class AxisLine implements Serializable {
         if (!(o instanceof AxisLine)) return false;
         AxisLine axisLine = (AxisLine) o;
         return Objects.equals(show, axisLine.show) &&
+                Objects.equals(onZero, axisLine.onZero) &&
                 Objects.equals(lineStyle, axisLine.lineStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, lineStyle);
+        return Objects.hash(show, onZero, lineStyle);
     }
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.axis.AxisLine{show=%s, lineStyle=%s}",
-                getShow(), getLineStyle());
+        return String.format("org.aying.echarts.axis.AxisLine{show=%s, onZero=%s, lineStyle=%s}",
+                getShow(), String.valueOf(onZero), getLineStyle());
     }
 }

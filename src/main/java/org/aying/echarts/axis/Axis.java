@@ -34,7 +34,7 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
     private static final long serialVersionUID = 1L;
 
     private AxisType type;
-    private String name;
+    private Object name;
     private NameLocation nameLocation;
     private TextStyle nameTextStyle;
     private Integer nameGap;
@@ -57,6 +57,8 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
     private Integer interval;
     /* 坐标轴的标签是否响应和触发鼠标事件，默认不响应。 */
     private Boolean silent;
+    /* 坐标轴的标签是否响应和触发鼠标事件，默认不响应。 */
+    private Boolean triggerEvent;
     /* 坐标轴轴线相关设置。 */
     private AxisLine axisLine;
     /* 坐标轴刻度相关设置。 */
@@ -84,11 +86,11 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         this.type = type;
     }
 
-    public String getName() {
+    public Object getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Object name) {
         this.name = name;
     }
 
@@ -212,6 +214,14 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         this.silent = silent;
     }
 
+    public Boolean getTriggerEvent() {
+        return triggerEvent;
+    }
+
+    public void setTriggerEvent(Boolean triggerEvent) {
+        this.triggerEvent = triggerEvent;
+    }
+
     public AxisLine getAxisLine() {
         return axisLine;
     }
@@ -274,6 +284,7 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
                 Objects.equals(minInterval, axis.minInterval) &&
                 Objects.equals(interval, axis.interval) &&
                 Objects.equals(silent, axis.silent) &&
+                Objects.equals(triggerEvent, axis.triggerEvent) &&
                 Objects.equals(axisLine, axis.axisLine) &&
                 Objects.equals(axisTick, axis.axisTick) &&
                 Objects.equals(axisLabel, axis.axisLabel) &&
@@ -286,7 +297,7 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         return Objects.hash(
                 type, name, nameLocation, nameTextStyle, nameGap, nameRotate, nameTruncateLength,
                 nameTruncateEllipsis, inverse, boundaryGap, min, max, scale, splitNumber, minInterval,
-                interval, silent, axisLine, axisTick, axisLabel, splitLine, splitArea);
+                interval, silent, triggerEvent, axisLine, axisTick, axisLabel, splitLine, splitArea);
     }
 
     protected Map<String, Object> toStringMap() {
@@ -308,6 +319,7 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         map.put("minInterval", getMinInterval());
         map.put("interval", getInterval());
         map.put("silent", getSilent());
+        map.put("triggerEvent", getTriggerEvent());
         map.put("axisLine", getAxisLine());
         map.put("axisTick", getAxisTick());
         map.put("axisLabel", getAxisLabel());

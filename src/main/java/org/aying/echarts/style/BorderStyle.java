@@ -14,48 +14,28 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.axis;
+package org.aying.echarts.style;
+
+import org.aying.echarts.base.LineType;
 
 /**
- * 坐标轴类型。
- *
  * @author Fuchun
  * @since 1.0
  */
-public enum AxisType {
+public interface BorderStyle extends ShadowStyle {
 
     /**
-     * 类目轴。
+     * 图形的描边颜色。支持的格式同 color。
      */
-    category,
+    String getBorderColor();
 
     /**
-     * 数值轴。
+     * 描边线宽。为 0 时无描边。
      */
-    value,
+    Integer getBorderWidth();
 
     /**
-     * 时间轴。
+     * 柱条的描边类型，默认为实线（{@code slider}）。
      */
-    time,
-
-    /**
-     * 对数轴
-     */
-    log,
-
-    // ---------------------------------------------------------------
-    // 以下是按照坐标系分类
-
-    /** x 轴（直角坐标） */
-    x,
-
-    /** y 轴（直角坐标） */
-    y,
-
-    /** 半役轴（极坐标）*/
-    radius,
-
-    /** 角度轴（极坐标）*/
-    angle
+    LineType getBorderType();
 }

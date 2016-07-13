@@ -14,48 +14,17 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.axis;
+package org.aying.echarts.base;
 
 /**
- * 坐标轴类型。
+ * 提示框触发的条件枚举。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum AxisType {
+public enum TriggerOn {
 
-    /**
-     * 类目轴。
-     */
-    category,
+    mousemove,
 
-    /**
-     * 数值轴。
-     */
-    value,
-
-    /**
-     * 时间轴。
-     */
-    time,
-
-    /**
-     * 对数轴
-     */
-    log,
-
-    // ---------------------------------------------------------------
-    // 以下是按照坐标系分类
-
-    /** x 轴（直角坐标） */
-    x,
-
-    /** y 轴（直角坐标） */
-    y,
-
-    /** 半役轴（极坐标）*/
-    radius,
-
-    /** 角度轴（极坐标）*/
-    angle
+    click
 }

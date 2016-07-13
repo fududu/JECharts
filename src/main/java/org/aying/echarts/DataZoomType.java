@@ -14,48 +14,28 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.axis;
+package org.aying.echarts;
 
 /**
- * 坐标轴类型。
+ * {@code DataZoom} type
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum AxisType {
+public enum DataZoomType {
 
     /**
-     * 类目轴。
+     * 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系。
      */
-    category,
+    inside,
 
     /**
-     * 数值轴。
+     * 有单独的滑动条，用户在滑动条上进行缩放或漫游。
      */
-    value,
+    slider,
 
     /**
-     * 时间轴。
+     * 提供一个选框进行数据区域缩放。即 toolbox.feature.dataZoom，配置项在 toolbox 中。
      */
-    time,
-
-    /**
-     * 对数轴
-     */
-    log,
-
-    // ---------------------------------------------------------------
-    // 以下是按照坐标系分类
-
-    /** x 轴（直角坐标） */
-    x,
-
-    /** y 轴（直角坐标） */
-    y,
-
-    /** 半役轴（极坐标）*/
-    radius,
-
-    /** 角度轴（极坐标）*/
-    angle
+    select
 }

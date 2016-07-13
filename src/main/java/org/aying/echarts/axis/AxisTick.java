@@ -33,6 +33,8 @@ public class AxisTick implements Serializable {
 
     private Boolean show;
     private Object interval;
+    /* 类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。 */
+    private Boolean alignWithLabel;
     /* 坐标轴刻度是否朝内，默认朝外。 */
     private Boolean inside;
     /* 坐标轴刻度的长度。 */
@@ -53,6 +55,14 @@ public class AxisTick implements Serializable {
 
     public void setInterval(Object interval) {
         this.interval = interval;
+    }
+
+    public Boolean getAlignWithLabel() {
+        return alignWithLabel;
+    }
+
+    public void setAlignWithLabel(Boolean alignWithLabel) {
+        this.alignWithLabel = alignWithLabel;
     }
 
     public Boolean getInside() {
@@ -86,6 +96,7 @@ public class AxisTick implements Serializable {
         AxisTick axisTick = (AxisTick) o;
         return Objects.equals(show, axisTick.show) &&
                 Objects.equals(interval, axisTick.interval) &&
+                Objects.equals(alignWithLabel, axisTick.alignWithLabel) &&
                 Objects.equals(inside, axisTick.inside) &&
                 Objects.equals(length, axisTick.length) &&
                 Objects.equals(lineStyle, axisTick.lineStyle);
@@ -93,12 +104,14 @@ public class AxisTick implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, interval, inside, length, lineStyle);
+        return Objects.hash(show, interval, alignWithLabel, inside, length, lineStyle);
     }
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.axis.AxisTick{show=%s, interval=%s, inside=%s, length=%s, lineStyle=%s}",
-                show, interval, inside, length, lineStyle);
+        return String.format(
+                "org.aying.echarts.axis.AxisTick{show=%s, interval=%s, alignWithLabel=%s, " +
+                        "inside=%s, length=%s, lineStyle=%s}",
+                show, interval, alignWithLabel, inside, length, lineStyle);
     }
 }

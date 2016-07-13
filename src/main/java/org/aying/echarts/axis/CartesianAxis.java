@@ -38,6 +38,12 @@ public class CartesianAxis extends Axis<CartesianAxis> {
     /* 轴的位置。x 轴为 'top'|'bottom'，y轴为 'left'|'right' */
     private Position position;
 
+    /**
+     * X 轴相对于默认位置的偏移，在相同的 position 上有多个 X 轴的时候有用。默认：0
+     * @since 1.0 ECharts-3.2.2
+     */
+    private Integer offset;
+
     public CartesianAxis() {
         super();
     }
@@ -60,6 +66,14 @@ public class CartesianAxis extends Axis<CartesianAxis> {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     @Override

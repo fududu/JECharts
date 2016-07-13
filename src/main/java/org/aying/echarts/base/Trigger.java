@@ -14,48 +14,23 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.axis;
+package org.aying.echarts.base;
 
 /**
- * 坐标轴类型。
+ * 触发类型枚举。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum AxisType {
+public enum Trigger {
 
     /**
-     * 类目轴。
+     * 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
      */
-    category,
+    item,
 
     /**
-     * 数值轴。
+     * 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
      */
-    value,
-
-    /**
-     * 时间轴。
-     */
-    time,
-
-    /**
-     * 对数轴
-     */
-    log,
-
-    // ---------------------------------------------------------------
-    // 以下是按照坐标系分类
-
-    /** x 轴（直角坐标） */
-    x,
-
-    /** y 轴（直角坐标） */
-    y,
-
-    /** 半役轴（极坐标）*/
-    radius,
-
-    /** 角度轴（极坐标）*/
-    angle
+    axis
 }

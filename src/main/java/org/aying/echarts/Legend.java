@@ -42,6 +42,7 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
     private Object selectedMode;
     private String inactiveColor;
     private Map<String, Boolean> selected;
+    private Tooltip tooltip;
 
     @JsonIgnore
     private Data<?> delegateData;
@@ -185,6 +186,14 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
 
     public void setSelected(Map<String, Boolean> selected) {
         this.selected = selected;
+    }
+
+    public Tooltip getTooltip() {
+        return tooltip;
+    }
+
+    public void setTooltip(Tooltip tooltip) {
+        this.tooltip = tooltip;
     }
 
     public List<Data<?>> getData() {
