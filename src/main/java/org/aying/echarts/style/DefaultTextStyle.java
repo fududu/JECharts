@@ -25,10 +25,12 @@ import java.util.Objects;
 import static org.aying.echarts.style.font.FontWeight.*;
 
 /**
+ * {@link TextStyle} 的默认实现。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultTextStyle extends DefaultStyle implements TextStyle {
+public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements TextStyle {
 
     private static final long serialVersionUID = -7037742340818566884L;
 
@@ -47,22 +49,51 @@ public class DefaultTextStyle extends DefaultStyle implements TextStyle {
     }
 
     public DefaultTextStyle fontWeight(
-            @MagicConstant(intValues = {W100, W200, W300, W400, W500, W600, W700, W800, W900,})
+            @MagicConstant(intValues = {W100, W200, W300, W400, W500, W600, W700, W800, W900})
             int weight) {
         this.fontWeight = weight;
         return this;
     }
 
-    public DefaultTextStyle fontWeight(FontWeight weight) {
-        this.fontWeight = weight;
+    /**
+     * 文本使用粗体字。
+     */
+    public DefaultTextStyle bold() {
+        this.fontWeight = FontWeight.bold;
         return this;
     }
 
+    /**
+     * 文本使用比粗体更粗的字。
+     */
+    public DefaultTextStyle bolder() {
+        this.fontWeight = FontWeight.bolder;
+        return this;
+    }
+
+    /**
+     * 文本使用淡字体。
+     */
+    public DefaultTextStyle lighter() {
+        this.fontWeight = FontWeight.lighter;
+        return this;
+    }
+
+    /**
+     * 设置文本的字体样式名称。
+     *
+     * @param fontFamily 字体名称。
+     */
     public DefaultTextStyle fontFamily(String fontFamily) {
         this.fontFamily = fontFamily;
         return this;
     }
 
+    /**
+     * 设置文本的字体大小。
+     *
+     * @param fontSize 字体大小。
+     */
     public DefaultTextStyle fontSize(int fontSize) {
         this.fontSize = fontSize;
         return this;
@@ -82,8 +113,30 @@ public class DefaultTextStyle extends DefaultStyle implements TextStyle {
         return fontWeight;
     }
 
-    public void setFontWeight(Object fontWeight) {
-        this.fontWeight = fontWeight;
+    public void setFontWeight(Object fw) {
+        if (fw == null) {
+            this.fontWeight = null;
+        } else if (fw instanceof Number) {
+            int v = ((Number) fw).intValue();
+            if (!FontWeight.isValid(v)) {
+                throw new IllegalArgumentException(String.format(
+                        "Unsupported `fontWeight=%d`", v));
+            }
+            this.fontWeight = v;
+        } else if (fw instanceof String) {
+            FontWeight weight = FontWeight.of((String) fw, null);
+            if (weight != null) {
+                this.fontWeight = weight;
+            } else {
+                throw new IllegalArgumentException(String.format(
+                        "Unsupported `fontWeight=%s`", fw));
+            }
+        } else if (fw instanceof FontWeight) {
+            this.fontWeight = fw;
+        } else {
+            throw new IllegalArgumentException(String.format(
+                    "Unsupported `fontWeight=%s(type=%s)`", fw, fw.getClass()));
+        }
     }
 
     @Override

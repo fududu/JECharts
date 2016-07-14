@@ -16,6 +16,7 @@
 
 package org.aying.echarts.style;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.style.font.FontStyle;
 
 /**
@@ -24,7 +25,12 @@ import org.aying.echarts.style.font.FontStyle;
  * @author Fuchun
  * @since 1.0
  */
+@JsonDeserialize(as = DefaultTextStyle.class)
 public interface TextStyle extends Style {
+
+    static DefaultTextStyle newStyle() {
+        return new DefaultTextStyle();
+    }
 
     /**
      * 文字样式。

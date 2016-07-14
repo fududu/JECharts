@@ -16,6 +16,8 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * 水平对齐方式。
  *
@@ -42,5 +44,19 @@ public enum Align {
     /**
      * 居右。
      */
-    right
+    right;
+
+    @Contract("_, !null -> !null")
+    public static Align of(String v, Align a) {
+        if (v == null || v.isEmpty()) {
+            return a;
+        }
+        String s = v.toLowerCase();
+        for (Align align : values()) {
+            if (align.name().equals(s)) {
+                return align;
+            }
+        }
+        return a;
+    }
 }

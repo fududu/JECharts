@@ -17,9 +17,10 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.aying.echarts.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,9 +33,17 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
+@JsonPropertyOrder({
+        "symbol", "symbolSize", "color", "colorAlpha", "opacity",
+        "colorLightness", "colorSaturation", "colorHue"
+})
 public class VisualRange implements Serializable {
 
     private static final long serialVersionUID = 2284641276223341394L;
+
+    public static VisualRange start() {
+        return new VisualRange();
+    }
 
     /* 图元的图形类别。 */
     private List<String> symbol;
@@ -57,45 +66,67 @@ public class VisualRange implements Serializable {
         super();
     }
 
+    protected void checkRange(double min, double max, double value) {
+        if (value < min || value > max) {
+            throw new IllegalArgumentException(String.format(
+                    "The value(%s) range must be [%s, %s]", value, min, max));
+        }
+    }
+
     public VisualRange symbol(String symbol) {
-        LinkedList<String> list = new LinkedList<>();
-        list.add(symbol);
-        this.symbol = list;
+        this.symbol = CollectionUtils.single("symbol", symbol);
         return this;
     }
 
     public VisualRange symbol(String s1, String s2, String... sn) {
-        Objects.requireNonNull(s1, "First symbol");
-        Objects.requireNonNull(s2, "second symbol");
-        LinkedList<String> list = new LinkedList<>();
-        list.add(s1);
-        list.add(s2);
-        if (sn != null && sn.length > 0) {
-            Collections.addAll(list, sn);
-        }
-        this.symbol = list;
+        this.symbol = CollectionUtils.linkedList("symbol", s1, s2, sn);
+        return this;
+    }
+
+    public VisualRange symbolSize(int s1, int s2, int... sn) {
+        this.symbolSize = CollectionUtils.linkedList("symbolSize",
+                s1, s2, CollectionUtils.inbox(sn));
         return this;
     }
 
     public VisualRange color(String color) {
-        Objects.requireNonNull(color, "color");
-        LinkedList<String> list = new LinkedList<>();
-        list.add(color);
-        list.add(color);
-        this.color = list;
-        return this;
+        return color(color, color);
     }
 
     public VisualRange color(String c1, String c2, String... cn) {
-        Objects.requireNonNull(c1, "First color");
-        Objects.requireNonNull(c2, "second color");
-        LinkedList<String> colorList = new LinkedList<>();
-        colorList.add(c1);
-        colorList.add(c2);
-        if (cn != null && cn.length > 0) {
-            Collections.addAll(colorList, cn);
-        }
-        setColor(colorList);
+        this.color = CollectionUtils.linkedList("color", c1, c2, cn);
+        return this;
+    }
+
+    public VisualRange opacity(double o1, double o2, double... on) {
+        checkRange(0, 1, o1);
+        checkRange(0, 1, o2);
+        this.opacity = CollectionUtils.linkedList("opacity",
+                o1, o2, CollectionUtils.inbox(on));
+        return this;
+    }
+
+    public VisualRange colorLightness(double c1, double c2, double... cn) {
+        checkRange(0, 1, c1);
+        checkRange(0, 1, c2);
+        this.colorLightness = CollectionUtils.linkedList("colorLightness",
+                c1, c2, CollectionUtils.inbox(cn));
+        return this;
+    }
+
+    public VisualRange colorSaturation(double c1, double c2, double... cn) {
+        checkRange(0, 1, c1);
+        checkRange(0, 1, c2);
+        this.colorSaturation = CollectionUtils.linkedList("colorSaturation",
+                c1, c2, CollectionUtils.inbox(cn));
+        return this;
+    }
+
+    public VisualRange colorHue(int h1, int h2, int... hn) {
+        checkRange(0, 360, h1);
+        checkRange(0, 360, h2);
+        this.colorHue = CollectionUtils.linkedList("colorHue",
+                h1, h2, CollectionUtils.inbox(hn));
         return this;
     }
 
@@ -232,15 +263,9 @@ public class VisualRange implements Serializable {
 
     @Override
     public String toString() {
-        return "org.aying.echarts.VisualRange{" +
-                "symbol=" + symbol +
-                ", symbolSize=" + symbolSize +
-                ", color=" + color +
-                ", colorAlpha=" + colorAlpha +
-                ", opacity=" + opacity +
-                ", colorLightness=" + colorLightness +
-                ", colorSaturation=" + colorSaturation +
-                ", colorHue=" + colorHue +
-                '}';
+        return String.format(
+                "org.aying.echarts.VisualRange{symbol=%s, symbolSize=%s, color=%s, colorAlpha=%s, " +
+                        "opacity=%s, colorLightness=%s, colorSaturation=%s, colorHue=%s}",
+                symbol, symbolSize, color, colorAlpha, opacity, colorLightness, colorSaturation, colorHue);
     }
 }

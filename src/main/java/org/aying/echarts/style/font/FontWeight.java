@@ -16,6 +16,12 @@
 
 package org.aying.echarts.style.font;
 
+import org.jetbrains.annotations.Contract;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 字体粗细样式。
  *
@@ -54,13 +60,50 @@ public enum FontWeight {
     public static final int W800 = 800;
     public static final int W900 = 900;
 
-    protected static final int[] NUM_WEIGHTS = {
-            W100, W200, W300, W400, W500, W600, W700, W800, W900
-    };
+    protected static final List<Integer> NUM_WEIGHTS;
+
+    static {
+        NUM_WEIGHTS = new ArrayList<>();
+        NUM_WEIGHTS.add(0, W100);
+        NUM_WEIGHTS.add(1, W200);
+        NUM_WEIGHTS.add(2, W300);
+        NUM_WEIGHTS.add(3, W400);
+        NUM_WEIGHTS.add(4, W500);
+        NUM_WEIGHTS.add(5, W600);
+        NUM_WEIGHTS.add(6, W700);
+        NUM_WEIGHTS.add(7, W800);
+        NUM_WEIGHTS.add(8, W900);
+        Collections.unmodifiableCollection(NUM_WEIGHTS);
+    }
+
+//    protected static final int[] NUM_WEIGHTS = {
+//            W100, W200, W300, W400, W500, W600, W700, W800, W900
+//    };
 
     public static int[] weights() {
-        int[] weights = new int[NUM_WEIGHTS.length];
-        System.arraycopy(NUM_WEIGHTS, 0, weights, 0, NUM_WEIGHTS.length);
+        int[] weights = new int[NUM_WEIGHTS.size()];
+        int i = 0;
+        for (Integer n : NUM_WEIGHTS) {
+            weights[i++] = n;
+        }
         return weights;
+    }
+
+    public static boolean isValid(int v) {
+        return NUM_WEIGHTS.contains(v);
+    }
+
+    @Contract("_, !null -> !null")
+    public static FontWeight of(String v, FontWeight def) {
+        if (v == null || v.isEmpty()) {
+            return def;
+        }
+        String n = v.toLowerCase();
+        for (FontWeight fw : values()) {
+            if (fw.name().equals(n)) {
+                return fw;
+            }
+        }
+        return def;
     }
 }

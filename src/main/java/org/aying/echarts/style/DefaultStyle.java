@@ -24,7 +24,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultStyle implements Style {
+public class DefaultStyle<T extends DefaultStyle<T>> implements Style {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -34,6 +34,21 @@ public class DefaultStyle implements Style {
 
     public DefaultStyle() {
         super();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T me() {
+        return (T) this;
+    }
+
+    /**
+     * 设置样式的颜色。
+     *
+     * @param color 样式颜色。
+     */
+    public T color(String color) {
+        this.color = color;
+        return me();
     }
 
     @Override

@@ -14,46 +14,18 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts;
 
-import org.jetbrains.annotations.Contract;
+import org.junit.Test;
 
 /**
- * 垂直对齐方式。
- *
  * @author Fuchun
  * @since 1.0
  */
-public enum Baseline {
+public class VisualMapTest {
 
-    auto,
+    @Test
+    public void testBuilder() throws Exception {
 
-    /**
-     * 顶部对齐。
-     */
-    top,
-
-    /**
-     * 垂直居中对齐。
-     */
-    middle,
-
-    /**
-     * 底部对齐。
-     */
-    bottom;
-
-    @Contract("_, !null -> !null")
-    public static Baseline of(String v, Baseline b) {
-        if (v == null || v.isEmpty()) {
-            return b;
-        }
-        String s = v.toLowerCase();
-        for (Baseline bl : values()) {
-            if (bl.name().equals(s)) {
-                return bl;
-            }
-        }
-        return b;
     }
 }

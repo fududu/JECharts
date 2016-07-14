@@ -16,11 +16,6 @@
 
 package org.aying.echarts;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -34,19 +29,7 @@ import static org.junit.Assert.fail;
  * @author Fuchun
  * @since 1.0
  */
-public class VisualRangeTest {
-
-    private ObjectMapper objectMapper;
-
-    @Before
-    public void setUp() throws Exception {
-        objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
-        objectMapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-    }
+public class VisualRangeTest extends BaseTest {
 
     @Test
     public void testFromJSON1() throws Exception {
