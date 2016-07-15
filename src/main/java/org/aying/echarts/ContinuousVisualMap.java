@@ -48,6 +48,22 @@ public class ContinuousVisualMap extends VisualMap<ContinuousVisualMap> {
         return this;
     }
 
+    /**
+     * 显示拖拽用的手柄（手柄能拖拽调整选中范围）。
+     */
+    public ContinuousVisualMap calculable() {
+        this.calculable = Boolean.TRUE;
+        return this;
+    }
+
+    /**
+     * 设置拖拽时，数据为非实时更新。
+     */
+    public ContinuousVisualMap nonRealtime() {
+        this.realtime = false;
+        return this;
+    }
+
     public int[] getRange() {
         return range;
     }

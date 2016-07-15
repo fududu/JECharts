@@ -117,12 +117,67 @@ public abstract class VisualMap<V extends VisualMap<V>> implements Serializable 
         return me();
     }
 
+    /**
+     * 反转当前{@code VisualMap} 组件。
+     * <pre>{@code
+     * inverse == false，数据大小的位置规则，和直角坐标系相同，即：
+     * orient == vertical 时，数据上大下小。
+     * orient == horizontal 时，数据右大左小。
+     * }</pre>
+     */
+    public V inverse() {
+        this.inverse = Boolean.TRUE;
+        return me();
+    }
+
+    /**
+     * 设置数据展示的小数精度。
+     *
+     * @param precision 小数精度。
+     * @throws IllegalArgumentException 如果小数精度为负数{@code precision < 0}
+     */
+    public V precision(int precision) {
+        if (precision < 0) {
+            throw new IllegalArgumentException(
+                    "The precision value must be greater than or equals 0");
+        }
+        this.precision = precision;
+        return me();
+    }
+
+    /**
+     * 设置图形的宽度和高度。
+     *
+     * @param width 宽度
+     * @param height 高度
+     * @throws IllegalArgumentException 如果宽度或高度被设置为负数{@code width < 0 || height < 0}
+     */
     public V itemSize(int width, int height) {
         if (width < 0 || height < 0) {
             throw new IllegalArgumentException("The width or height value must be > 0");
         }
         this.itemWidth = width;
         this.itemHeight = height;
+        return me();
+    }
+
+    /**
+     * 设置手柄和{@code label} 在右侧。
+     * 调用该方法后，{@code orient} 会被自动设置为{@code horizontal}。
+     */
+    public V alignLeft() {
+        this.orient = Orient.horizontal;
+        this.align = Align.left;
+        return me();
+    }
+
+    /**
+     * 设置手柄和{@code label} 在左侧。
+     * 调用该方法后，{@code orient} 会被自动设置为{@code horizontal}。
+     */
+    public V alignRight() {
+        this.orient = Orient.horizontal;
+        this.align = Align.right;
         return me();
     }
 
