@@ -17,6 +17,7 @@
 package org.aying.echarts.feature;
 
 import org.aying.echarts.base.ImageType;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,6 +78,12 @@ public class SaveAsImage extends BaseFeature<SaveAsImage> {
         return this;
     }
 
+    @Contract("null -> fail")
+    public SaveAsImage title(String title) {
+        Objects.requireNonNull(title, "title");
+        return super.title(title);
+    }
+
     public SaveAsImage pixelRatio(int pixelRatio) {
         this.pixelRatio = pixelRatio;
         return this;
@@ -113,8 +120,6 @@ public class SaveAsImage extends BaseFeature<SaveAsImage> {
     public void setExcludeComponents(List<String> excludeComponents) {
         this.excludeComponents = excludeComponents;
     }
-
-
 
     public Integer getPixelRatio() {
         return pixelRatio;

@@ -32,6 +32,10 @@ public interface TextStyle extends Style {
         return new DefaultTextStyle();
     }
 
+    static TextStyle font(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
+        return new DefaultTextStyle(fontStyle, fontWeight, fontSize, fontFamily);
+    }
+
     /**
      * 文字样式。
      */

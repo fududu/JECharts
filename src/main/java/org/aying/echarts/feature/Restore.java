@@ -16,6 +16,10 @@
 
 package org.aying.echarts.feature;
 
+import org.jetbrains.annotations.Contract;
+
+import java.util.Objects;
+
 /**
  * 配置项还原。
  *
@@ -28,6 +32,12 @@ public class Restore extends BaseFeature<Restore> {
 
     public Restore() {
         super();
+    }
+
+    @Contract("null -> fail")
+    public Restore title(String title) {
+        Objects.requireNonNull(title, "title");
+        return super.title(title);
     }
 
     @Override

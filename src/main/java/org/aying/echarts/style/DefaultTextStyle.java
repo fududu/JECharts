@@ -43,6 +43,13 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
         super();
     }
 
+    public DefaultTextStyle(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
+        this.fontStyle = fontStyle;
+        this.fontWeight = fontWeight;
+        this.fontSize = fontSize;
+        this.fontFamily = fontFamily;
+    }
+
     public DefaultTextStyle fontStyle(FontStyle style) {
         this.fontStyle = style;
         return this;

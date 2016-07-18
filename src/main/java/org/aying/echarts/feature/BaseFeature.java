@@ -33,10 +33,10 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
 
     /* 是否显示该工具。默认：true */
     private Boolean show;
-    /* 工具栏提示标题。默认：保存为图片 */
-    private String title;
-    /* Icon 的 path 字符串 */
-    private String icon;
+    /* 工具栏提示标题。 */
+    private Object title;
+    /* Icon 的 path */
+    private Object icon;
     /* 保存为图片 icon 样式设置。 */
     private Map<String, BorderStyle> iconStyle;
 
@@ -49,21 +49,16 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
         return (F) this;
     }
 
+    public <T> F title(T title) {
+        this.title = title;
+        return me();
+    }
+
     /**
      * 不显示该工具。
      */
     public F hide() {
         this.show = Boolean.FALSE;
-        return me();
-    }
-
-    public F title(String title) {
-        this.title = title;
-        return me();
-    }
-
-    public F icon(String icon) {
-        this.icon = icon;
         return me();
     }
 
@@ -93,19 +88,19 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
         this.show = show;
     }
 
-    public String getTitle() {
+    public Object getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(Object title) {
         this.title = title;
     }
 
-    public String getIcon() {
+    public Object getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(Object icon) {
         this.icon = icon;
     }
 

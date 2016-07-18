@@ -16,6 +16,8 @@
 
 package org.aying.echarts.feature;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -62,6 +64,12 @@ public class DataView extends BaseFeature<DataView> {
     public DataView readOnly() {
         this.readOnly = true;
         return this;
+    }
+
+    @Contract("null -> fail")
+    public DataView title(String title) {
+        Objects.requireNonNull(title, "title");
+        return super.title(title);
     }
 
     public DataView lang(String l1, String l2, String... ln) {

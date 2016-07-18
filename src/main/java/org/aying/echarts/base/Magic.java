@@ -17,50 +17,30 @@
 package org.aying.echarts.base;
 
 /**
- * ECharts 内置的图元枚举。
+ * 动态切换的类型枚举。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum Symbol {
+public enum Magic {
 
     /**
-     * 空心圆。
+     * 折线图
      */
-    emptyCircle,
+    line,
 
     /**
-     * 圆形。
+     * 柱状图
      */
-    circle,
+    bar,
 
     /**
-     * 矩形。
+     * 堆叠模式
      */
-    rect,
+    stack,
 
     /**
-     * 圆角矩形
+     * 平铺模式
      */
-    roundRect,
-
-    /**
-     * 三角形
-     */
-    triangle,
-
-    /**
-     * 方块（钻石）
-     */
-    diamond,
-
-    /**
-     * 针形
-     */
-    pin,
-
-    /**
-     * 箭头。
-     */
-    arrow
+    tiled
 }

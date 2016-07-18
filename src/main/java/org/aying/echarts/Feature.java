@@ -16,6 +16,11 @@
 
 package org.aying.echarts;
 
+import org.aying.echarts.feature.Brush;
+import org.aying.echarts.feature.DataView;
+import org.aying.echarts.feature.Restore;
+import org.aying.echarts.feature.SaveAsImage;
+
 import java.io.Serializable;
 
 /**
@@ -25,4 +30,11 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class Feature implements Serializable {
+
+    private SaveAsImage saveAsImage;
+    private Restore restore;
+    private DataView dataView;
+    private DataZoomSelect dataZoom;
+    private Object magicType;
+    private Brush brush;
 }
