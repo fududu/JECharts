@@ -17,43 +17,36 @@
 package org.aying.echarts.base;
 
 /**
- * 动态切换的类型枚举。
+ * 表示组件、模块、图形（标）等的尺寸。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum Magic {
+public interface Size<S extends Size<S>> {
 
     /**
-     * 折线图
+     * 返回宽度。{@code String} or {@code Number}
      */
-    line,
+    Object getWidth();
+
+    void setWidth(Object width);
 
     /**
-     * 柱状图
+     * 返回高度。{@code String} or {@code Number}
      */
-    bar,
+    Object getHeight();
 
-    /**
-     * 堆叠模式
-     */
-    stack,
+    void setHeight(Object height);
 
-    /**
-     * 平铺模式
-     */
-    tiled;
+    S autoWidth();
 
-    public static Magic of(String v) {
-        if (v == null || (v = v.trim()).isEmpty()) {
-            return null;
-        }
-        String n = v.toLowerCase();
-        for (Magic magic : values()) {
-            if (magic.name().equals(n)) {
-                return magic;
-            }
-        }
-        return null;
-    }
+    S autoHeight();
+
+    S width(int width);
+
+    S width(String width);
+
+    S height(int height);
+
+    S height(String height);
 }

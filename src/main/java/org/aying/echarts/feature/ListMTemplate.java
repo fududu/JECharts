@@ -14,46 +14,25 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.feature;
+
+import java.util.List;
 
 /**
- * 动态切换的类型枚举。
+ * {@code MTemplate} 的列表项实现。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum Magic {
+public class ListMTemplate extends MTemplate<List<Object>> {
 
-    /**
-     * 折线图
-     */
-    line,
+    private static final long serialVersionUID = -6609155673297925452L;
 
-    /**
-     * 柱状图
-     */
-    bar,
+    public ListMTemplate() {
+        super();
+    }
 
-    /**
-     * 堆叠模式
-     */
-    stack,
-
-    /**
-     * 平铺模式
-     */
-    tiled;
-
-    public static Magic of(String v) {
-        if (v == null || (v = v.trim()).isEmpty()) {
-            return null;
-        }
-        String n = v.toLowerCase();
-        for (Magic magic : values()) {
-            if (magic.name().equals(n)) {
-                return magic;
-            }
-        }
-        return null;
+    public ListMTemplate(List<Object> line, List<Object> bar, List<Object> stack, List<Object> tiled) {
+        super(line, bar, stack, tiled);
     }
 }

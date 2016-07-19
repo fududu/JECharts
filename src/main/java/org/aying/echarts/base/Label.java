@@ -50,7 +50,7 @@ public class Label implements Serializable {
         return this;
     }
 
-    public Label position(Position p) {
+    public Label position(Pos p) {
         this.position = p;
         return this;
     }
@@ -94,7 +94,7 @@ public class Label implements Serializable {
             this.position = null;
             return;
         } else if (position instanceof String) {
-            Position p = Position.of((String) position, null);
+            Pos p = Pos.of((String) position, null);
             if (p == null) {
                 throw new IllegalArgumentException(
                         "The position value is invalid.");

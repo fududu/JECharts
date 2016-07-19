@@ -24,7 +24,7 @@ import java.util.Arrays;
  * @author Fuchun
  * @since 1.0
  */
-public enum Position {
+public enum Pos {
 
     /**
      * 所在图形的内部中心位置。
@@ -55,32 +55,32 @@ public enum Position {
 
     bottom;
 
-    private static final Position[] MAIN_POSITIONS =
-            new Position[] { inside, left, right, top, bottom };
+    private static final Pos[] MAIN_POSITIONS =
+            new Pos[] { inside, left, right, top, bottom };
 
-    public static Position[] main() {
+    public static Pos[] main() {
         return Arrays.copyOf(MAIN_POSITIONS, MAIN_POSITIONS.length);
     }
 
-    final Position parent;
+    final Pos parent;
 
-    Position() {
+    Pos() {
         this.parent = null;
     }
 
-    Position(Position parent) {
+    Pos(Pos parent) {
         this.parent = parent;
     }
 
-    public Position getParent() {
+    public Pos getParent() {
         return parent;
     }
 
-    public static Position of(String v, Position def) {
+    public static Pos of(String v, Pos def) {
         if (v == null || (v = v.trim()).isEmpty()) {
             return def;
         }
-        for (Position p : values()) {
+        for (Pos p : values()) {
             if (p.name().equals(v)) {
                 return p;
             }

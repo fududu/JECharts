@@ -17,6 +17,7 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.Orient;
+import org.aying.echarts.feature.Feature;
 import org.aying.echarts.style.BorderStyle;
 
 import java.io.Serializable;

@@ -34,6 +34,14 @@ public class SaveAsImage extends BaseFeature<SaveAsImage> {
 
     private static final long serialVersionUID = 2614123159951287553L;
 
+    public static SaveAsImage png() {
+        return new SaveAsImage();
+    }
+
+    public static SaveAsImage jpeg() {
+        return new SaveAsImage().toJpeg();
+    }
+
     private ImageType type;
     /* 保存的文件名称。不设置时，默认使用 title.text 作为名称 */
     private String name;

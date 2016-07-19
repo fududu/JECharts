@@ -18,6 +18,8 @@ package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.aying.echarts.base.SelectedMode;
+import org.aying.echarts.base.Size;
+import org.aying.echarts.base.SizeImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -30,12 +32,11 @@ import java.util.TreeMap;
  * @author Fuchun
  * @since 1.0
  */
-public class Legend extends BaseProp<Legend> implements Data<Legend> {
+public class Legend extends BaseProp<Legend>
+        implements Size<Legend>, Data<Legend> {
 
     private static final long serialVersionUID = -4466736220215040561L;
 
-    private Object width;
-    private Object height;
     private Integer itemWidth;
     private Integer itemHeight;
     private Object formatter;
@@ -46,29 +47,48 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
 
     @JsonIgnore
     private Data<?> delegateData;
+    @JsonIgnore
+    private Size<Legend> delegateSize;
 
     public Legend() {
         super();
         delegateData = BaseData.delegate();
+        delegateSize = new SizeImpl<>();
     }
 
+    @Override
     public Legend width(int width) {
-        this.width = width;
+        delegateSize.width(width);
         return this;
     }
 
-    public Legend autoWidth() {
-        this.width = "auto";
+    @Override
+    public Legend width(String width) {
+        delegateSize.width(width);
         return this;
     }
 
+    @Override
     public Legend height(int height) {
-        this.height = height;
+        delegateSize.height(height);
         return this;
     }
 
+    @Override
+    public Legend height(String height) {
+        delegateSize.height(height);
+        return this;
+    }
+
+    @Override
+    public Legend autoWidth() {
+        delegateSize.autoWidth();
+        return this;
+    }
+
+    @Override
     public Legend autoHeight() {
-        this.height = "auto";
+        delegateSize.autoHeight();
         return this;
     }
 
@@ -125,19 +145,19 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
     }
 
     public Object getWidth() {
-        return width;
+        return delegateSize.getWidth();
     }
 
     public void setWidth(Object width) {
-        this.width = width;
+        this.delegateSize.setWidth(width);
     }
 
     public Object getHeight() {
-        return height;
+        return delegateSize.getHeight();
     }
 
     public void setHeight(Object height) {
-        this.height = height;
+        this.delegateSize.setHeight(height);
     }
 
     public Integer getItemWidth() {

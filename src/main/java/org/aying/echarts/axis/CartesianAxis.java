@@ -16,7 +16,7 @@
 
 package org.aying.echarts.axis;
 
-import org.aying.echarts.base.Position;
+import org.aying.echarts.base.Pos;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class CartesianAxis extends Axis<CartesianAxis> {
     private Integer gridIndex;
 
     /* 轴的位置。x 轴为 'top'|'bottom'，y轴为 'left'|'right' */
-    private Position position;
+    private Pos position;
 
     /**
      * X 轴相对于默认位置的偏移，在相同的 position 上有多个 X 轴的时候有用。默认：0
@@ -60,11 +60,11 @@ public class CartesianAxis extends Axis<CartesianAxis> {
         this.gridIndex = gridIndex;
     }
 
-    public Position getPosition() {
+    public Pos getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Pos position) {
         this.position = position;
     }
 

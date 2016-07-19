@@ -16,6 +16,7 @@
 
 package org.aying.echarts.feature;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.Magic;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * 动态类型切换配置模型。
@@ -35,6 +38,15 @@ public class MagicType extends BaseFeature<MagicType> {
 
     private static final Map<Magic, String> DEFAULT_TITLE_MAP;
     private static final List<Magic> DEFAULT_TYPE;
+
+    private static final long serialVersionUID = -3053630107150755977L;
+
+    private static final Function<Map<Object, Object>, MTemplate<?>> MAP_TO_MT_FUNCTION = map -> {
+        if (map == null || map.isEmpty()) return null;
+        return new StringMTemplate(
+                (String) map.get(MTemplate.KEY_LINE), (String) map.get(MTemplate.KEY_BAR),
+                (String) map.get(MTemplate.KEY_STACK), (String) map.get(MTemplate.KEY_TILED));
+    };
 
     static {
         HashMap<Magic, String> builder = new HashMap<>();
@@ -53,10 +65,12 @@ public class MagicType extends BaseFeature<MagicType> {
     }
 
     private List<Magic> type;
+    private ListMTemplate seriesIndex;
+    private ObjectMTemplate option;
 
     public MagicType() {
         super();
-        type(Magic.line, Magic.bar, Magic.stack, Magic.tiled);
+        setType(new ArrayList<>(DEFAULT_TYPE));
     }
 
     public MagicType type(Magic m1, Magic... mn) {
@@ -71,33 +85,108 @@ public class MagicType extends BaseFeature<MagicType> {
         return this;
     }
 
-    public MagicType title(Map<Magic, String> titleMap) {
-        if (titleMap == null || titleMap.isEmpty()) {
-            setTitle(null);
-            return this;
-        }
-        Map<Magic, String> defTitleMap = new HashMap<>(DEFAULT_TITLE_MAP);
-        titleMap.forEach((k, v) -> {
-            if (v != null && (v = v.trim()).length() > 0) {
-                defTitleMap.put(k, v);
-            }
-        });
-        return super.title(titleMap);
-    }
-
-    public MagicType icon(Map<Magic, String> iconMap) {
-        if (iconMap == null || iconMap.isEmpty()) {
-            setIcon(null);
-            return this;
-        }
-        Map<Magic, String> rs = new HashMap<>(4);
-        for (Map.Entry<Magic, String> i : iconMap.entrySet()) {
-            String v = (i.getValue() == null) ? "" : i.getValue().trim();
-            if (!v.isEmpty()) {
-                rs.put(i.getKey(), v);
-            }
-        }
-        setIcon(rs);
+    public MagicType title(StringMTemplate title) {
+        super.setTitle(title);
         return this;
     }
+
+    public MagicType icon(StringMTemplate icon) {
+        super.setIcon(icon);
+        return this;
+    }
+
+    public MagicType seriesIndex(ListMTemplate seriesIndex) {
+        this.seriesIndex = seriesIndex;
+        return this;
+    }
+
+    public MagicType option(ObjectMTemplate option) {
+        this.option = option;
+        return this;
+    }
+
+    @Override
+    @JsonDeserialize(as = StringMTemplate.class)
+    public void setTitle(Object title) {
+        handleMTSetter("title", title, super::setTitle, MAP_TO_MT_FUNCTION);
+    }
+
+    @Override
+    @JsonDeserialize(as = StringMTemplate.class)
+    public void setIcon(Object icon) {
+        handleMTSetter("icon", icon, super::setIcon, MAP_TO_MT_FUNCTION);
+    }
+
+    private void handleMTSetter(
+            String propName, Object obj, Consumer<Object> consumer,
+            Function<Map<Object, Object>, MTemplate<?>> func) {
+        if (obj == null) {
+            consumer.accept(null);
+            return;
+        }
+        if (obj instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<Object, Object> objMap = (Map<Object, Object>) obj;
+            if (objMap.isEmpty()) {
+                consumer.accept(null); return;
+            }
+            consumer.accept(func.apply(objMap));
+        } else if (obj instanceof MTemplate) {
+            consumer.accept(obj);
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Unsupported %s type: %s, value: %s",
+                            propName, obj.getClass(), obj));
+        }
+    }
+
+    public List<Magic> getType() {
+        return type;
+    }
+
+    public void setType(List<Magic> type) {
+        this.type = type;
+    }
+
+    public ListMTemplate getSeriesIndex() {
+        return seriesIndex;
+    }
+
+    public void setSeriesIndex(ListMTemplate seriesIndex) {
+        this.seriesIndex = seriesIndex;
+    }
+
+    public ObjectMTemplate getOption() {
+        return option;
+    }
+
+    public void setOption(ObjectMTemplate option) {
+        this.option = option;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MagicType)) return false;
+        if (!super.equals(o)) return false;
+        MagicType magicType = (MagicType) o;
+        return Objects.equals(type, magicType.type) &&
+                Objects.equals(seriesIndex, magicType.seriesIndex) &&
+                Objects.equals(option, magicType.option);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), type, seriesIndex, option);
+    }
+
+    @Override
+    public String toString() {
+        return "org.aying.echarts.feature.MagicType{" +
+                "type=" + type +
+                ", seriesIndex=" + seriesIndex +
+                ", option=" + option +
+                "} " + super.toString();
+    }
+
 }

@@ -33,7 +33,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public abstract class BaseProp<T> implements Serializable {
+public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

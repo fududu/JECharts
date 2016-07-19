@@ -14,46 +14,25 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.feature;
+
+import java.util.Map;
 
 /**
- * 动态切换的类型枚举。
- *
  * @author Fuchun
  * @since 1.0
  */
-public enum Magic {
+public class MapMTemplate extends MTemplate<Map<String, Object>> {
 
-    /**
-     * 折线图
-     */
-    line,
+    private static final long serialVersionUID = 7969221465862324826L;
 
-    /**
-     * 柱状图
-     */
-    bar,
+    public MapMTemplate() {
+        super();
+    }
 
-    /**
-     * 堆叠模式
-     */
-    stack,
-
-    /**
-     * 平铺模式
-     */
-    tiled;
-
-    public static Magic of(String v) {
-        if (v == null || (v = v.trim()).isEmpty()) {
-            return null;
-        }
-        String n = v.toLowerCase();
-        for (Magic magic : values()) {
-            if (magic.name().equals(n)) {
-                return magic;
-            }
-        }
-        return null;
+    public MapMTemplate(
+            Map<String, Object> line, Map<String, Object> bar,
+            Map<String, Object> stack, Map<String, Object> tiled) {
+        super(line, bar, stack, tiled);
     }
 }

@@ -17,7 +17,7 @@
 package org.aying.echarts;
 
 import org.aying.echarts.axis.AxisPointer;
-import org.aying.echarts.base.Position;
+import org.aying.echarts.base.Pos;
 import org.aying.echarts.base.Trigger;
 import org.aying.echarts.base.TriggerOn;
 
@@ -96,7 +96,7 @@ public class Tooltip implements Serializable {
         return this;
     }
 
-    public Tooltip position(Position position) {
+    public Tooltip position(Pos position) {
         this.position = position;
         return this;
     }
