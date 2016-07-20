@@ -14,38 +14,21 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.base;
 
 /**
- * 图形阴影样式。
- *
  * @author Fuchun
  * @since 1.0
  */
-public interface ShadowStyle extends Style {
+public enum ThrottleType {
 
     /**
-     * 图形阴影的模糊大小。
+     * 表示只有停止动作了（即一段时间没有操作了），才会触发事件。
      */
-    Integer getShadowBlur();
+    debounce,
 
     /**
-     * 阴影颜色。
+     * 表示按照一定的频率触发时间。
      */
-    String getShadowColor();
-
-    /**
-     * 阴影水平方向上的偏移距离。
-     */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透明度。{@code 0..1}
-     */
-    Double getOpacity();
+    fixRate
 }

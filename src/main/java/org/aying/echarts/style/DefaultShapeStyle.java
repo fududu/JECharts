@@ -24,7 +24,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultBorderStyle extends DefaultShadowStyle implements BorderStyle {
+public class DefaultShapeStyle extends DefaultShadowStyle implements ShapeStyle {
 
     private static final long serialVersionUID = -4421399723447580397L;
     private String borderColor;
@@ -61,9 +61,9 @@ public class DefaultBorderStyle extends DefaultShadowStyle implements BorderStyl
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultBorderStyle)) return false;
+        if (!(o instanceof DefaultShapeStyle)) return false;
         if (!super.equals(o)) return false;
-        DefaultBorderStyle that = (DefaultBorderStyle) o;
+        DefaultShapeStyle that = (DefaultShapeStyle) o;
         return Objects.equals(borderColor, that.borderColor) &&
                 Objects.equals(borderWidth, that.borderWidth) &&
                 borderType == that.borderType;

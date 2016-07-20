@@ -14,38 +14,25 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.base;
+
+import java.io.Serializable;
 
 /**
- * 图形阴影样式。
+ * The simple {@code CanvasZ} implementation.
  *
  * @author Fuchun
  * @since 1.0
  */
-public interface ShadowStyle extends Style {
+public class SimpleCanvasZ extends BaseCanvasZ<SimpleCanvasZ> implements Serializable {
 
-    /**
-     * 图形阴影的模糊大小。
-     */
-    Integer getShadowBlur();
+    private static final long serialVersionUID = 5224700684592674601L;
 
-    /**
-     * 阴影颜色。
-     */
-    String getShadowColor();
+    public SimpleCanvasZ() {
+        super();
+    }
 
-    /**
-     * 阴影水平方向上的偏移距离。
-     */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透明度。{@code 0..1}
-     */
-    Double getOpacity();
+    public SimpleCanvasZ(Integer zlevel, Integer z) {
+        super(zlevel, z);
+    }
 }

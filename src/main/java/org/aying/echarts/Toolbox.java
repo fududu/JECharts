@@ -17,19 +17,23 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.Orient;
+import org.aying.echarts.base.SizeGraph;
 import org.aying.echarts.feature.Feature;
-import org.aying.echarts.style.BorderStyle;
+import org.aying.echarts.style.ShapeStyle;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * 工具栏。
+ * 工具栏配置项模型。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class Toolbox implements Serializable {
+public class Toolbox extends SizeGraph<Toolbox> implements Serializable {
+
+    private static final long serialVersionUID = -8866834044547409240L;
 
     private Boolean show;
     private Orient orient;
@@ -37,13 +41,93 @@ public class Toolbox implements Serializable {
     private Integer itemGap;
     private Boolean showTitle;
     private Feature feature;
-    private Map<String, BorderStyle> iconStyle;
-    private Integer zlevel;
-    private Integer z;
-    private Object left;
-    private Object right;
-    private Object top;
-    private Object bottom;
-    private Object width;
-    private Object height;
+    private Map<String, ShapeStyle> iconStyle;
+
+    public Toolbox() {
+        super();
+    }
+
+    public Boolean getShow() {
+        return show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
+    public Orient getOrient() {
+        return orient;
+    }
+
+    public void setOrient(Orient orient) {
+        this.orient = orient;
+    }
+
+    public Integer getItemSize() {
+        return itemSize;
+    }
+
+    public void setItemSize(Integer itemSize) {
+        this.itemSize = itemSize;
+    }
+
+    public Integer getItemGap() {
+        return itemGap;
+    }
+
+    public void setItemGap(Integer itemGap) {
+        this.itemGap = itemGap;
+    }
+
+    public Boolean getShowTitle() {
+        return showTitle;
+    }
+
+    public void setShowTitle(Boolean showTitle) {
+        this.showTitle = showTitle;
+    }
+
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
+
+    public Map<String, ShapeStyle> getIconStyle() {
+        return iconStyle;
+    }
+
+    public void setIconStyle(Map<String, ShapeStyle> iconStyle) {
+        this.iconStyle = iconStyle;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Toolbox)) return false;
+        if (!super.equals(o)) return false;
+        Toolbox toolbox = (Toolbox) o;
+        return Objects.equals(show, toolbox.show) &&
+                orient == toolbox.orient &&
+                Objects.equals(itemSize, toolbox.itemSize) &&
+                Objects.equals(itemGap, toolbox.itemGap) &&
+                Objects.equals(showTitle, toolbox.showTitle) &&
+                Objects.equals(feature, toolbox.feature) &&
+                Objects.equals(iconStyle, toolbox.iconStyle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), show, orient, itemSize, itemGap, showTitle, feature, iconStyle);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "org.aying.echarts.Toolbox{show=%s, orient=%s, itemSize=%d, itemGap=%d, " +
+                        "showTitle=%s, feature=%s, iconStyle=%s} %s",
+                show, orient, itemSize, itemGap, showTitle, feature, iconStyle, super.toString());
+    }
 }

@@ -36,7 +36,7 @@ public class Feature implements Serializable {
     private DataView dataView;
     private DataZoomSelect dataZoom;
     private MagicType magicType;
-    private Brush brush;
+    private BrushFeature brush;
 
     public Feature() {
         super();
@@ -82,11 +82,11 @@ public class Feature implements Serializable {
         this.magicType = magicType;
     }
 
-    public Brush getBrush() {
+    public BrushFeature getBrush() {
         return brush;
     }
 
-    public void setBrush(Brush brush) {
+    public void setBrush(BrushFeature brush) {
         this.brush = brush;
     }
 

@@ -17,7 +17,7 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.aying.echarts.style.BorderStyle;
+import org.aying.echarts.style.ShapeStyle;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -34,7 +34,7 @@ public class DataZoomSelect extends DataZoom {
 
     private Map<String, String> title;
     private Map<String, String> icon;
-    private Map<String, BorderStyle> iconStyle;
+    private Map<String, ShapeStyle> iconStyle;
 
     public DataZoomSelect() {
         super(DataZoomType.select);
@@ -82,13 +82,13 @@ public class DataZoomSelect extends DataZoom {
         return this;
     }
 
-    public DataZoomSelect normalStyle(BorderStyle normal) {
+    public DataZoomSelect normalStyle(ShapeStyle normal) {
         initIconStyleMap();
         iconStyle.put("normal", normal);
         return this;
     }
 
-    public DataZoomSelect emphasisStyle(BorderStyle emphasis) {
+    public DataZoomSelect emphasisStyle(ShapeStyle emphasis) {
         initIconStyleMap();
         iconStyle.put("emphasis", emphasis);
         return this;
@@ -116,11 +116,11 @@ public class DataZoomSelect extends DataZoom {
         this.icon = icon;
     }
 
-    public Map<String, BorderStyle> getIconStyle() {
+    public Map<String, ShapeStyle> getIconStyle() {
         return iconStyle;
     }
 
-    public void setIconStyle(Map<String, BorderStyle> iconStyle) {
+    public void setIconStyle(Map<String, ShapeStyle> iconStyle) {
         this.iconStyle = iconStyle;
     }
 

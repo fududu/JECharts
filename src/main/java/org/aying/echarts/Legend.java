@@ -18,8 +18,6 @@ package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.aying.echarts.base.SelectedMode;
-import org.aying.echarts.base.Size;
-import org.aying.echarts.base.SizeImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -32,8 +30,7 @@ import java.util.TreeMap;
  * @author Fuchun
  * @since 1.0
  */
-public class Legend extends BaseProp<Legend>
-        implements Size<Legend>, Data<Legend> {
+public class Legend extends BaseProp<Legend> implements Data<Legend> {
 
     private static final long serialVersionUID = -4466736220215040561L;
 
@@ -47,49 +44,10 @@ public class Legend extends BaseProp<Legend>
 
     @JsonIgnore
     private Data<?> delegateData;
-    @JsonIgnore
-    private Size<Legend> delegateSize;
 
     public Legend() {
         super();
         delegateData = BaseData.delegate();
-        delegateSize = new SizeImpl<>();
-    }
-
-    @Override
-    public Legend width(int width) {
-        delegateSize.width(width);
-        return this;
-    }
-
-    @Override
-    public Legend width(String width) {
-        delegateSize.width(width);
-        return this;
-    }
-
-    @Override
-    public Legend height(int height) {
-        delegateSize.height(height);
-        return this;
-    }
-
-    @Override
-    public Legend height(String height) {
-        delegateSize.height(height);
-        return this;
-    }
-
-    @Override
-    public Legend autoWidth() {
-        delegateSize.autoWidth();
-        return this;
-    }
-
-    @Override
-    public Legend autoHeight() {
-        delegateSize.autoHeight();
-        return this;
     }
 
     public Legend itemWidth(int itemWidth) {
@@ -142,22 +100,6 @@ public class Legend extends BaseProp<Legend>
             this.selected = new TreeMap<>(selected);
         }
         return this;
-    }
-
-    public Object getWidth() {
-        return delegateSize.getWidth();
-    }
-
-    public void setWidth(Object width) {
-        this.delegateSize.setWidth(width);
-    }
-
-    public Object getHeight() {
-        return delegateSize.getHeight();
-    }
-
-    public void setHeight(Object height) {
-        this.delegateSize.setHeight(height);
     }
 
     public Integer getItemWidth() {

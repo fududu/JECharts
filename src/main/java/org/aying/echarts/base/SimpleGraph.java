@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.base;
 
-import org.aying.echarts.base.LineType;
+import java.io.Serializable;
 
 /**
+ * The simple implementation for {@code Graph}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface BorderStyle extends ShadowStyle {
+public class SimpleGraph extends Graph<SimpleGraph> implements Serializable {
 
-    /**
-     * 图形的描边颜色。支持的格式同 color。
-     */
-    String getBorderColor();
+    private static final long serialVersionUID = 8580315791333184612L;
 
-    /**
-     * 描边线宽。为 0 时无描边。
-     */
-    Integer getBorderWidth();
+    public SimpleGraph() {
+        super();
+    }
 
-    /**
-     * 柱条的描边类型，默认为实线（{@code slider}）。
-     */
-    LineType getBorderType();
+    public SimpleGraph(Object top, Object right, Object bottom, Object left) {
+        super(top, right, bottom, left);
+    }
 }

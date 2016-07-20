@@ -16,36 +16,28 @@
 
 package org.aying.echarts.style;
 
+import org.aying.echarts.base.LineType;
+
 /**
- * 图形阴影样式。
+ * 图形样式。
  *
  * @author Fuchun
  * @since 1.0
  */
-public interface ShadowStyle extends Style {
+public interface ShapeStyle extends ShadowStyle {
 
     /**
-     * 图形阴影的模糊大小。
+     * 图形的描边颜色。支持的格式同 color。
      */
-    Integer getShadowBlur();
+    String getBorderColor();
 
     /**
-     * 阴影颜色。
+     * 描边线宽。为 0 时无描边。
      */
-    String getShadowColor();
+    Integer getBorderWidth();
 
     /**
-     * 阴影水平方向上的偏移距离。
+     * 柱条的描边类型，默认为实线（{@code slider}）。
      */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透明度。{@code 0..1}
-     */
-    Double getOpacity();
+    LineType getBorderType();
 }

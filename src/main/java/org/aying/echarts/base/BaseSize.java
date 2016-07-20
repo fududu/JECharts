@@ -20,32 +20,34 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * The base implementation of the {@code Size}
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class SizeImpl<S extends Size<S>> implements Size<S>, Serializable {
+public abstract class BaseSize<S extends BaseSize<S>> implements Size<S>, Serializable {
 
-    private static final long serialVersionUID = -5209389102960644715L;
+    private static final long serialVersionUID = 1L;
 
     private Object width;
     private Object height;
 
-    public SizeImpl() {
+    protected BaseSize() {
         super();
     }
 
-    public SizeImpl(int width, int height) {
+    protected BaseSize(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
-    public SizeImpl(String width, String height) {
+    protected BaseSize(String width, String height) {
         this.width = width;
         this.height = height;
     }
 
     @SuppressWarnings("unchecked")
-    private S me() {
+    protected S me() {
         return (S) this;
     }
 
@@ -102,8 +104,8 @@ public class SizeImpl<S extends Size<S>> implements Size<S>, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SizeImpl)) return false;
-        SizeImpl size = (SizeImpl) o;
+        if (!(o instanceof BaseSize)) return false;
+        BaseSize size = (BaseSize) o;
         return Objects.equals(width, size.width) &&
                 Objects.equals(height, size.height);
     }
@@ -115,6 +117,6 @@ public class SizeImpl<S extends Size<S>> implements Size<S>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.base.SizeImpl{width=%s, height=%s}", width, height);
+        return String.format("%s{width=%s, height=%s}", getClass(), width, height);
     }
 }

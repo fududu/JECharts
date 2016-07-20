@@ -18,9 +18,7 @@ package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.aying.echarts.base.Align;
-import org.aying.echarts.base.Baseline;
-import org.aying.echarts.base.LinkTarget;
+import org.aying.echarts.base.*;
 import org.aying.echarts.style.DefaultTextStyle;
 import org.aying.echarts.style.TextStyle;
 
@@ -33,7 +31,8 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
+public abstract class BaseProp<T extends BaseProp<T>>
+        extends SizeGraph<T> implements Position<T>, CanvasZ<T>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,15 +51,6 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
     private Object padding;
     /* 主副标题之间的间距。 */
     private Integer itemGap;
-    /* Canvas 分层 */
-    private Integer zLevel;
-    /* 图形的前后顺序。 */
-    private Integer z;
-
-    private Object left;
-    private Object right;
-    private Object top;
-    private Object bottom;
 
     private String backgroundColor;
     private String borderColor;
@@ -75,62 +65,8 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public T left(Align align) {
-        this.left = align;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T left(String left) {
-        this.left = left;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T left(int left) {
-        this.left = left;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T right(String right) {
-        this.right = right;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T right(int right) {
-        this.right = right;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T top(Baseline top) {
-        this.top = top;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T top(String top) {
-        this.top = top;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T top(int top) {
-        this.top = top;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T bottom(String bottom) {
-        this.bottom = bottom;
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T bottom(int bottom) {
-        this.bottom = bottom;
+    @Override
+    protected T me() {
         return (T) this;
     }
 
@@ -254,60 +190,6 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
     }
 
     @JsonProperty(required = false)
-    public Integer getzLevel() {
-        return zLevel;
-    }
-
-    public void setzLevel(Integer zLevel) {
-        this.zLevel = zLevel;
-    }
-
-    @JsonProperty(required = false)
-    public Integer getZ() {
-        return z;
-    }
-
-    public void setZ(Integer z) {
-        this.z = z;
-    }
-
-    @JsonProperty(required = false)
-    public Object getLeft() {
-        return left;
-    }
-
-    public void setLeft(Object left) {
-        this.left = left;
-    }
-
-    @JsonProperty(required = false)
-    public Object getRight() {
-        return right;
-    }
-
-    public void setRight(Object right) {
-        this.right = right;
-    }
-
-    @JsonProperty(required = false)
-    public Object getTop() {
-        return top;
-    }
-
-    public void setTop(Object top) {
-        this.top = top;
-    }
-
-    @JsonProperty(required = false)
-    public Object getBottom() {
-        return bottom;
-    }
-
-    public void setBottom(Object bottom) {
-        this.bottom = bottom;
-    }
-
-    @JsonProperty(required = false)
     public String getBackgroundColor() {
         return backgroundColor;
     }
@@ -374,7 +256,8 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BaseProp)) return false;
-        BaseProp baseProp = (BaseProp) o;
+        if (!super.equals(o)) return false;
+        BaseProp<?> baseProp = (BaseProp<?>) o;
         return Objects.equals(show, baseProp.show) &&
                 Objects.equals(text, baseProp.text) &&
                 Objects.equals(link, baseProp.link) &&
@@ -388,12 +271,6 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
                 Objects.equals(subTextStyle, baseProp.subTextStyle) &&
                 Objects.equals(padding, baseProp.padding) &&
                 Objects.equals(itemGap, baseProp.itemGap) &&
-                Objects.equals(zLevel, baseProp.zLevel) &&
-                Objects.equals(z, baseProp.z) &&
-                Objects.equals(left, baseProp.left) &&
-                Objects.equals(right, baseProp.right) &&
-                Objects.equals(top, baseProp.top) &&
-                Objects.equals(bottom, baseProp.bottom) &&
                 Objects.equals(backgroundColor, baseProp.backgroundColor) &&
                 Objects.equals(borderColor, baseProp.borderColor) &&
                 Objects.equals(borderWidth, baseProp.borderWidth) &&
@@ -405,10 +282,9 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, text, link, target, textStyle, textAlign, textBaseline, subText,
-                subLink, subTarget, subTextStyle, padding, itemGap, zLevel, z, left, right, top,
-                bottom, backgroundColor, borderColor, borderWidth, shadowBlur, shadowColor,
-                shadowOffsetX, shadowOffsetY);
+        return Objects.hash(super.hashCode(), show, text, link, target, textStyle, textAlign,
+                textBaseline, subText, subLink, subTarget, subTextStyle, padding, itemGap,
+                backgroundColor, borderColor, borderWidth, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY);
     }
 
     @Override
@@ -427,12 +303,12 @@ public abstract class BaseProp<T extends BaseProp<T>> implements Serializable {
                 ", subTextStyle=" + subTextStyle +
                 ", padding=" + padding +
                 ", itemGap=" + itemGap +
-                ", zLevel=" + zLevel +
-                ", z=" + z +
-                ", left=" + left +
-                ", right=" + right +
-                ", top=" + top +
-                ", bottom=" + bottom +
+                ", zLevel=" + getZlevel() +
+                ", z=" + getZ() +
+                ", left=" + getLeft() +
+                ", right=" + getRight() +
+                ", top=" + getTop() +
+                ", bottom=" + getBottom() +
                 ", backgroundColor='" + backgroundColor + '\'' +
                 ", borderColor='" + borderColor + '\'' +
                 ", borderWidth=" + borderWidth +

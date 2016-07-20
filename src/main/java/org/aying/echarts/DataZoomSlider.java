@@ -17,7 +17,7 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.DataBackground;
-import org.aying.echarts.style.BorderStyle;
+import org.aying.echarts.style.ShapeStyle;
 
 import java.time.format.TextStyle;
 import java.util.LinkedHashMap;
@@ -48,7 +48,7 @@ public class DataZoomSlider extends DataZoomInside {
     /* 控制手柄的尺寸，可以是像素大小，也可以是相对于 dataZoom 组件宽度的百分比，默认跟 dataZoom 宽度相同。 */
     private Object handleSize;
     /* 手柄的样式配置。 */
-    private BorderStyle handleStyle;
+    private ShapeStyle handleStyle;
     /* 显示label的小数精度。默认根据数据自动决定。 */
     private Object labelPrecision;
     /* 显示的label的格式化器。*/
@@ -120,11 +120,11 @@ public class DataZoomSlider extends DataZoomInside {
         this.handleSize = handleSize;
     }
 
-    public BorderStyle getHandleStyle() {
+    public ShapeStyle getHandleStyle() {
         return handleStyle;
     }
 
-    public void setHandleStyle(BorderStyle handleStyle) {
+    public void setHandleStyle(ShapeStyle handleStyle) {
         this.handleStyle = handleStyle;
     }
 

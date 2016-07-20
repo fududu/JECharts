@@ -33,20 +33,20 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class Brush implements Serializable {
+public class BrushFeature implements Serializable {
 
     private static final long serialVersionUID = 1994298680153137218L;
 
-    public static Brush me() {
-        return new Brush();
+    public static BrushFeature me() {
+        return new BrushFeature();
     }
 
     @JsonCreator
-    public static Brush of(
+    public static BrushFeature of(
             @JsonProperty(value = "type", required = false) List<BrushType> typeList,
             @JsonProperty(value = "icon", required = false) Map<BrushType, String> iconMap,
             @JsonProperty(value = "title", required = false) Map<BrushType, String> titleMap) {
-        return new Brush(typeList, iconMap, titleMap);
+        return new BrushFeature(typeList, iconMap, titleMap);
     }
 
     /* 使用的按钮类型 */
@@ -58,17 +58,17 @@ public class Brush implements Serializable {
     /* 标题文本。 */
     private Map<BrushType, String> titleMap;
 
-    public Brush() {
+    public BrushFeature() {
         super();
     }
 
-    public Brush(List<BrushType> typeList, Map<BrushType, String> iconMap, Map<BrushType, String> titleMap) {
+    public BrushFeature(List<BrushType> typeList, Map<BrushType, String> iconMap, Map<BrushType, String> titleMap) {
         this.typeList = typeList;
         this.iconMap = iconMap;
         this.titleMap = titleMap;
     }
 
-    public Brush type(BrushType t1, BrushType... tn) {
+    public BrushFeature type(BrushType t1, BrushType... tn) {
         Objects.requireNonNull(t1, "brush type");
         if (typeList == null) {
             typeList = new LinkedList<>();
@@ -80,7 +80,7 @@ public class Brush implements Serializable {
         return this;
     }
 
-    public Brush icon(BrushType t1, String ip1, Object... type2IconPaths) {
+    public BrushFeature icon(BrushType t1, String ip1, Object... type2IconPaths) {
         Objects.requireNonNull(t1, "First type");
         Objects.requireNonNull(ip1, "First icon path");
         if (iconMap == null) {
@@ -97,7 +97,7 @@ public class Brush implements Serializable {
         return this;
     }
 
-    public Brush title(BrushType t1, String t1Title, Object... type2Titles) {
+    public BrushFeature title(BrushType t1, String t1Title, Object... type2Titles) {
         Objects.requireNonNull(t1, "First type");
         Objects.requireNonNull(t1Title, "First title");
         if (titleMap == null) {
@@ -157,8 +157,8 @@ public class Brush implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Brush)) return false;
-        Brush brush = (Brush) o;
+        if (!(o instanceof BrushFeature)) return false;
+        BrushFeature brush = (BrushFeature) o;
         return Objects.equals(typeList, brush.typeList) &&
                 Objects.equals(iconMap, brush.iconMap) &&
                 Objects.equals(titleMap, brush.titleMap);
@@ -171,7 +171,7 @@ public class Brush implements Serializable {
 
     @Override
     public String toString() {
-        return "Brush{" +
+        return "BrushFeature{" +
                 "typeList=" + typeList +
                 ", iconMap=" + iconMap +
                 ", titleMap=" + titleMap +

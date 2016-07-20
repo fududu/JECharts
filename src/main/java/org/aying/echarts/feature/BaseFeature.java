@@ -16,7 +16,7 @@
 
 package org.aying.echarts.feature;
 
-import org.aying.echarts.style.BorderStyle;
+import org.aying.echarts.style.ShapeStyle;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
     /* Icon 的 path */
     private Object icon;
     /* 保存为图片 icon 样式设置。 */
-    private Map<String, BorderStyle> iconStyle;
+    private Map<String, ShapeStyle> iconStyle;
 
     protected BaseFeature() {
         super();
@@ -62,7 +62,7 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
         return me();
     }
 
-    public F normalStyle(BorderStyle normal) {
+    public F normalStyle(ShapeStyle normal) {
         Objects.requireNonNull(normal, "iconStyle.normal");
         if (iconStyle == null) {
             iconStyle = new HashMap<>(2);
@@ -71,7 +71,7 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
         return me();
     }
 
-    public F emphasisStyle(BorderStyle emphasis) {
+    public F emphasisStyle(ShapeStyle emphasis) {
         Objects.requireNonNull(emphasis, "iconStyle.emphasis");
         if (iconStyle == null) {
             iconStyle = new HashMap<>(2);
@@ -104,11 +104,11 @@ public abstract class BaseFeature<F extends BaseFeature<F>> implements Serializa
         this.icon = icon;
     }
 
-    public Map<String, BorderStyle> getIconStyle() {
+    public Map<String, ShapeStyle> getIconStyle() {
         return iconStyle;
     }
 
-    public void setIconStyle(Map<String, BorderStyle> iconStyle) {
+    public void setIconStyle(Map<String, ShapeStyle> iconStyle) {
         this.iconStyle = iconStyle;
     }
 

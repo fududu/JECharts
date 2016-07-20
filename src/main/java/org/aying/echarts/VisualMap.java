@@ -17,7 +17,7 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.Align;
-import org.aying.echarts.base.Baseline;
+import org.aying.echarts.base.Graph;
 import org.aying.echarts.base.Orient;
 import org.aying.echarts.util.CollectionUtils;
 
@@ -33,12 +33,17 @@ import java.util.Map;
  * @author Fuchun
  * @since 1.0
  */
-public abstract class VisualMap<V extends VisualMap<V>> implements Serializable {
+public abstract class VisualMap<V extends VisualMap<V>>
+        extends Graph<V> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public static ContinuousVisualMap continuous() {
         return new ContinuousVisualMap();
+    }
+
+    public static PiecewiseVisualMap piecewise() {
+        return new PiecewiseVisualMap();
     }
 
     private final String type;
@@ -75,18 +80,6 @@ public abstract class VisualMap<V extends VisualMap<V>> implements Serializable 
     /* visualMap 组件中，控制器 的 inRange outOfRange 设置。 */
     private Map<String, VisualRange> controller;
 
-    /* 所有图形的 zlevel 值。默认：0 */
-    private Integer zLevel;
-    /* 组件的所有图形的z值。控制图形的前后顺序。z值小的图形会被z值大的图形覆盖。默认：4 */
-    private Integer z;
-    /* visualMap 组件离容器左侧的距离。 */
-    private Object left;
-    /* visualMap 组件离容器右侧的距离。 */
-    private Object right;
-    /* visualMap 组件离容器上侧的距离。 */
-    private Object top;
-    /* visualMap 组件离容器下侧的距离。 */
-    private Object bottom;
     /* 如何放置 visualMap 组件，水平（'horizontal'）或者竖直（'vertical'）。 */
     private Orient orient;
     /* visualMap 内边距，单位px，默认各方向内边距为5，接受数组分别设定上右下左边距。 */
@@ -366,108 +359,6 @@ public abstract class VisualMap<V extends VisualMap<V>> implements Serializable 
 
     public void setController(Map<String, VisualRange> controller) {
         this.controller = controller;
-    }
-
-    public Integer getzLevel() {
-        return zLevel;
-    }
-
-    public void setzLevel(Integer zLevel) {
-        this.zLevel = zLevel;
-    }
-
-    public Integer getZ() {
-        return z;
-    }
-
-    public void setZ(Integer z) {
-        this.z = z;
-    }
-
-    public Object getLeft() {
-        return left;
-    }
-
-    public void setLeft(Object left) {
-        if (left == null) {
-            this.left = null;
-        } else if (left instanceof Number) {
-            this.left = ((Number) left).intValue();
-        } else if (left instanceof String) {
-            Align align = Align.of((String) left, null);
-            if (align == null) {
-                this.left = left;
-            } else {
-                this.left = align;
-            }
-        } else if (left instanceof Align) {
-            this.left = left;
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Unsupported value(%s[%s]) for `visualMap.left` option",
-                    left.getClass(), left));
-        }
-    }
-
-    public Object getRight() {
-        return right;
-    }
-
-    public void setRight(Object right) {
-        if (right == null) {
-            this.right = null;
-        } else if (right instanceof Number) {
-            this.right = ((Number) right).intValue();
-        } else if (right instanceof String) {
-            this.right = right;
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Unsupported value(%s[%s]) for `visualMap.right` option",
-                    right.getClass(), right));
-        }
-    }
-
-    public Object getTop() {
-        return top;
-    }
-
-    public void setTop(Object top) {
-        if (top == null) {
-            this.top = null;
-        } else if (top instanceof Number) {
-            this.top = ((Number) top).intValue();
-        } else if (top instanceof String) {
-            Baseline b = Baseline.of((String) top, null);
-            if (b == null) {
-                this.top = top;
-            } else {
-                this.top = b;
-            }
-        } else if (top instanceof Baseline) {
-            this.top = top;
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Unsupported value(%s[%s]) for `visualMap.top` option",
-                    top.getClass(), top));
-        }
-    }
-
-    public Object getBottom() {
-        return bottom;
-    }
-
-    public void setBottom(Object bottom) {
-        if (bottom == null) {
-            this.bottom = null;
-        } else if (bottom instanceof Number) {
-            this.bottom = ((Number) bottom).intValue();
-        } else if (bottom instanceof String) {
-            this.bottom = bottom;
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Unsupported value(%s[%s]) for `visualMap.bottom` option",
-                    bottom.getClass(), bottom));
-        }
     }
 
     public Orient getOrient() {

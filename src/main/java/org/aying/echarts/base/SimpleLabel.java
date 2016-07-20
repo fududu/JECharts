@@ -14,75 +14,59 @@
  * limitations under the License.
  */
 
-package org.aying.echarts;
+package org.aying.echarts.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.aying.echarts.style.TextStyle;
 
 /**
- * 标题组件，包含主标题和副标题。
- *
  * @author Fuchun
  * @since 1.0
  */
-public class Title extends BaseProp<Title> {
+public class SimpleLabel extends Label {
 
-    private static final long serialVersionUID = 4851252376021617760L;
+    private static final long serialVersionUID = 6709702486243014087L;
 
-    public Title() {
+    public SimpleLabel() {
         super();
     }
 
     @Override
-    public Title autoWidth() {
+    public SimpleLabel position(Pos p) {
         return this;
     }
 
     @Override
-    public Title autoHeight() {
+    public SimpleLabel position(Object x, Object y) {
         return this;
     }
 
     @Override
-    public Title width(int width) {
+    public SimpleLabel formatter(String formatter) {
         return this;
     }
 
     @Override
-    public Title width(String width) {
+    public SimpleLabel show() {
+        super.show();
         return this;
     }
 
     @Override
-    public Title height(int height) {
-        return this;
-    }
-
-    @Override
-    public Title height(String height) {
+    public SimpleLabel textStyle(TextStyle textStyle) {
+        super.textStyle(textStyle);
         return this;
     }
 
     @Override
     @JsonIgnore
-    public Object getWidth() {
-        // title 不支持设置宽度
-        return null;
-    }
-
-    @Override
-    public void setWidth(Object width) {
-        // title 不支持设置宽度
+    public Object getPosition() {
+        return super.getPosition();
     }
 
     @Override
     @JsonIgnore
-    public Object getHeight() {
-        // title 不支持设置高度
-        return null;
-    }
-
-    @Override
-    public void setHeight(Object height) {
-        // title 不支持设置高度
+    public Object getFormatter() {
+        return super.getFormatter();
     }
 }

@@ -14,38 +14,25 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.base;
+
+import java.io.Serializable;
 
 /**
- * 图形阴影样式。
+ * The simple {@link Position} implementation.
  *
  * @author Fuchun
  * @since 1.0
  */
-public interface ShadowStyle extends Style {
+public class SimplePosition extends BasePosition<SimplePosition> implements Serializable {
 
-    /**
-     * 图形阴影的模糊大小。
-     */
-    Integer getShadowBlur();
+    private static final long serialVersionUID = -1444290575310283222L;
 
-    /**
-     * 阴影颜色。
-     */
-    String getShadowColor();
+    public SimplePosition() {
+        super();
+    }
 
-    /**
-     * 阴影水平方向上的偏移距离。
-     */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透明度。{@code 0..1}
-     */
-    Double getOpacity();
+    public SimplePosition(Object top, Object right, Object bottom, Object left) {
+        super(top, right, bottom, left);
+    }
 }

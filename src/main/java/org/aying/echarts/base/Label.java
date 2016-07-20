@@ -32,10 +32,6 @@ public class Label implements Serializable {
 
     private static final long serialVersionUID = -8850807328172978264L;
 
-    public static Label get() {
-        return new Label();
-    }
-
     private Boolean show;
     private Object position;
     private Object formatter;

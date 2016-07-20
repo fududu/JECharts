@@ -17,6 +17,7 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.aying.echarts.base.BaseCanvasZ;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -28,31 +29,15 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class Polar implements Serializable {
+public class Polar extends BaseCanvasZ<Polar> implements Serializable {
 
     private static final long serialVersionUID = 5412105993067282426L;
 
-    private Integer zLevel;
-    private Integer z;
     private Object[] center;
     private Object[] radius;
 
-    @JsonProperty(value = "zlevel", required = false)
-    public Integer getzLevel() {
-        return zLevel;
-    }
-
-    public void setzLevel(Integer zLevel) {
-        this.zLevel = zLevel;
-    }
-
-    @JsonProperty(required = false)
-    public Integer getZ() {
-        return z;
-    }
-
-    public void setZ(Integer z) {
-        this.z = z;
+    public Polar() {
+        super();
     }
 
     @JsonProperty(required = false)
@@ -77,21 +62,20 @@ public class Polar implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Polar)) return false;
+        if (!super.equals(o)) return false;
         Polar polar = (Polar) o;
-        return Objects.equals(zLevel, polar.zLevel) &&
-                Objects.equals(z, polar.z) &&
-                Arrays.equals(center, polar.center) &&
+        return Arrays.equals(center, polar.center) &&
                 Arrays.equals(radius, polar.radius);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zLevel, z, center, radius);
+        return Objects.hash(super.hashCode(), center, radius);
     }
 
     @Override
     public String toString() {
         return String.format("org.aying.echarts.Polar{zLevel=%d, z=%d, center=%s, radius=%s}",
-                zLevel, z, Arrays.toString(center), Arrays.toString(radius));
+                getZlevel(), getZ(), Arrays.toString(center), Arrays.toString(radius));
     }
 }
