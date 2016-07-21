@@ -30,4 +30,11 @@ public interface Style extends Serializable {
      * 字体颜色（16进制表示，或{@code rgba(...)}）。
      */
     String getColor();
+
+    /**
+     * 设置样式的颜色。
+     *
+     * @param color 样式颜色。
+     */
+    <S extends Style> S color(String color);
 }

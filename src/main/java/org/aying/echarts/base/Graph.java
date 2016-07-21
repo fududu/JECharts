@@ -19,6 +19,8 @@ package org.aying.echarts.base;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -85,6 +87,16 @@ public abstract class Graph<T extends Graph<T>> extends BasePosition<T>
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), canvasZ);
+    }
+
+    @Override
+    protected Map<String, Object> propsMap() {
+        Map<String, Object> posMap = super.propsMap();
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("zlevel", getZlevel());
+        map.put("z", getZ());
+        map.putAll(posMap);
+        return map;
     }
 
     @Override

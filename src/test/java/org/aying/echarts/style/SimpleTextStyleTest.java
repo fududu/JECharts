@@ -33,7 +33,7 @@ import static org.junit.Assert.fail;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultTextStyleTest extends BaseTest {
+public class SimpleTextStyleTest extends BaseTest {
 
     private static final String TEST_JSON = "{color:'#333',fontWeight:600}";
 
@@ -51,14 +51,14 @@ public class DefaultTextStyleTest extends BaseTest {
         assertThat(textStyle.getColor(), Is.is("#333"));
         assertThat(textStyle.getFontWeight(), Is.is(FontWeight.W600));
 
-        TextStyle style = TextStyle.newStyle().color("#333")
+        TextStyle style = Styles.text().color("#333")
                 .fontWeight(FontWeight.W600);
         assertThat(style, Is.is(textStyle));
     }
 
     @Test
     public void testSetFontWeight() throws Exception {
-        DefaultTextStyle textStyle = new DefaultTextStyle();
+        SimpleTextStyle textStyle = new SimpleTextStyle();
         textStyle.setFontWeight(null);
 
         assertThat(textStyle.getFontWeight(), nullValue());

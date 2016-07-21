@@ -18,18 +18,25 @@ package org.aying.echarts.style;
 
 import org.aying.echarts.base.LineType;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
+ * The simple implementation of the {@code LineStyle}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultLineStyle extends DefaultShadowStyle implements LineStyle {
+public class SimpleLineStyle extends BaseShadowStyle<SimpleLineStyle> implements LineStyle {
 
     private static final long serialVersionUID = -7035070045694988070L;
 
     private Integer width;
     private LineType type;
+
+    public SimpleLineStyle() {
+        super();
+    }
 
     @Override
     public Integer getWidth() {
@@ -51,9 +58,9 @@ public class DefaultLineStyle extends DefaultShadowStyle implements LineStyle {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultLineStyle)) return false;
+        if (!(o instanceof SimpleLineStyle)) return false;
         if (!super.equals(o)) return false;
-        DefaultLineStyle that = (DefaultLineStyle) o;
+        SimpleLineStyle that = (SimpleLineStyle) o;
         return Objects.equals(width, that.width) &&
                 type == that.type;
     }
@@ -61,5 +68,13 @@ public class DefaultLineStyle extends DefaultShadowStyle implements LineStyle {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), width, type);
+    }
+
+    @Override
+    protected Map<String, Object> toStringMap() {
+        Map<String, Object> map = super.toStringMap();
+        map.put("width", getWidth());
+        map.put("type", getType());
+        return map;
     }
 }

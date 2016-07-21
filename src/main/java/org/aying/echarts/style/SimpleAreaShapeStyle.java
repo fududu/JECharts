@@ -22,7 +22,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class SimpleAreaShapeStyle extends DefaultShapeStyle implements AreaShapeStyle {
+public class SimpleAreaShapeStyle extends SimpleShapeStyle implements AreaShapeStyle {
 
     private static final long serialVersionUID = -6066880755877122935L;
 
@@ -30,6 +30,11 @@ public class SimpleAreaShapeStyle extends DefaultShapeStyle implements AreaShape
 
     public SimpleAreaShapeStyle() {
         super();
+    }
+
+    public SimpleAreaShapeStyle areaColor(String areaColor) {
+        this.areaColor = areaColor;
+        return this;
     }
 
     @Override

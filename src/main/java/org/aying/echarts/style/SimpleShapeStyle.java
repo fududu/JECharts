@@ -18,18 +18,25 @@ package org.aying.echarts.style;
 
 import org.aying.echarts.base.LineType;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
+ * The simple implementation of the {@code ShapeStyle}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultShapeStyle extends DefaultShadowStyle implements ShapeStyle {
+public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implements ShapeStyle {
 
     private static final long serialVersionUID = -4421399723447580397L;
     private String borderColor;
     private Integer borderWidth;
     private LineType borderType;
+
+    public SimpleShapeStyle() {
+        super();
+    }
 
     @Override
     public String getBorderColor() {
@@ -61,9 +68,9 @@ public class DefaultShapeStyle extends DefaultShadowStyle implements ShapeStyle 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultShapeStyle)) return false;
+        if (!(o instanceof SimpleShapeStyle)) return false;
         if (!super.equals(o)) return false;
-        DefaultShapeStyle that = (DefaultShapeStyle) o;
+        SimpleShapeStyle that = (SimpleShapeStyle) o;
         return Objects.equals(borderColor, that.borderColor) &&
                 Objects.equals(borderWidth, that.borderWidth) &&
                 borderType == that.borderType;
@@ -72,5 +79,14 @@ public class DefaultShapeStyle extends DefaultShadowStyle implements ShapeStyle 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), borderColor, borderWidth, borderType);
+    }
+
+    @Override
+    protected Map<String, Object> toStringMap() {
+        Map<String, Object> map = super.toStringMap();
+        map.put("borderColor", getBorderColor());
+        map.put("borderWidth", getBorderWidth());
+        map.put("borderType", getBorderType());
+        return map;
     }
 }

@@ -18,6 +18,12 @@ package org.aying.echarts.style;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.style.font.FontStyle;
+import org.intellij.lang.annotations.MagicConstant;
+
+import static org.aying.echarts.style.font.FontWeight.*;
+import static org.aying.echarts.style.font.FontWeight.W700;
+import static org.aying.echarts.style.font.FontWeight.W800;
+import static org.aying.echarts.style.font.FontWeight.W900;
 
 /**
  * 文本文字样式。
@@ -25,16 +31,8 @@ import org.aying.echarts.style.font.FontStyle;
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = DefaultTextStyle.class)
+@JsonDeserialize(as = SimpleTextStyle.class)
 public interface TextStyle extends Style {
-
-    static DefaultTextStyle newStyle() {
-        return new DefaultTextStyle();
-    }
-
-    static TextStyle font(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
-        return new DefaultTextStyle(fontStyle, fontWeight, fontSize, fontFamily);
-    }
 
     /**
      * 文字样式。
@@ -56,4 +54,54 @@ public interface TextStyle extends Style {
      * 字体大小。
      */
     Integer getFontSize();
+
+    @SuppressWarnings("unchecked")
+    TextStyle color(String color);
+
+    /**
+     * 设置字体样式。
+     *
+     * @param style 字体样式。
+     * @return 此文本样式。
+     */
+    TextStyle fontStyle(FontStyle style);
+
+    /**
+     * 设置字体宽度。
+     *
+     * @param weight 字体宽度。
+     * @return 此文本样式。
+     */
+    TextStyle fontWeight(
+            @MagicConstant(intValues = {W100, W200, W300, W400, W500, W600, W700, W800, W900})
+            int weight);
+
+    /**
+     * 设置为粗体字。
+     */
+    TextStyle bold();
+
+    /**
+     * 文本使用比粗体更粗的字。
+     */
+    TextStyle bolder();
+
+    /**
+     * 文本使用淡字体。
+     */
+    TextStyle lighter();
+
+    /**
+     * 设置文本的字体样式名称。
+     *
+     * @param fontFamily 字体名称。
+     */
+    TextStyle fontFamily(String fontFamily);
+
+    /**
+     * 设置文本的字体大小。
+     *
+     * @param fontSize 字体大小。
+     */
+    TextStyle fontSize(int fontSize);
 }

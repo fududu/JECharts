@@ -30,7 +30,7 @@ import static org.aying.echarts.style.font.FontWeight.*;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements TextStyle {
+public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextStyle {
 
     private static final long serialVersionUID = -7037742340818566884L;
 
@@ -39,23 +39,25 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
     private String fontFamily;
     private Integer fontSize;
 
-    public DefaultTextStyle() {
+    public SimpleTextStyle() {
         super();
     }
 
-    public DefaultTextStyle(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
+    public SimpleTextStyle(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
         this.fontStyle = fontStyle;
         this.fontWeight = fontWeight;
         this.fontSize = fontSize;
         this.fontFamily = fontFamily;
     }
 
-    public DefaultTextStyle fontStyle(FontStyle style) {
+    @Override
+    public SimpleTextStyle fontStyle(FontStyle style) {
         this.fontStyle = style;
         return this;
     }
 
-    public DefaultTextStyle fontWeight(
+    @Override
+    public SimpleTextStyle fontWeight(
             @MagicConstant(intValues = {W100, W200, W300, W400, W500, W600, W700, W800, W900})
             int weight) {
         this.fontWeight = weight;
@@ -65,7 +67,7 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
     /**
      * 文本使用粗体字。
      */
-    public DefaultTextStyle bold() {
+    public SimpleTextStyle bold() {
         this.fontWeight = FontWeight.bold;
         return this;
     }
@@ -73,7 +75,7 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
     /**
      * 文本使用比粗体更粗的字。
      */
-    public DefaultTextStyle bolder() {
+    public SimpleTextStyle bolder() {
         this.fontWeight = FontWeight.bolder;
         return this;
     }
@@ -81,7 +83,7 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
     /**
      * 文本使用淡字体。
      */
-    public DefaultTextStyle lighter() {
+    public SimpleTextStyle lighter() {
         this.fontWeight = FontWeight.lighter;
         return this;
     }
@@ -91,7 +93,7 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
      *
      * @param fontFamily 字体名称。
      */
-    public DefaultTextStyle fontFamily(String fontFamily) {
+    public SimpleTextStyle fontFamily(String fontFamily) {
         this.fontFamily = fontFamily;
         return this;
     }
@@ -101,7 +103,7 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
      *
      * @param fontSize 字体大小。
      */
-    public DefaultTextStyle fontSize(int fontSize) {
+    public SimpleTextStyle fontSize(int fontSize) {
         this.fontSize = fontSize;
         return this;
     }
@@ -167,9 +169,9 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultTextStyle)) return false;
+        if (!(o instanceof SimpleTextStyle)) return false;
         if (!super.equals(o)) return false;
-        DefaultTextStyle that = (DefaultTextStyle) o;
+        SimpleTextStyle that = (SimpleTextStyle) o;
         return fontStyle == that.fontStyle &&
                 Objects.equals(fontWeight, that.fontWeight) &&
                 Objects.equals(fontFamily, that.fontFamily) &&
@@ -183,12 +185,14 @@ public class DefaultTextStyle extends DefaultStyle<DefaultTextStyle> implements 
 
     @Override
     public String toString() {
-        return "org.aying.echarts.style.DefaultTextStyle{" +
-                "color=" + color +
-                "fontStyle=" + fontStyle +
-                ", fontWeight=" + fontWeight +
-                ", fontFamily='" + fontFamily + '\'' +
-                ", fontSize=" + fontSize +
-                '}';
+        StringBuilder builder = new StringBuilder(32)
+                .append(getClass()).append("{");
+        builder.append("color=").append(color)
+                .append("fontStyle=").append(fontStyle)
+                .append(", fontWeight=").append(fontWeight)
+                .append(", fontFamily='").append(fontFamily).append('\'')
+                .append(", fontSize=")
+                .append(fontSize).append('}');
+        return builder.toString();
     }
 }

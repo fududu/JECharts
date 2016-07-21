@@ -25,6 +25,8 @@ import java.util.Objects;
 public abstract class SizeGraph<T extends SizeGraph<T>> extends Graph<T>
         implements Position<T>, CanvasZ<T>, Size<T> {
 
+    private static final long serialVersionUID = 1L;
+
     private final SimpleSize simpleSize;
 
     protected SizeGraph() {

@@ -16,14 +16,19 @@
 
 package org.aying.echarts.style;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
+ * 选框样式。
+ *
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = SimpleAreaShapeStyle.class)
-public interface AreaShapeStyle extends ShapeStyle {
+public interface SelectStyle extends Style {
 
-    Object getAreaColor();
+    Integer getWidth();
+
+    Integer getBorderWidth();
+
+    String getBorderColor();
+
+    Double getOpacity();
 }

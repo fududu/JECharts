@@ -16,12 +16,15 @@
 
 package org.aying.echarts.style;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * 图形阴影样式。
  *
  * @author Fuchun
  * @since 1.0
  */
+@JsonDeserialize(as = SimpleShadowStyle.class)
 public interface ShadowStyle extends Style {
 
     /**

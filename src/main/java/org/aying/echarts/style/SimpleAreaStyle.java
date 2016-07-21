@@ -20,11 +20,11 @@ package org.aying.echarts.style;
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultAreaStyle extends DefaultShadowStyle {
+public class SimpleAreaStyle extends BaseShadowStyle<SimpleAreaStyle> {
 
     private static final long serialVersionUID = -3720334862022838667L;
 
-    public DefaultAreaStyle() {
+    public SimpleAreaStyle() {
         super();
     }
 }

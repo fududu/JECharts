@@ -19,6 +19,8 @@ package org.aying.echarts.base;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.aying.echarts.util.Validators;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -232,5 +234,14 @@ public abstract class BasePosition<P extends BasePosition<P>> implements Positio
     public String toString() {
         return String.format("%s{left=%s, right=%s, top=%s, bottom=%s}",
                 getClass(), left, right, top, bottom);
+    }
+
+    protected Map<String, Object> propsMap() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("top", getTop());
+        map.put("right", getRight());
+        map.put("bottom", getBottom());
+        map.put("left", getLeft());
+        return map;
     }
 }

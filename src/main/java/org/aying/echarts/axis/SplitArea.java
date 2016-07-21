@@ -19,7 +19,7 @@ package org.aying.echarts.axis;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.style.AreaStyle;
-import org.aying.echarts.style.DefaultAreaStyle;
+import org.aying.echarts.style.SimpleAreaStyle;
 
 import java.io.Serializable;
 
@@ -56,7 +56,7 @@ public class SplitArea implements Serializable {
     }
 
     @JsonProperty(required = false)
-    @JsonDeserialize(as = DefaultAreaStyle.class)
+    @JsonDeserialize(as = SimpleAreaStyle.class)
     public AreaStyle getAreaStyle() {
         return areaStyle;
     }

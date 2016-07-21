@@ -16,22 +16,66 @@
 
 package org.aying.echarts.style;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
 /**
+ * The base implementation of the {@code ShadowStyle}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultShadowStyle extends DefaultStyle implements ShadowStyle {
+public class BaseShadowStyle<S extends BaseShadowStyle<S>> extends BaseStyle<S>
+        implements ShadowStyle, Serializable {
 
-    private static final long serialVersionUID = 7983712349271386828L;
+    private static final long serialVersionUID = 1L;
 
     private Integer shadowBlur;
     private String shadowColor;
     private Integer shadowOffsetX;
     private Integer shadowOffsetY;
     private Double opacity;
+
+    protected BaseShadowStyle() {
+        super();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected S me() {
+        return (S) this;
+    }
+
+    public S shadowColor(String color) {
+        this.shadowColor = color;
+        return me();
+    }
+
+    public S shadowBlur(int blur) {
+        this.shadowBlur = blur;
+        return me();
+    }
+
+    /**
+     * 设置阴影水平和垂直方向上的偏移距离。如果不需偏移，则设置为0。
+     *
+     * @param offsetX 阴影水平方向上的偏移距离
+     * @param offsetY 阴影垂直方向上的偏移距离
+     */
+    public S shadowOffset(int offsetX, int offsetY) {
+        this.shadowOffsetX = offsetX;
+        this.shadowOffsetY = offsetY;
+        return me();
+    }
+
+    public S opacity(double opacity) {
+        if (Double.isInfinite(opacity)) {
+            throw new IllegalArgumentException("The shape opacity value range is [0, 1]");
+        }
+        this.opacity = opacity;
+        return me();
+    }
 
     @Override
     public Integer getShadowBlur() {
@@ -81,9 +125,9 @@ public class DefaultShadowStyle extends DefaultStyle implements ShadowStyle {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultShadowStyle)) return false;
+        if (!(o instanceof BaseShadowStyle)) return false;
         if (!super.equals(o)) return false;
-        DefaultShadowStyle that = (DefaultShadowStyle) o;
+        BaseShadowStyle that = (BaseShadowStyle) o;
         return Objects.equals(shadowBlur, that.shadowBlur) &&
                 Objects.equals(shadowColor, that.shadowColor) &&
                 Objects.equals(shadowOffsetX, that.shadowOffsetX) &&
@@ -110,8 +154,9 @@ public class DefaultShadowStyle extends DefaultStyle implements ShadowStyle {
     @Override
     public String toString() {
         Map<String, Object> map = toStringMap();
-        StringBuilder builder = new StringBuilder(getClass().getName());
-        builder.append("{");
+        StringBuilder builder = new StringBuilder(32)
+                .append(getClass()).append("{");
+
         map.forEach((k, v) -> builder.append(k).append("=")
                 .append(String.valueOf(v))
                 .append(","));

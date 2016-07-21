@@ -16,14 +16,17 @@
 
 package org.aying.echarts.style;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
+ * The simple implementation of the {@code ShadowStyle}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = SimpleAreaShapeStyle.class)
-public interface AreaShapeStyle extends ShapeStyle {
+public class SimpleShadowStyle extends BaseShadowStyle<SimpleShadowStyle> {
 
-    Object getAreaColor();
+    private static final long serialVersionUID = 5576447656565225217L;
+
+    public SimpleShadowStyle() {
+        super();
+    }
 }

@@ -18,8 +18,6 @@ package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.aying.echarts.style.DefaultTextStyle;
 
 import java.io.Serializable;
 import java.time.format.TextStyle;
@@ -47,7 +45,7 @@ public class RadarName implements Serializable {
     public RadarName(
             @JsonProperty(required = false) Boolean show,
             @JsonProperty(required = false) String formatter,
-            @JsonDeserialize(as = DefaultTextStyle.class) TextStyle textStyle) {
+            @JsonProperty(required = false) TextStyle textStyle) {
         this.show = show;
         this.formatter = formatter;
         this.textStyle = textStyle;
@@ -94,7 +92,7 @@ public class RadarName implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.RadarName{show=%s, formatter='%s', textStyle=%s}",
-                show, formatter, textStyle);
+        return String.format("%s{show=%s, formatter='%s', textStyle=%s}",
+                getClass(), show, formatter, textStyle);
     }
 }

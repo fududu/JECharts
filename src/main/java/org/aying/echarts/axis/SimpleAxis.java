@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+package org.aying.echarts.axis;
 
 /**
+ * The simple implementation of the {@code Axis}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = SimpleAreaShapeStyle.class)
-public interface AreaShapeStyle extends ShapeStyle {
+public class SimpleAxis extends Axis<SimpleAxis> {
 
-    Object getAreaColor();
+    private static final long serialVersionUID = 7200236594048213083L;
+
+    public SimpleAxis() {
+        super();
+    }
+
+    public SimpleAxis(AxisType type) {
+        super(type);
+    }
 }

@@ -16,15 +16,18 @@
 
 package org.aying.echarts.style;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
+ * The base implementation of the {@code Style}.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public class DefaultStyle<T extends DefaultStyle<T>> implements Style {
+public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -32,7 +35,7 @@ public class DefaultStyle<T extends DefaultStyle<T>> implements Style {
      */
     protected String color;
 
-    public DefaultStyle() {
+    protected BaseStyle() {
         super();
     }
 
@@ -46,6 +49,7 @@ public class DefaultStyle<T extends DefaultStyle<T>> implements Style {
      *
      * @param color 样式颜色。
      */
+    @Override
     public T color(String color) {
         this.color = color;
         return me();
@@ -63,8 +67,8 @@ public class DefaultStyle<T extends DefaultStyle<T>> implements Style {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultStyle)) return false;
-        DefaultStyle that = (DefaultStyle) o;
+        if (!(o instanceof BaseStyle)) return false;
+        BaseStyle that = (BaseStyle) o;
         return Objects.equals(color, that.color);
     }
 

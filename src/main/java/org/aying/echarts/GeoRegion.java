@@ -17,14 +17,25 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.Label;
+import org.aying.echarts.base.SimpleLabel;
+import org.aying.echarts.style.AreaShapeStyle;
 import org.aying.echarts.style.ShapeStyle;
+import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * 地图指定区域的具体描述模型。
+ * <pre>{@code
+ * Geo geo = Geo.geo("China")
+ *         ... ...
+ *         .regions(
+ *             GeoRegion.named("广东").normalStyle()
+ *         );
+ * }</pre>
  *
  * @author Fuchun
  * @since 1.0
@@ -32,6 +43,11 @@ import java.util.Objects;
 public class GeoRegion implements Serializable {
 
     private static final long serialVersionUID = -3212079129367343670L;
+
+    @Contract("null -> fail")
+    public static GeoRegion named(String name) {
+        return new GeoRegion(name);
+    }
 
     /* 地图区域的名称，例如 '广东'，'浙江'。 */
     private String name;
@@ -44,6 +60,68 @@ public class GeoRegion implements Serializable {
 
     public GeoRegion() {
         super();
+    }
+
+    public GeoRegion(String name) {
+        Objects.requireNonNull(name, "name");
+        this.name = name;
+    }
+
+    public GeoRegion selected() {
+        this.selected = Boolean.TRUE;
+        return this;
+    }
+
+    /**
+     * 设置普通状态下的多边形样式。
+     *
+     * @param style 多边形样式。
+     */
+    public GeoRegion normalStyle(AreaShapeStyle style) {
+        return itemStyle("normal", style);
+    }
+
+    /**
+     * 设置高亮状态下的多边形样式。
+     *
+     * @param style 多边形样式。
+     */
+    public GeoRegion emphasisStyle(AreaShapeStyle style) {
+        return itemStyle("emphasis", style);
+    }
+
+    /**
+     * 设置普通状态下的标签属性及样式。
+     *
+     * @param label 标签属性及样式。
+     */
+    public GeoRegion normalLabel(SimpleLabel label) {
+        return label("normal", label);
+    }
+
+    /**
+     * 设置高亮状态下的标签属性及样式。
+     *
+     * @param label 标签属性及样式。
+     */
+    public GeoRegion emphasisLabel(SimpleLabel label) {
+        return label("emphasis", label);
+    }
+
+    protected GeoRegion label(String key, SimpleLabel label) {
+        if (this.label == null) {
+            this.label = new HashMap<>(2);
+        }
+        this.label.put(key, label);
+        return this;
+    }
+
+    protected GeoRegion itemStyle(String key, ShapeStyle style) {
+        if (itemStyle == null) {
+            itemStyle = new HashMap<>(2);
+        }
+        itemStyle.put(key, style);
+        return this;
     }
 
     public String getName() {

@@ -33,6 +33,10 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
 
     private static final long serialVersionUID = 1L;
 
+    public static SimpleAxis simple() {
+        return new SimpleAxis();
+    }
+
     private AxisType type;
     private Object name;
     private NameLocation nameLocation;

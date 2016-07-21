@@ -19,7 +19,7 @@ package org.aying.echarts;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.*;
-import org.aying.echarts.style.DefaultTextStyle;
+import org.aying.echarts.style.SimpleTextStyle;
 import org.aying.echarts.style.TextStyle;
 
 import java.io.Serializable;
@@ -106,7 +106,7 @@ public abstract class BaseProp<T extends BaseProp<T>>
     }
 
     @JsonProperty(required = false)
-    @JsonDeserialize(as = DefaultTextStyle.class)
+    @JsonDeserialize(as = SimpleTextStyle.class)
     public TextStyle getTextStyle() {
         return textStyle;
     }
@@ -166,7 +166,7 @@ public abstract class BaseProp<T extends BaseProp<T>>
     }
 
     @JsonProperty(value = "subtextStyle", required = false)
-    @JsonDeserialize(as = DefaultTextStyle.class)
+    @JsonDeserialize(as = SimpleTextStyle.class)
     public void setSubTextStyle(TextStyle subTextStyle) {
         this.subTextStyle = subTextStyle;
     }
