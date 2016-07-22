@@ -17,24 +17,30 @@
 package org.aying.echarts.base;
 
 /**
+ * 坐标系统枚举。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public enum CoordinateSystem {
 
-    SymbolType getSymbol();
+    /**
+     * 二维的直角坐标系
+     */
+    cartesian2d,
 
-    Integer getSymbolSize();
+    /**
+     * 极坐标系
+     */
+    polar,
 
-    Integer getSymbolRotate();
+    /**
+     * 地理坐标系
+     */
+    geo,
 
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    /**
+     * 平行坐标系
+     */
+    parallel
 }

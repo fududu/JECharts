@@ -99,6 +99,15 @@ public abstract class Graph<T extends Graph<T>> extends BasePosition<T>
         return map;
     }
 
+    protected void appendToString(StringBuilder builder) {
+        builder.append(", zlevel=").append(getZlevel());
+        builder.append(", z=").append(getZ());
+        builder.append(", top=").append(getTop());
+        builder.append(", right=").append(getRight());
+        builder.append(", bottom=").append(getBottom());
+        builder.append(", left=").append(getLeft());
+    }
+
     @Override
     public String toString() {
         return String.format("%s{canvasZ=%s} %s", getClass(), canvasZ, super.toString());

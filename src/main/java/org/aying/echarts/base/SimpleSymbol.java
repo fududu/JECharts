@@ -17,24 +17,21 @@
 package org.aying.echarts.base;
 
 /**
+ * The simple {@code Symbol} implementation.
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class SimpleSymbol extends BaseSymbol<SimpleSymbol> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = -2642219352442662667L;
 
-    Integer getSymbolSize();
+    public SimpleSymbol() {
+        super();
+    }
 
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    @Override
+    public void appendToString(StringBuilder builder) {
+        super.appendToString(builder);
+    }
 }

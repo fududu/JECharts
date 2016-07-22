@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.series;
 
 /**
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class MarkPoint extends Mark<MarkPoint> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = 5932367608269815359L;
 
-    Integer getSymbolSize();
-
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    public MarkPoint() {
+        super();
+    }
 }

@@ -20,21 +20,11 @@ package org.aying.echarts.base;
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class SimpleAnimation extends BaseAnimation<SimpleAnimation> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = 6705436760693025224L;
 
-    Integer getSymbolSize();
-
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    public SimpleAnimation() {
+        super();
+    }
 }

@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.style;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.aying.echarts.base.State;
 
 /**
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class StateShapeStyle extends State<StateShapeStyle, ShapeStyle> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = 8417504858904299064L;
 
-    Integer getSymbolSize();
+    public StateShapeStyle() {
+        super();
+    }
 
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    @JsonCreator
+    public StateShapeStyle(
+            @JsonProperty(value = KEY_NORMAL, required = false) ShapeStyle normal,
+            @JsonProperty(value = KEY_EMPHASIS, required = false) ShapeStyle emphasis) {
+        super(normal, emphasis);
+    }
 }

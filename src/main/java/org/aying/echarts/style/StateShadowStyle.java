@@ -14,27 +14,23 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.style;
+
+import org.aying.echarts.base.State;
 
 /**
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class StateShadowStyle extends State<StateShadowStyle, ShadowStyle> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = -3938578084054782538L;
 
-    Integer getSymbolSize();
+    public StateShadowStyle() {
+        super();
+    }
 
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    public StateShadowStyle(ShadowStyle normal, ShadowStyle emphasis) {
+        super(normal, emphasis);
+    }
 }

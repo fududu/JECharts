@@ -17,24 +17,29 @@
 package org.aying.echarts.base;
 
 /**
+ * 动画配置接口。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public interface Animation {
 
-    SymbolType getSymbol();
+    /***
+     * 是否开启动画，默认开启。
+     */
+    Boolean getAnimation();
 
-    Integer getSymbolSize();
+    Integer getAnimationThreshold();
 
-    Integer getSymbolRotate();
+    Integer getAnimationDuration();
 
-    Object[] getSymbolOffset();
+    AnimationEasing getAnimationEasing();
 
-    S symbol(SymbolType symbolType);
+    Object getAnimationDelay();
 
-    S symbolSize(Integer size);
+    Integer getAnimationDurationUpdate();
 
-    S symbolRotate(Integer rotate);
+    AnimationEasing getAnimationEasingUpdate();
 
-    S offset(Object x, Object y);
+    Object getAnimationDelayUpdate();
 }

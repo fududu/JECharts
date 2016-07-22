@@ -17,24 +17,72 @@
 package org.aying.echarts.base;
 
 /**
+ * ECharts 缓动效果枚举。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public enum AnimationEasing {
 
-    SymbolType getSymbol();
+    linear,
 
-    Integer getSymbolSize();
+    quadraticIn,
 
-    Integer getSymbolRotate();
+    quadraticOut,
 
-    Object[] getSymbolOffset();
+    quadraticInOut,
 
-    S symbol(SymbolType symbolType);
+    cubicIn,
 
-    S symbolSize(Integer size);
+    cubicOut,
 
-    S symbolRotate(Integer rotate);
+    cubicInOut,
 
-    S offset(Object x, Object y);
+    quarticIn,
+
+    quarticOut,
+
+    quarticInOut,
+
+    quinticIn,
+
+    quinticOut,
+
+    quinticInOut,
+
+    sinusoidalIn,
+
+    sinusoidalOut,
+
+    sinusoidalInOut,
+
+    exponetialIn,
+
+    exponetialOut,
+
+    exponetialInOut,
+
+    circularIn,
+
+    circularOut,
+
+    circularInOut,
+
+    elasticIn,
+
+    elasticOut,
+
+    elasticInOut,
+
+    backIn,
+
+    backOut,
+
+    backInOut,
+
+    bounceIn,
+
+    bounceOut,
+
+    bounceInOut
 }

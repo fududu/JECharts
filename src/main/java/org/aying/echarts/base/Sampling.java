@@ -17,24 +17,18 @@
 package org.aying.echarts.base;
 
 /**
+ * 取样（抽样）枚举。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public enum Sampling {
 
-    SymbolType getSymbol();
+    average,
 
-    Integer getSymbolSize();
+    min,
 
-    Integer getSymbolRotate();
+    max,
 
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    sum
 }

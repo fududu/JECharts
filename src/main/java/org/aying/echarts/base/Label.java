@@ -33,6 +33,10 @@ public class Label implements Serializable {
     private static final long serialVersionUID = -8850807328172978264L;
 
     private Boolean show;
+    /* label 的间隔。当指定为数值时，例如指定为 2，则每隔两个显示一个 label。*/
+    private Object interval;
+    /* label 的旋转角度。正值表示逆时针旋转。 */
+    private Integer rotate;
     private Object position;
     private Object formatter;
     private TextStyle textStyle;
@@ -43,6 +47,14 @@ public class Label implements Serializable {
 
     public Label show() {
         this.show = Boolean.TRUE;
+        return this;
+    }
+
+    /**
+     * 隐藏{@code Label}。
+     */
+    public Label hide() {
+        this.show = Boolean.FALSE;
         return this;
     }
 
@@ -79,6 +91,22 @@ public class Label implements Serializable {
 
     public void setShow(Boolean show) {
         this.show = show;
+    }
+
+    public Object getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Object interval) {
+        this.interval = interval;
+    }
+
+    public Integer getRotate() {
+        return rotate;
+    }
+
+    public void setRotate(Integer rotate) {
+        this.rotate = rotate;
     }
 
     public Object getPosition() {

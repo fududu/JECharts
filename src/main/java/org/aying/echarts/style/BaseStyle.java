@@ -50,6 +50,7 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
      * @param color 样式颜色。
      */
     @Override
+    @SuppressWarnings("unchecked")
     public T color(String color) {
         this.color = color;
         return me();

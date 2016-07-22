@@ -18,7 +18,7 @@ package org.aying.echarts;
 
 import org.aying.echarts.base.Piecewise;
 import org.aying.echarts.base.SelectedMode;
-import org.aying.echarts.base.Symbol;
+import org.aying.echarts.base.SymbolType;
 import org.jetbrains.annotations.Contract;
 
 import java.util.LinkedList;
@@ -45,8 +45,8 @@ public class PiecewiseVisualMap extends VisualMap<PiecewiseVisualMap> {
     private SelectedMode selectedMode;
     /* 每两个图元之间的间隔距离，单位为px。默认：10 */
     private Integer itemGap;
-    /* 项的图形。默认：Symbol.roundRect */
-    private Symbol itemSymbol;
+    /* 项的图形。默认：SymbolType.roundRect */
+    private SymbolType itemSymbol;
 
     public PiecewiseVisualMap() {
         super("piecewise");
@@ -168,11 +168,11 @@ public class PiecewiseVisualMap extends VisualMap<PiecewiseVisualMap> {
     /**
      * 设置{@code VisualMap} 的图元的默认图形。
      *
-     * @param symbol 图无图形。
+     * @param symbolType 图无图形。
      */
-    public PiecewiseVisualMap itemSymbol(Symbol symbol) {
-        if (symbol == null) return this;
-        this.itemSymbol = symbol;
+    public PiecewiseVisualMap itemSymbol(SymbolType symbolType) {
+        if (symbolType == null) return this;
+        this.itemSymbol = symbolType;
         return this;
     }
 
@@ -216,11 +216,11 @@ public class PiecewiseVisualMap extends VisualMap<PiecewiseVisualMap> {
         this.itemGap = itemGap;
     }
 
-    public Symbol getItemSymbol() {
+    public SymbolType getItemSymbol() {
         return itemSymbol;
     }
 
-    public void setItemSymbol(Symbol itemSymbol) {
+    public void setItemSymbol(SymbolType itemSymbol) {
         this.itemSymbol = itemSymbol;
     }
 }

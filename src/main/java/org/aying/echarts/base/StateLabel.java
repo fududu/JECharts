@@ -20,21 +20,15 @@ package org.aying.echarts.base;
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public class StateLabel extends State<StateLabel, Label> {
 
-    SymbolType getSymbol();
+    private static final long serialVersionUID = 5170274833949878474L;
 
-    Integer getSymbolSize();
+    public StateLabel() {
+        super();
+    }
 
-    Integer getSymbolRotate();
-
-    Object[] getSymbolOffset();
-
-    S symbol(SymbolType symbolType);
-
-    S symbolSize(Integer size);
-
-    S symbolRotate(Integer rotate);
-
-    S offset(Object x, Object y);
+    public StateLabel(Label normal, Label emphasis) {
+        super(normal, emphasis);
+    }
 }

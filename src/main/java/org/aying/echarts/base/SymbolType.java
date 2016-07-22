@@ -17,24 +17,50 @@
 package org.aying.echarts.base;
 
 /**
+ * ECharts 内置的图元（标记）枚举。
+ *
  * @author Fuchun
  * @since 1.0
  */
-public interface Symbol<S extends Symbol<S>> {
+public enum SymbolType {
 
-    SymbolType getSymbol();
+    /**
+     * 空心圆。
+     */
+    emptyCircle,
 
-    Integer getSymbolSize();
+    /**
+     * 圆形。
+     */
+    circle,
 
-    Integer getSymbolRotate();
+    /**
+     * 矩形。
+     */
+    rect,
 
-    Object[] getSymbolOffset();
+    /**
+     * 圆角矩形
+     */
+    roundRect,
 
-    S symbol(SymbolType symbolType);
+    /**
+     * 三角形
+     */
+    triangle,
 
-    S symbolSize(Integer size);
+    /**
+     * 方块（钻石）
+     */
+    diamond,
 
-    S symbolRotate(Integer rotate);
+    /**
+     * 针形
+     */
+    pin,
 
-    S offset(Object x, Object y);
+    /**
+     * 箭头。
+     */
+    arrow
 }
