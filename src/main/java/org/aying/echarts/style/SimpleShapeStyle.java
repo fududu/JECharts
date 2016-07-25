@@ -33,6 +33,8 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
     private String borderColor;
     private Integer borderWidth;
     private LineType borderType;
+    // 文本样式（极少数会用到）
+    private TextStyle textStyle;
 
     public SimpleShapeStyle() {
         super();
@@ -66,6 +68,15 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
     }
 
     @Override
+    public TextStyle getTextStyle() {
+        return textStyle;
+    }
+
+    public void setTextStyle(TextStyle textStyle) {
+        this.textStyle = textStyle;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SimpleShapeStyle)) return false;
@@ -73,12 +84,13 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
         SimpleShapeStyle that = (SimpleShapeStyle) o;
         return Objects.equals(borderColor, that.borderColor) &&
                 Objects.equals(borderWidth, that.borderWidth) &&
-                borderType == that.borderType;
+                borderType == that.borderType &&
+                Objects.equals(textStyle, that.textStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), borderColor, borderWidth, borderType);
+        return Objects.hash(super.hashCode(), borderColor, borderWidth, borderType, textStyle);
     }
 
     @Override
@@ -87,6 +99,7 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
         map.put("borderColor", getBorderColor());
         map.put("borderWidth", getBorderWidth());
         map.put("borderType", getBorderType());
+        map.put("textStyle", getTextStyle());
         return map;
     }
 }

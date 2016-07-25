@@ -14,37 +14,34 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.series;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.aying.echarts.base.LineType;
+import org.aying.echarts.ChartType;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * 图形样式。
+ * ECharts 系列(series)配置模型接口。
  *
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = SimpleShapeStyle.class)
-public interface ShapeStyle extends ShadowStyle {
+public interface Serie {
 
     /**
-     * 图形的描边颜色。支持的格式同 color。
+     * 系列（图表）类型。
      */
-    String getBorderColor();
+    @NotNull
+    ChartType getType();
 
     /**
-     * 描边线宽。为 0 时无描边。
+     * 返回系列配置的名称。某些图表不支此属性，返回{@code null}。
      */
-    Integer getBorderWidth();
+    String getName();
 
     /**
-     * 柱条的描边类型，默认为实线（{@code slider}）。
+     * 图形是否响应和触发鼠标事件。个别图表不支持此属性，返回{@code null}。
+     * <p />
+     * 大部份图表系列配置中，此属性为{@code Boolean}，只有个别为其他对象。
      */
-    LineType getBorderType();
-
-    /**
-     * 文本样式（极少数会用到）
-     */
-    TextStyle getTextStyle();
+    Object getSilent();
 }

@@ -167,6 +167,11 @@ public abstract class BaseAnimation<A extends BaseAnimation<A>>
                 animationDelay, animationDurationUpdate, animationEasingUpdate, animationDelayUpdate);
     }
 
+    protected void appendAnimation(StringBuilder builder) {
+        builder.append(", ");
+        appendToString(builder);
+    }
+
     protected void appendToString(StringBuilder builder) {
         builder.append("animation=").append(animation);
         builder.append(", animationThreshold=").append(animationThreshold);

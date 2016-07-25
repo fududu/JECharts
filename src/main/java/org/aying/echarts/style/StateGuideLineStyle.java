@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.style;
 
-import java.io.Serializable;
+import org.aying.echarts.base.State;
 
 /**
- * The simple {@link Position} implementation.
- *
  * @author Fuchun
  * @since 1.0
  */
-public class SimplePosition extends BasePosition<SimplePosition> implements Serializable {
+public class StateGuideLineStyle extends State<StateGuideLineStyle, GuideLineStyle> {
 
-    private static final long serialVersionUID = -1444290575310283222L;
+    private static final long serialVersionUID = 7897171901458993693L;
 
-    public SimplePosition() {
+    public StateGuideLineStyle() {
         super();
     }
 
-    public SimplePosition(Object top, Object right, Object bottom, Object left) {
-        super(top, right, bottom, left);
-    }
-
-    @Override
-    public void appendPosition(StringBuilder sb) {
-        super.appendPosition(sb);
+    public StateGuideLineStyle(GuideLineStyle normal, GuideLineStyle emphasis) {
+        super(normal, emphasis);
     }
 }

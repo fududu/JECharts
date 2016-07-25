@@ -236,6 +236,13 @@ public abstract class BasePosition<P extends BasePosition<P>> implements Positio
                 getClass(), left, right, top, bottom);
     }
 
+    protected void appendPosition(StringBuilder sb) {
+        sb.append(", top=").append(getTop());
+        sb.append(", right=").append(getRight());
+        sb.append(", bottom=").append(getBottom());
+        sb.append(", left=").append(getLeft());
+    }
+
     protected Map<String, Object> propsMap() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("top", getTop());

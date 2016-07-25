@@ -17,17 +17,13 @@
 package org.aying.echarts.series;
 
 import org.aying.echarts.ChartType;
-import org.aying.echarts.base.CoordinateSystem;
 import org.aying.echarts.base.Sampling;
 import org.aying.echarts.base.SimpleSymbol;
-import org.aying.echarts.base.StateLabel;
 import org.aying.echarts.base.Symbol;
 import org.aying.echarts.base.SymbolType;
 import org.aying.echarts.style.StateLineStyle;
 import org.aying.echarts.style.StateShadowStyle;
-import org.aying.echarts.style.StateShapeStyle;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -41,8 +37,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     private static final long serialVersionUID = -7764877237401130022L;
 
     private final transient SimpleSymbol simpleSymbol;
-
-    private CoordinateSystem coordinateSystem;
 
     /* 使用的 x 轴的 index，默认：0 */
     private Integer xAxisIndex;
@@ -66,10 +60,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     private Boolean clipOverflow;
     /* 是否是阶梯线图。默认：false */
     private Boolean step;
-    /* 图形文本标签配置 */
-    private StateLabel label;
-    /* 折线拐点标志的样式。*/
-    private StateShapeStyle itemStyle;
     /* 线条样式。 */
     private StateLineStyle lineStyle;
     /* 区域填充样式。 */
@@ -80,12 +70,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     private String smoothMonotone;
     /* 采样策略 */
     private Sampling sampling;
-    /* 图表标注配置。 */
-    private MarkPoint markPoint;
-    /* 图表标线配置。 */
-    private MarkLine markLine;
-    /* 图表标域配置。 */
-    private MarkArea markArea;
 
     public LineSerie() {
         super(ChartType.line);
@@ -114,14 +98,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     public LineSerie offset(Object x, Object y) {
         simpleSymbol.offset(x, y);
         return this;
-    }
-
-    public CoordinateSystem getCoordinateSystem() {
-        return coordinateSystem;
-    }
-
-    public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
-        this.coordinateSystem = coordinateSystem;
     }
 
     public Integer getxAxisIndex() {
@@ -248,22 +224,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
         this.step = step;
     }
 
-    public StateLabel getLabel() {
-        return label;
-    }
-
-    public void setLabel(StateLabel label) {
-        this.label = label;
-    }
-
-    public StateShapeStyle getItemStyle() {
-        return itemStyle;
-    }
-
-    public void setItemStyle(StateShapeStyle itemStyle) {
-        this.itemStyle = itemStyle;
-    }
-
     public StateLineStyle getLineStyle() {
         return lineStyle;
     }
@@ -304,30 +264,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
         this.sampling = sampling;
     }
 
-    public MarkPoint getMarkPoint() {
-        return markPoint;
-    }
-
-    public void setMarkPoint(MarkPoint markPoint) {
-        this.markPoint = markPoint;
-    }
-
-    public MarkLine getMarkLine() {
-        return markLine;
-    }
-
-    public void setMarkLine(MarkLine markLine) {
-        this.markLine = markLine;
-    }
-
-    public MarkArea getMarkArea() {
-        return markArea;
-    }
-
-    public void setMarkArea(MarkArea markArea) {
-        this.markArea = markArea;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -335,7 +271,6 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
         if (!super.equals(o)) return false;
         LineSerie lineSerie = (LineSerie) o;
         return Objects.equals(simpleSymbol, lineSerie.simpleSymbol) &&
-                coordinateSystem == lineSerie.coordinateSystem &&
                 Objects.equals(xAxisIndex, lineSerie.xAxisIndex) &&
                 Objects.equals(yAxisIndex, lineSerie.yAxisIndex) &&
                 Objects.equals(polarIndex, lineSerie.polarIndex) &&
@@ -347,40 +282,31 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
                 Objects.equals(connectNulls, lineSerie.connectNulls) &&
                 Objects.equals(clipOverflow, lineSerie.clipOverflow) &&
                 Objects.equals(step, lineSerie.step) &&
-                Objects.equals(label, lineSerie.label) &&
-                Objects.equals(itemStyle, lineSerie.itemStyle) &&
                 Objects.equals(lineStyle, lineSerie.lineStyle) &&
                 Objects.equals(areaStyle, lineSerie.areaStyle) &&
                 Objects.equals(smooth, lineSerie.smooth) &&
                 Objects.equals(smoothMonotone, lineSerie.smoothMonotone) &&
-                sampling == lineSerie.sampling &&
-                Objects.equals(markPoint, lineSerie.markPoint) &&
-                Objects.equals(markLine, lineSerie.markLine) &&
-                Objects.equals(markArea, lineSerie.markArea);
+                sampling == lineSerie.sampling;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), simpleSymbol, coordinateSystem, xAxisIndex, yAxisIndex,
+        return Objects.hash(super.hashCode(), simpleSymbol, xAxisIndex, yAxisIndex,
                 polarIndex, showSymbol, showAllSymbol, hoverAnimation, legendHoverLink, stack,
-                connectNulls, clipOverflow, step, label, itemStyle, lineStyle, areaStyle, smooth,
-                smoothMonotone, sampling, markPoint, markLine, markArea);
+                connectNulls, clipOverflow, step, lineStyle, areaStyle, smooth,
+                smoothMonotone, sampling);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        sb.append("type='").append(getType()).append("'");
-        sb.append(", name=").append(getName());
-        sb.append(", coordinateSystem=").append(coordinateSystem);
+        appendPrefix(sb);
+        sb.append(", coordinateSystem=").append(getCoordinateSystem());
         sb.append(", xAxisIndex=").append(xAxisIndex);
         sb.append(", yAxisIndex=").append(yAxisIndex);
         sb.append(", polarIndex=").append(polarIndex);
-        sb.append(", symbol=").append(getSymbol());
-        sb.append(", symbolSize=").append(getSymbolSize());
-        sb.append(", symbolRotate=").append(getSymbolRotate());
-        sb.append(", symbolOffset=").append(Arrays.toString(getSymbolOffset()));
+        simpleSymbol.appendSymbol(sb);
         sb.append(", showSymbol=").append(showSymbol);
         sb.append(", showAllSymbol=").append(showAllSymbol);
         sb.append(", hoverAnimation=").append(hoverAnimation);
@@ -389,22 +315,17 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
         sb.append(", connectNulls=").append(connectNulls);
         sb.append(", clipOverflow=").append(clipOverflow);
         sb.append(", step=").append(step);
-        sb.append(", label=").append(label);
-        sb.append(", itemStyle=").append(itemStyle);
+        sb.append(", label=").append(getLabel());
+        sb.append(", itemStyle=").append(getItemStyle());
         sb.append(", lineStyle=").append(lineStyle);
         sb.append(", areaStyle=").append(areaStyle);
         sb.append(", smooth=").append(smooth);
         sb.append(", smoothMonotone='").append(smoothMonotone).append('\'');
         sb.append(", sampling=").append(sampling);
         sb.append(", data=").append(getData());
-        sb.append(", markPoint=").append(markPoint);
-        sb.append(", markLine=").append(markLine);
-        sb.append(", markArea=").append(markArea);
-        sb.append(", zlevel=").append(getZlevel());
-        sb.append(", z=").append(getZ());
-        sb.append(", silent=").append(getSilent());
-        sb.append(", ");
-        appendToString(sb);
+        appendMarks(sb);
+        appendCanvasZ(sb);
+        appendAnimation(sb);
         sb.append('}');
         return sb.toString();
     }

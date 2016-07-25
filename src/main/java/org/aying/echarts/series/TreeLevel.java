@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.series;
 
 import java.io.Serializable;
 
 /**
- * The simple {@link Position} implementation.
+ * 树图层级配置模型。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class SimplePosition extends BasePosition<SimplePosition> implements Serializable {
-
-    private static final long serialVersionUID = -1444290575310283222L;
-
-    public SimplePosition() {
-        super();
-    }
-
-    public SimplePosition(Object top, Object right, Object bottom, Object left) {
-        super(top, right, bottom, left);
-    }
-
-    @Override
-    public void appendPosition(StringBuilder sb) {
-        super.appendPosition(sb);
-    }
+public class TreeLevel implements Serializable {
 }

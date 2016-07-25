@@ -30,6 +30,11 @@ public class SimpleSymbol extends BaseSymbol<SimpleSymbol> {
         super();
     }
 
+    public void appendSymbol(StringBuilder sb) {
+        sb.append(", ");
+        super.appendToString(sb);
+    }
+
     @Override
     public void appendToString(StringBuilder builder) {
         super.appendToString(builder);

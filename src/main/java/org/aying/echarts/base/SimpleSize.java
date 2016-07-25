@@ -39,4 +39,9 @@ public class SimpleSize extends BaseSize<SimpleSize> implements Serializable {
     public SimpleSize(String width, String height) {
         super(width, height);
     }
+
+    @Override
+    public void appendSize(StringBuilder sb) {
+        super.appendSize(sb);
+    }
 }

@@ -17,6 +17,7 @@
 package org.aying.echarts;
 
 import org.aying.echarts.base.Graph;
+import org.aying.echarts.base.Limit;
 import org.aying.echarts.base.SelectedMode;
 import org.aying.echarts.base.SimpleLabel;
 import org.aying.echarts.style.ShapeStyle;
@@ -56,7 +57,7 @@ public class Geo extends Graph<Geo> {
     /* 当前视角的缩放比例。默认：1*/
     private Integer zoom;
     /* 滚轮缩放的极限控制，通过min, max最小和最大的缩放值，默认的缩放为1。 */
-    private Map<String, Integer> scaleLimit;
+    private Limit.DoubleLimit scaleLimit;
     /* 自定义地区的名称映射 */
     private Map<String, String> nameMap;
     /* 选中模型。支持 SelectedMode 和 Boolean，默认：false */
@@ -99,11 +100,8 @@ public class Geo extends Graph<Geo> {
      * @param min 最小缩放值。
      * @param max 最大缩放值。
      */
-    public Geo scaleLimit(int min, int max) {
-        Map<String, Integer> limitMap = new HashMap<>(2);
-        limitMap.put("min", min);
-        limitMap.put("max", max);
-        this.scaleLimit = limitMap;
+    public Geo scaleLimit(double min, double max) {
+        this.scaleLimit = Limit.doubleLimit(min, max);
         return this;
     }
 
@@ -271,11 +269,11 @@ public class Geo extends Graph<Geo> {
         this.zoom = zoom;
     }
 
-    public Map<String, Integer> getScaleLimit() {
+    public Limit.DoubleLimit getScaleLimit() {
         return scaleLimit;
     }
 
-    public void setScaleLimit(Map<String, Integer> scaleLimit) {
+    public void setScaleLimit(Limit.DoubleLimit scaleLimit) {
         this.scaleLimit = scaleLimit;
     }
 

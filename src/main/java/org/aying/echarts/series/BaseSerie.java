@@ -21,18 +21,24 @@ import org.aying.echarts.ChartType;
 import org.aying.echarts.Data;
 import org.aying.echarts.base.BaseAnimation;
 import org.aying.echarts.base.CanvasZ;
+import org.aying.echarts.base.CoordinateSystem;
 import org.aying.echarts.base.SimpleCanvasZ;
+import org.aying.echarts.base.StateLabel;
+import org.aying.echarts.style.StateShapeStyle;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
+ * The base implementation of the {@code Serie}
+ *
  * @author Fuchun
  * @since 1.0
  */
 public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
-        implements CanvasZ<S>, Data<S>, Serializable {
+        implements Serie, CanvasZ<S>, Data<S>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,14 +47,31 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
     private final BaseData<?> data;
     /* CanvasZ proxy delegate */
     private final SimpleCanvasZ simpleCanvasZ;
+    private final transient boolean hasName;
     private String name;
-    private Boolean silent;
+    /* 该系列使用的坐标系 */
+    private CoordinateSystem coordinateSystem;
+    private Object silent;
+    /* 图形文本标签配置 */
+    private StateLabel label;
+    /* 折线拐点标志的样式。*/
+    private StateShapeStyle itemStyle;
+    /* 图表标注配置。 */
+    private MarkPoint markPoint;
+    /* 图表标线配置。 */
+    private MarkLine markLine;
+    /* 图表标域配置。 */
+    private MarkArea markArea;
 
+    protected BaseSerie(@NotNull ChartType type) {
+        this(type, true);
+    }
 
-    protected BaseSerie(ChartType type) {
+    protected BaseSerie(@NotNull ChartType type, boolean hasName) {
         this.type = type;
         this.data = BaseData.delegate();
         this.simpleCanvasZ = new SimpleCanvasZ();
+        this.hasName = hasName;
     }
 
     @SuppressWarnings("unchecked")
@@ -86,6 +109,7 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         return data.getData();
     }
 
+    @NotNull
     public ChartType getType() {
         return type;
     }
@@ -96,6 +120,14 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public CoordinateSystem getCoordinateSystem() {
+        return coordinateSystem;
+    }
+
+    public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
+        this.coordinateSystem = coordinateSystem;
     }
 
     @Override
@@ -128,12 +160,52 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         return me();
     }
 
-    public Boolean getSilent() {
+    public Object getSilent() {
         return silent;
     }
 
-    public void setSilent(Boolean silent) {
+    public void setSilent(Object silent) {
         this.silent = silent;
+    }
+
+    public StateLabel getLabel() {
+        return label;
+    }
+
+    public void setLabel(StateLabel label) {
+        this.label = label;
+    }
+
+    public StateShapeStyle getItemStyle() {
+        return itemStyle;
+    }
+
+    public void setItemStyle(StateShapeStyle itemStyle) {
+        this.itemStyle = itemStyle;
+    }
+
+    public MarkPoint getMarkPoint() {
+        return markPoint;
+    }
+
+    public void setMarkPoint(MarkPoint markPoint) {
+        this.markPoint = markPoint;
+    }
+
+    public MarkLine getMarkLine() {
+        return markLine;
+    }
+
+    public void setMarkLine(MarkLine markLine) {
+        this.markLine = markLine;
+    }
+
+    public MarkArea getMarkArea() {
+        return markArea;
+    }
+
+    public void setMarkArea(MarkArea markArea) {
+        this.markArea = markArea;
     }
 
     @Override
@@ -143,25 +215,53 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         if (!super.equals(o)) return false;
         BaseSerie<?> baseSerie = (BaseSerie<?>) o;
         return type == baseSerie.type &&
+                Objects.equals(name, baseSerie.name) &&
+                coordinateSystem == baseSerie.coordinateSystem &&
                 Objects.equals(data, baseSerie.data) &&
                 Objects.equals(simpleCanvasZ, baseSerie.simpleCanvasZ) &&
-                Objects.equals(name, baseSerie.name) &&
-                Objects.equals(silent, baseSerie.silent);
+                Objects.equals(silent, baseSerie.silent) &&
+                Objects.equals(label, baseSerie.label) &&
+                Objects.equals(itemStyle, baseSerie.itemStyle) &&
+                Objects.equals(markPoint, baseSerie.markPoint) &&
+                Objects.equals(markLine, baseSerie.markLine) &&
+                Objects.equals(markArea, baseSerie.markArea);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), type, data, simpleCanvasZ, name, silent);
+        return Objects.hash(super.hashCode(), type, name, coordinateSystem, data, simpleCanvasZ,
+                silent, label, itemStyle, markPoint, markLine, markArea);
+    }
+
+    protected void appendPrefix(StringBuilder sb) {
+        sb.append("type='").append(getType()).append("'");
+        if (hasName) {
+            sb.append(", name=").append(getName());
+        }
+        sb.append(", silent=").append(getSilent());
+    }
+
+    protected void appendMarks(StringBuilder sb) {
+        sb.append(", markPoint=").append(getMarkPoint());
+        sb.append(", markLine=").append(getMarkLine());
+        sb.append(", markArea=").append(getMarkArea());
+    }
+
+    protected void appendCanvasZ(StringBuilder sb) {
+        sb.append(", zlevel=").append(getZlevel());
+        sb.append(", z=").append(getZ());
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        sb.append("type=").append(type);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", silent=").append(silent);
+        appendPrefix(sb);
+        sb.append(", coordinateSystem='").append(getCoordinateSystem()).append("'");
         sb.append(", simpleCanvasZ=").append(simpleCanvasZ);
+        sb.append(", label=").append(label);
+        sb.append(", itemStyle=").append(itemStyle);
+        appendMarks(sb);
         sb.append(", data=").append(data);
         sb.append('}');
         return sb.toString();

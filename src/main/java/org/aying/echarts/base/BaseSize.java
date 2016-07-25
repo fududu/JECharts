@@ -119,4 +119,9 @@ public abstract class BaseSize<S extends BaseSize<S>> implements Size<S>, Serial
     public String toString() {
         return String.format("%s{width=%s, height=%s}", getClass(), width, height);
     }
+
+    protected void appendSize(StringBuilder sb) {
+        sb.append(", width=").append(getWidth());
+        sb.append(", height=").append(getHeight());
+    }
 }

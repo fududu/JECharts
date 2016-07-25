@@ -14,30 +14,28 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
-
-import java.io.Serializable;
+package org.aying.echarts.series;
 
 /**
- * The simple {@link Position} implementation.
+ * 颜色选择与映射。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class SimplePosition extends BasePosition<SimplePosition> implements Serializable {
+public enum ColorMappingBy {
 
-    private static final long serialVersionUID = -1444290575310283222L;
+    /**
+     * 将节点的值映射到颜色列表中。
+     */
+    value,
 
-    public SimplePosition() {
-        super();
-    }
+    /**
+     * 将节点的 index（序号）映射到颜色列表中。
+     */
+    index,
 
-    public SimplePosition(Object top, Object right, Object bottom, Object left) {
-        super(top, right, bottom, left);
-    }
-
-    @Override
-    public void appendPosition(StringBuilder sb) {
-        super.appendPosition(sb);
-    }
+    /**
+     * 将节点的 id 映射到颜色列表中。
+     */
+    id
 }
