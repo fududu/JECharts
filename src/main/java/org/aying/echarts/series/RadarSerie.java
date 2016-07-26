@@ -29,6 +29,8 @@ import java.util.Objects;
 
 /**
  * 雷达图系列配置。
+ * <p />
+ * 雷达图主要用于表现多变量的数据，例如球员的各个属性分析。依赖{@code radar} 组件。
  *
  * @author Fuchun
  * @since 1.0

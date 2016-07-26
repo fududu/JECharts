@@ -25,6 +25,9 @@ import java.util.Objects;
 
 /**
  * 散点（气泡）图系列配置。
+ * <p />
+ * 直角坐标系上的散点图可以用来展现数据的{@code x，y} 之间的关系，如果数据项有多个维度，其它维度的值可以通过不同大小的
+ * {@code symbol} 展现成气泡图，也可以用颜色来表现。这些可以配合{@code visualMap} 组件完成。
  *
  * @author Fuchun
  * @since 1.0

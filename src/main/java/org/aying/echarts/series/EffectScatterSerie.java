@@ -25,7 +25,9 @@ import org.aying.echarts.base.SymbolType;
 import java.util.Objects;
 
 /**
- * 带有涟漪特效动画的散点（气泡）图系列配置。
+ * 带有涟漪特效动画的散点（气泡）图系列配置。利用动画特效可以将某些想要突出的数据进行视觉突出。
+ * <p />
+ * Tip: ECharts 2.x 中在地图上通过 markPoint 实现地图特效在 ECharts 3 中建议通过地理坐标系上的 effectScatter 实现。
  *
  * @author Fuchun
  * @since 1.0

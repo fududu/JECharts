@@ -16,6 +16,8 @@
 
 package org.aying.echarts.axis;
 
+import org.aying.echarts.style.BaseStyle;
+
 import java.io.Serializable;
 import java.time.format.TextStyle;
 import java.util.Objects;
@@ -26,12 +28,16 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class AxisLabel implements Serializable {
+public class AxisLabel extends BaseStyle<AxisLabel> implements Serializable {
+
+    private static final long serialVersionUID = 8861673945986361136L;
 
     /* 是否显示刻度标签。 */
     private Boolean show;
     /* 坐标轴刻度标签的显示间隔，在类目轴中有效。 */
     private Object interval;
+    /*标签与刻度线的距离。*/
+    private Integer distance;
     /* 刻度标签是否朝内，默认朝外。 */
     private Boolean inside;
     /* 刻度标签与轴线之间的距离。 */
@@ -55,6 +61,14 @@ public class AxisLabel implements Serializable {
 
     public void setInterval(Object interval) {
         this.interval = interval;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public Boolean getInside() {
@@ -93,9 +107,11 @@ public class AxisLabel implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AxisLabel)) return false;
+        if (!super.equals(o)) return false;
         AxisLabel axisLabel = (AxisLabel) o;
         return Objects.equals(show, axisLabel.show) &&
                 Objects.equals(interval, axisLabel.interval) &&
+                Objects.equals(distance, axisLabel.distance) &&
                 Objects.equals(inside, axisLabel.inside) &&
                 Objects.equals(margin, axisLabel.margin) &&
                 Objects.equals(formatter, axisLabel.formatter) &&
@@ -104,12 +120,21 @@ public class AxisLabel implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, interval, inside, margin, formatter, textStyle);
+        return Objects.hash(super.hashCode(), show, interval, distance, inside, margin, formatter, textStyle);
     }
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.axis.AxisLabel{show=%s, interval=%s, inside=%s, margin=%s, formatter=%s, textStyle=%s}",
-                show, interval, inside, margin, formatter, textStyle);
+        final StringBuilder sb = new StringBuilder(32)
+                .append(getClass()).append("{");
+        sb.append("show=").append(show);
+        sb.append(", interval=").append(interval);
+        sb.append(", distance=").append(distance);
+        sb.append(", inside=").append(inside);
+        sb.append(", margin=").append(margin);
+        sb.append(", formatter=").append(formatter);
+        sb.append(", textStyle=").append(textStyle);
+        sb.append('}');
+        return sb.toString();
     }
 }

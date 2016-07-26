@@ -23,6 +23,8 @@ import java.util.Objects;
 
 /**
  * K线图系列配置。
+ * <p />
+ * 在 ECharts3 中，同时支持 'candlestick' 和 'k'这两种 'series.type'（'k' 会被自动转为 'candlestick'）。
  *
  * @author Fuchun
  * @since 1.0

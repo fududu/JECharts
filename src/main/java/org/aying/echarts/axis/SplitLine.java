@@ -32,6 +32,7 @@ public class SplitLine implements Serializable {
     private static final long serialVersionUID = 3450169892286658700L;
     private Boolean show;
     private Object interval;
+    private Integer length;
     private LineStyle lineStyle;
 
     public Boolean getShow() {
@@ -50,6 +51,14 @@ public class SplitLine implements Serializable {
         this.interval = interval;
     }
 
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
     public LineStyle getLineStyle() {
         return lineStyle;
     }
@@ -65,17 +74,18 @@ public class SplitLine implements Serializable {
         SplitLine splitLine = (SplitLine) o;
         return Objects.equals(show, splitLine.show) &&
                 Objects.equals(interval, splitLine.interval) &&
+                Objects.equals(length, splitLine.length) &&
                 Objects.equals(lineStyle, splitLine.lineStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, interval, lineStyle);
+        return Objects.hash(show, interval, length, lineStyle);
     }
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.axis.SplitLine{show=%s, interval=%s, lineStyle=%s}",
-                show, interval, lineStyle);
+        return String.format("org.aying.echarts.axis.SplitLine{show=%s, interval=%s, length=%s, lineStyle=%s}",
+                show, interval, length, lineStyle);
     }
 }

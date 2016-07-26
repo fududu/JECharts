@@ -109,6 +109,10 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         return data.getData();
     }
 
+    public void setData(List<Data<?>> data) {
+        this.data.setData(data);
+    }
+
     @NotNull
     public ChartType getType() {
         return type;

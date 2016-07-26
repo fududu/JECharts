@@ -37,6 +37,8 @@ public class AxisTick implements Serializable {
     private Boolean alignWithLabel;
     /* 坐标轴刻度是否朝内，默认朝外。 */
     private Boolean inside;
+    /*分隔线之间分割的刻度数。*/
+    private Integer splitNumber;
     /* 坐标轴刻度的长度。 */
     private Integer length;
     private LineStyle lineStyle;
@@ -73,6 +75,14 @@ public class AxisTick implements Serializable {
         this.inside = inside;
     }
 
+    public Integer getSplitNumber() {
+        return splitNumber;
+    }
+
+    public void setSplitNumber(Integer splitNumber) {
+        this.splitNumber = splitNumber;
+    }
+
     public Integer getLength() {
         return length;
     }
@@ -98,20 +108,21 @@ public class AxisTick implements Serializable {
                 Objects.equals(interval, axisTick.interval) &&
                 Objects.equals(alignWithLabel, axisTick.alignWithLabel) &&
                 Objects.equals(inside, axisTick.inside) &&
+                Objects.equals(splitNumber, axisTick.splitNumber) &&
                 Objects.equals(length, axisTick.length) &&
                 Objects.equals(lineStyle, axisTick.lineStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, interval, alignWithLabel, inside, length, lineStyle);
+        return Objects.hash(show, interval, alignWithLabel, inside, splitNumber, length, lineStyle);
     }
 
     @Override
     public String toString() {
         return String.format(
                 "org.aying.echarts.axis.AxisTick{show=%s, interval=%s, alignWithLabel=%s, " +
-                        "inside=%s, length=%s, lineStyle=%s}",
-                show, interval, alignWithLabel, inside, length, lineStyle);
+                        "inside=%s, splitNumber=%s, length=%s, lineStyle=%s}",
+                show, interval, alignWithLabel, inside, splitNumber, length, lineStyle);
     }
 }
