@@ -23,7 +23,9 @@ import org.aying.echarts.base.AnimationEasing;
 import java.util.Objects;
 
 /**
- * 热力图系列配置。
+ * 热力图系列配置。热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
+ * <p />
+ * 可以应用在直角坐标系以及地理坐标系上，这两个坐标系上的表现形式相差很大，直角坐标系上必须要使用两个类目轴。
  *
  * @author Fuchun
  * @since 1.0

@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 树图系列样式。
+ * Treemap 是一种常见的表达『层级数据』『树状数据』的可视化形式。它主要用面积的方式，便于突出展现出『树』的各层级中重要的节点。
  *
  * @author Fuchun
  * @since 1.0

@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * 『箱形图』、『盒须图』、『盒式图』、『盒状图』、『箱线图』系列配置。
+ * Boxplot 中文可以称为『箱形图』、『盒须图』、『盒式图』、『盒状图』、『箱线图』。
  *
  * @author Fuchun
  * @since 1.0

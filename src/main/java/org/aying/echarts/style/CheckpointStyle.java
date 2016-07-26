@@ -22,6 +22,8 @@ import org.aying.echarts.base.BaseSymbol;
 import java.util.Objects;
 
 /**
+ * 『当前项』（checkpoint）的图形样式配置模型。
+ *
  * @author Fuchun
  * @since 1.0
  */
@@ -36,6 +38,10 @@ public class CheckpointStyle extends BaseSymbol<CheckpointStyle>
     private Boolean animation;
     private Integer animationDuration;
     private AnimationEasing animationEasing;
+
+    public CheckpointStyle() {
+        super();
+    }
 
     @Override
     public String getColor() {
@@ -117,10 +123,7 @@ public class CheckpointStyle extends BaseSymbol<CheckpointStyle>
     public String toString() {
         final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        sb.append("symbol=").append(getSymbol());
-        sb.append(", symbolSize=").append(getSymbolSize());
-        sb.append(", symbolRotate=").append(getSymbolRotate());
-        sb.append(", symbolOffset=").append(Objects.toString(getSymbolOffset()));
+        appendToString(sb);
         sb.append(", color='").append(color).append('\'');
         sb.append(", borderWidth=").append(borderWidth);
         sb.append(", borderColor='").append(borderColor).append('\'');
@@ -130,6 +133,4 @@ public class CheckpointStyle extends BaseSymbol<CheckpointStyle>
         sb.append('}');
         return sb.toString();
     }
-
-
 }

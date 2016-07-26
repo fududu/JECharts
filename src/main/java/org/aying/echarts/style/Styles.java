@@ -47,28 +47,49 @@ public abstract class Styles {
     }
 
     /**
-     * 获取一个新的图形阴影样式。
+     * 获取一个新的图形阴影样式配置模型。
      */
     public static SimpleShadowStyle shadow() {
         return new SimpleShadowStyle();
     }
 
     /**
-     * 获取一个新的线条样式。
+     * 获取一个新的带有状态的图形阴影样式配置模型。
+     */
+    public static StateShadowStyle stateShadow() {
+        return new StateShadowStyle();
+    }
+
+    /**
+     * 获取一个新的线条样式配置模型。
      */
     public static SimpleLineStyle line() {
         return new SimpleLineStyle();
     }
 
     /**
-     * 获取一个新的图形样式。
+     * 获取一个新的带状态的线条样式配置模型。
+     */
+    public static StateLineStyle stateLine() {
+        return new StateLineStyle();
+    }
+
+    /**
+     * 获取一个新的图形样式配置模型。
      */
     public static SimpleShapeStyle shape() {
         return new SimpleShapeStyle();
     }
 
     /**
-     * 获取一个新的表示区域的图形样式。
+     * 获取一个新的带状态的图形样式配置模型。
+     */
+    public static StateShapeStyle stateShape() {
+        return new StateShapeStyle();
+    }
+
+    /**
+     * 获取一个新的表示区域的图形样式配置模型。
      */
     public static SimpleAreaShapeStyle areaShape() {
         return new SimpleAreaShapeStyle();
@@ -76,6 +97,27 @@ public abstract class Styles {
 
     public static SimpleSelectStyle select() {
         return new SimpleSelectStyle();
+    }
+
+    /**
+     * 获取一个新的引导线样式配置模型。
+     */
+    public static GuideLineStyle guideLine() {
+        return new GuideLineStyle();
+    }
+
+    /**
+     * 获取一个新的带有状态的引导线样式配置模型。
+     */
+    public static StateGuideLineStyle stateGuideLine() {
+        return new StateGuideLineStyle();
+    }
+
+    /**
+     * 获取一个新的『当前项』（checkpoint）的图形样式配置模型。
+     */
+    public static CheckpointStyle checkpoint() {
+        return new CheckpointStyle();
     }
 
     private Styles() {}

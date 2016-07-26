@@ -29,12 +29,12 @@ import org.aying.echarts.base.LineType;
 public interface ShapeStyle extends ShadowStyle {
 
     /**
-     * 图形的描边颜色。支持的格式同 color。
+     * 图形的边框颜色。支持的格式同 color。
      */
     String getBorderColor();
 
     /**
-     * 描边线宽。为 0 时无描边。
+     * 边框线宽度。为 0 时无描边。
      */
     Integer getBorderWidth();
 

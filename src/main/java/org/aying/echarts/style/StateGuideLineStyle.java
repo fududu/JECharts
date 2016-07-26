@@ -19,6 +19,8 @@ package org.aying.echarts.style;
 import org.aying.echarts.base.State;
 
 /**
+ * 引导线样式配置模型。
+ *
  * @author Fuchun
  * @since 1.0
  */

@@ -22,6 +22,11 @@ package org.aying.echarts.style;
  * @author Fuchun
  * @since 1.0
  */
-public interface AreaStyle extends ShadowStyle {
+public class AreaStyle extends SimpleShadowStyle {
 
+    private static final long serialVersionUID = -8616474491137117656L;
+
+    public AreaStyle() {
+        super();
+    }
 }
