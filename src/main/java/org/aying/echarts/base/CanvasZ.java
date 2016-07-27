@@ -24,6 +24,9 @@ package org.aying.echarts.base;
  */
 public interface CanvasZ<Z extends CanvasZ<Z>> {
 
+    String KEY_Z_LEVEL = "zlevel";
+    String KEY_Z = "z";
+
     /**
      * 所有图形的{@code zlevel} 值。
      */

@@ -99,13 +99,17 @@ public abstract class Graph<T extends Graph<T>> extends BasePosition<T>
         return map;
     }
 
-    protected void appendToString(StringBuilder builder) {
+    public final void appendGraph(StringBuilder builder) {
         builder.append(", zlevel=").append(getZlevel());
         builder.append(", z=").append(getZ());
         builder.append(", top=").append(getTop());
         builder.append(", right=").append(getRight());
         builder.append(", bottom=").append(getBottom());
         builder.append(", left=").append(getLeft());
+    }
+
+    protected void appendToString(StringBuilder builder) {
+        appendGraph(builder);
     }
 
     @Override

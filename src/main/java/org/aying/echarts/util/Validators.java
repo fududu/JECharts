@@ -18,6 +18,7 @@ package org.aying.echarts.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,23 @@ import java.util.regex.Pattern;
 public class Validators {
 
     private static final Pattern PERCENT_PATTERN = Pattern.compile("([\\d\\.]+)%");
+
+    @SuppressWarnings("unchecked")
+    public static <T> T checkNumber(T n, String name) {
+        Objects.requireNonNull(n, name);
+        if (n instanceof Number) {
+            return n;
+        } else if (n instanceof String) {
+            String s = ((String) n).trim();
+            if (s.isEmpty()) {
+                throw new IllegalArgumentException(
+                        "The given [" + name + "] value must be not empty");
+            }
+            return (T) checkPercent(s);
+        } else {
+            throw new IllegalArgumentException("The given [" + name + "] value is not string or number");
+        }
+    }
 
     public static String checkPercent(String input) {
         if (input == null || (input = input.trim()).isEmpty()) {

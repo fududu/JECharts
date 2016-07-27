@@ -16,8 +16,8 @@
 
 package org.aying.echarts.axis;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.aying.echarts.BaseComponent;
 import org.aying.echarts.style.LineStyle;
 
 import java.io.Serializable;
@@ -29,11 +29,18 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class AxisLine implements Serializable {
+public class AxisLine extends BaseComponent<AxisLine> implements Serializable {
 
     private static final long serialVersionUID = -7822103350520035007L;
 
-    private Boolean show;
+    public static AxisLine showed() {
+        return new AxisLine();
+    }
+
+    public static AxisLine hidden() {
+        return new AxisLine(Boolean.FALSE);
+    }
+
     private Boolean onZero;
     private LineStyle lineStyle;
 
@@ -41,24 +48,11 @@ public class AxisLine implements Serializable {
         super();
     }
 
-    @JsonCreator
-    public AxisLine(
-            @JsonProperty(value = "show", required = false) Boolean show,
-            @JsonProperty(value = "onZero", required = false) Boolean onZero,
-            @JsonProperty(value = "lineStyle", required = false) LineStyle lineStyle) {
-        this.show = show;
-        this.onZero = onZero;
-        this.lineStyle = lineStyle;
+    public AxisLine(Boolean show) {
+        super(show);
     }
 
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
-    }
-
+    @JsonProperty(required = false)
     public Boolean getOnZero() {
         return onZero;
     }
@@ -79,15 +73,15 @@ public class AxisLine implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AxisLine)) return false;
+        if (!super.equals(o)) return false;
         AxisLine axisLine = (AxisLine) o;
-        return Objects.equals(show, axisLine.show) &&
-                Objects.equals(onZero, axisLine.onZero) &&
+        return Objects.equals(onZero, axisLine.onZero) &&
                 Objects.equals(lineStyle, axisLine.lineStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, onZero, lineStyle);
+        return Objects.hash(super.hashCode(), onZero, lineStyle);
     }
 
     @Override

@@ -29,6 +29,11 @@ import org.aying.echarts.base.LineType;
 public interface ShapeStyle extends ShadowStyle {
 
     /**
+     * 图形（组件）背景颜色。
+     */
+    String getBackgroundColor();
+
+    /**
      * 图形的边框颜色。支持的格式同 color。
      */
     String getBorderColor();
@@ -39,7 +44,7 @@ public interface ShapeStyle extends ShadowStyle {
     Integer getBorderWidth();
 
     /**
-     * 柱条的描边类型，默认为实线（{@code slider}）。
+     * 图形的描边类型。
      */
     LineType getBorderType();
 
@@ -47,4 +52,20 @@ public interface ShapeStyle extends ShadowStyle {
      * 文本样式（极少数会用到）
      */
     TextStyle getTextStyle();
+
+    default ShapeStyle bgColor(String bgColor) {
+        return this;
+    }
+
+    default ShapeStyle borderWidth(int borderWidth) {
+        return this;
+    }
+
+    default ShapeStyle borderColor(String color) {
+        return this;
+    }
+
+    default ShapeStyle textStyle(TextStyle textStyle) {
+        return this;
+    }
 }

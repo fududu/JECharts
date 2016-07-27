@@ -17,6 +17,8 @@
 package org.aying.echarts.axis;
 
 import org.aying.echarts.BaseData;
+import org.aying.echarts.util.Validators;
+import org.jetbrains.annotations.Contract;
 
 import java.time.format.TextStyle;
 import java.util.LinkedHashMap;
@@ -24,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 坐标铀。
+ * 基础坐标铀模型。
  *
  * @author Fuchun
  * @since 1.0
@@ -37,15 +39,21 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         return new SimpleAxis();
     }
 
+    /*坐标轴类型。*/
     private AxisType type;
+    /*坐标轴名称。String |*/
     private Object name;
+    /*坐标轴名称显示位置。*/
     private NameLocation nameLocation;
+    /*坐标轴名称的文字样式。*/
     private TextStyle nameTextStyle;
+    /*坐标轴名称与轴线之间的距离。*/
     private Integer nameGap;
+    /*坐标轴名字旋转，角度值。*/
     private Integer nameRotate;
-    private Integer nameTruncateLength;
-    private String nameTruncateEllipsis;
+    /*是否是反向坐标轴。ECharts 3 中新加。*/
     private Boolean inverse;
+    /*坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。Boolean|Array */
     private Object boundaryGap;
     /* 坐标轴刻度最小值，在类目轴中无效。 */
     private Object min;
@@ -80,6 +88,340 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
 
     protected Axis(AxisType type) {
         this.type = type;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected A me() {
+        return (A) this;
+    }
+
+    /**
+     * 设置轴类型。
+     *
+     * @param type 轴类型。
+     */
+    public A typeOf(AxisType type) {
+        this.type = type;
+
+        if (this.type == AxisType.category) {
+            this.min = null;
+            this.max = null;
+            this.interval = null;
+        }
+        if (this.type != AxisType.value) {
+            this.minInterval = null;
+        }
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名称。
+     *
+     * @param name 坐标轴名称。
+     */
+    public A named(String name) {
+        this.name = name;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名称显示在中间。
+     */
+    public A nameInMiddle() {
+        setNameLocation(NameLocation.middle);
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名称显示在结尾处。
+     */
+    public A nameAtTheEnd() {
+        setNameLocation(NameLocation.end);
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名称的文字样式。
+     *
+     * @param textStyle 坐标轴名称的文字样式。
+     */
+    public A nameTextStyle(TextStyle textStyle) {
+        setNameTextStyle(textStyle);
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名称与轴线之间的距离。
+     *
+     * @param nameGap 坐标轴名称与轴线之间的距离。
+     */
+    public A nameGap(int nameGap) {
+        setNameGap(nameGap);
+        return me();
+    }
+
+    /**
+     * 设置坐标轴名字旋转，角度值。
+     *
+     * @param nameRotate 坐标轴名字旋转，角度值。
+     */
+    public A nameRotate(int nameRotate) {
+        setNameRotate(nameRotate);
+        return me();
+    }
+
+    /**
+     * 设置为反向坐标轴。
+     */
+    public A inverse() {
+        setInverse(Boolean.TRUE);
+        return me();
+    }
+
+    /**
+     * 坐标轴两边不留白（此方法必须在设置类目轴类型后才能被调用）。
+     * <pre>{@code
+     * axis.typeOf(AxisType.category).noBoundaryGap()...   // it worked
+     * axis.typeOf(AxisType.value).noBoundaryGap()...      // it not work.
+     * axis.noBoundaryGap().typeOf(AxisType.category)...   // it not work.
+     * }</pre>
+     *
+     * @return 当前轴模型。
+     * @throws IllegalArgumentException 如果轴类型{@code type != AxisType.category}。
+     */
+    public A noBoundaryGap() {
+        if (type != AxisType.category) {
+            throw new IllegalArgumentException(
+                    "The Axis.type value must be `category` when boundaryGap is true or false");
+        }
+        this.boundaryGap = Boolean.FALSE;
+        return me();
+    }
+
+    /**
+     * 设置轴的两边留白策略。最小值和最大值可以直接设置数值或者相对的百分比。
+     * <pre>{@code
+     * axis.typeOf(AxisType.value).boundaryGap("20%", "20%")...    // it worked.
+     * axis.typeOf(AxisType.value).boundaryGap(10, "20%")...       // it worked.
+     * axis.boundaryGap("20%", "20%").typeOf(AxisType.value)...    // it not work
+     * axis.typeOf(AxisType.category).boundaryGap("20%", "20%")... // it not work
+     * }</pre>
+     *
+     * @param min 最小值的延伸范围（数值或百分比字符串）。
+     * @param max 最大值的延伸范围（数值或百分比字符串）。
+     * @return 当前轴模型。
+     * @throws NullPointerException 如果参数为{@code null}。
+     * @throws IllegalArgumentException 如果轴类型{@code type == AxisType.category}。
+     */
+    @Contract("null, _ -> fail; _, null -> fail")
+    public A boundaryGap(Object min, Object max) {
+        if (type == AxisType.category) {
+            throw new IllegalArgumentException(
+                    "The Axis.type value must not be `category`");
+        }
+        this.boundaryGap = new Object[]{
+                Validators.checkNumber(min, "Axis.boundaryGap -> min"),
+                Validators.checkNumber(max, "Axis.boundaryGap -> max")
+        };
+        return me();
+    }
+
+    /**
+     * 设置坐标轴刻度最小值。在类目轴中无效（{@code type == AxisType.category}）。
+     * <p />
+     * 不设置时会自动计算最小值保证坐标轴刻度的均匀分布。
+     * 可以设置成特殊值{@code "dataMin"}，此时取数据在该轴上的最小值作为最小刻度。
+     *
+     * @param min 坐标轴刻度最小值（数值或字符串：{@code "auto" or "dataMin"}）
+     * @return 当前轴模型。
+     * @throws NullPointerException 如果参数值有{@code min == null}。
+     * @throws IllegalArgumentException 如果坐标轴刻度最小值类型或格式错误。
+     */
+    @Contract("null -> fail")
+    public A min(Object min) {
+        Objects.requireNonNull(min, "Axis.min");
+        if (min instanceof String) {
+            if (!"auto".equals(min) && !"dataMin".equals(min)) {
+                throw new IllegalArgumentException("Axis.min value (String) only `auto` or `dataMin`");
+            }
+            this.min = min;
+        } else if (min instanceof Number) {
+            this.min = ((Number) min).intValue();
+        } else {
+            throw new IllegalArgumentException("Axis.min value type is 'string' or 'number'");
+        }
+        // 设置了 min 或者 max 后， scale, boundaryGap 参数将无效
+        this.boundaryGap = null;
+        this.scale = null;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴刻度最大值。在类目轴中无效（{@code type == AxisType.category}）。
+     * <p />
+     * 不设置时会自动计算最大值保证坐标轴刻度的均匀分布。
+     * 可以设置成特殊值{@code "dataMax"}，此时取数据在该轴上的最大值作为最大刻度。
+     *
+     * @param max 坐标轴刻度最大值（数值或字符串：{@code "auto" or "dataMax"}）
+     * @return 当前轴模型。
+     * @throws NullPointerException 如果参数值有{@code max == null}。
+     * @throws IllegalArgumentException 如果坐标轴刻度最大值类型或格式错误。
+     */
+    @Contract("null -> fail")
+    public A max(Object max) {
+        Objects.requireNonNull(max, "Axis.max");
+        if (max instanceof String) {
+            if (!"auto".equals(max) && !"dataMax".equals(max)) {
+                throw new IllegalArgumentException("Axis.max value (String) only `auto` or `dataMax`");
+            }
+            this.max = max;
+        } else if (max instanceof Number) {
+            this.max = ((Number) max).intValue();
+        } else {
+            throw new IllegalArgumentException("Axis.max value type is 'string' or 'number'");
+        }
+        // 设置了 min 或者 max 后， scale, boundaryGap 参数将无效
+        this.boundaryGap = null;
+        this.scale = null;
+        return me();
+    }
+
+    /**
+     * 是否是脱离 0 值比例。设置后坐标刻度不会强制包含零刻度。在双数值轴的散点图中比较有用。
+     * <p />
+     * 只在数值轴中（{@code type == AxisType.value}）有效。
+     * <p />
+     * 在设置{@code min} 和{@code max} 之后该配置项无效。
+     *
+     * @return 当前轴模型。
+     */
+    public A scaled() {
+        if (type != AxisType.value) {
+            throw new IllegalArgumentException("The Axis.type value must not be `value`");
+        }
+        this.scale = Boolean.TRUE;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴的分割段数，需要注意的是这个分割段数只是个预估值，
+     * 最后实际显示的段数会在这个基础上根据分割后坐标轴刻度显示的易读程度作调整。
+     *
+     * @param splitNumber 坐标轴的分割段数。
+     * @return 当前轴模型。
+     * @throws IllegalArgumentException 如果坐标轴的分割段数{@code splitNumber <= 0}
+     */
+    public A splitNumber(int splitNumber) {
+        if (splitNumber <= 0) {
+            throw new IllegalArgumentException("Axis.splitNumber must be greater than 0");
+        }
+        this.splitNumber = splitNumber;
+        return me();
+    }
+
+    /**
+     * 自动计算的坐标轴最小间隔大小。例如可以设置成1保证坐标轴分割刻度显示成整数。
+     * <p />
+     * 只在数值轴中（{@code type == AxisType.value}）有效。
+     *
+     * @param minInterval 最小间隔大小。
+     * @return 当前轴模型。
+     */
+    public A minInterval(int minInterval) {
+        this.minInterval = minInterval;
+        return me();
+    }
+
+    /**
+     * 强制设置坐标轴分割间隔。
+     * <p />
+     * 因为{@code splitNumber} 是预估的值，实际根据策略计算出来的刻度可能无法达到想要的效果，
+     * 这时候可以使用{@code interval} 配合{@code min, max} 强制设定刻度划分，一般不建议使用。
+     * <p />
+     * 无法在类目轴中使用。在时间轴（{@code type == AxisType.time}）中需要传时间戳，
+     * 在对数轴（{@code type == AxisType.log}）中需要传指数值。
+     *
+     * @param interval 坐标轴分割间隔。
+     * @return 当前轴模型。
+     */
+    public A interval(int interval) {
+        this.interval = interval;
+        return me();
+    }
+
+    /**
+     * 坐标轴设置为静态无法交互。
+     *
+     * @return 当前轴模型。
+     */
+    public A silent() {
+        this.silent = Boolean.TRUE;
+        return me();
+    }
+
+    /**
+     * 坐标轴的标签响应和触发鼠标事件。不调用时不响应。
+     *
+     * @return 当前轴模型。
+     */
+    public A triggerEvent() {
+        this.triggerEvent = Boolean.TRUE;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴轴线。
+     *
+     * @param axisLine 坐标轴轴线设置。
+     * @return 当前轴模型。
+     */
+    public A axisLine(AxisLine axisLine) {
+        this.axisLine = axisLine;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴刻度。
+     *
+     * @param axisTick 坐标轴刻度。
+     * @return 当前轴模型。
+     */
+    public A axisTick(AxisTick axisTick) {
+        this.axisTick = axisTick;
+        return me();
+    }
+
+    /**
+     *设置坐标轴刻度标签。
+     *
+     * @param axisLabel 坐标轴刻度标签的相关设置。
+     * @return 当前轴模型。
+     */
+    public A axisLabel(AxisLabel axisLabel) {
+        this.axisLabel = axisLabel;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴在 grid 区域中的分隔线。
+     *
+     * @param splitLine 坐标轴在 grid 区域中的分隔线。
+     * @return 当前轴模型。
+     */
+    public A splitLine(SplitLine splitLine) {
+        this.splitLine = splitLine;
+        return me();
+    }
+
+    /**
+     * 设置坐标轴在 grid 区域中的分隔区域。
+     *
+     * @param splitArea 坐标轴在 grid 区域中的分隔区域。
+     * @return 当前轴模型。
+     */
+    public A splitArea(SplitArea splitArea) {
+        this.splitArea = splitArea;
+        return me();
     }
 
     public AxisType getType() {
@@ -128,22 +470,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
 
     public void setNameRotate(Integer nameRotate) {
         this.nameRotate = nameRotate;
-    }
-
-    public Integer getNameTruncateLength() {
-        return nameTruncateLength;
-    }
-
-    public void setNameTruncateLength(Integer nameTruncateLength) {
-        this.nameTruncateLength = nameTruncateLength;
-    }
-
-    public String getNameTruncateEllipsis() {
-        return nameTruncateEllipsis;
-    }
-
-    public void setNameTruncateEllipsis(String nameTruncateEllipsis) {
-        this.nameTruncateEllipsis = nameTruncateEllipsis;
     }
 
     public Boolean getInverse() {
@@ -277,8 +603,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
                 nameTextStyle == axis.nameTextStyle &&
                 Objects.equals(nameGap, axis.nameGap) &&
                 Objects.equals(nameRotate, axis.nameRotate) &&
-                Objects.equals(nameTruncateLength, axis.nameTruncateLength) &&
-                Objects.equals(nameTruncateEllipsis, axis.nameTruncateEllipsis) &&
                 Objects.equals(inverse, axis.inverse) &&
                 Objects.equals(boundaryGap, axis.boundaryGap) &&
                 Objects.equals(min, axis.min) &&
@@ -299,9 +623,9 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
     @Override
     public int hashCode() {
         return Objects.hash(
-                type, name, nameLocation, nameTextStyle, nameGap, nameRotate, nameTruncateLength,
-                nameTruncateEllipsis, inverse, boundaryGap, min, max, scale, splitNumber, minInterval,
-                interval, silent, triggerEvent, axisLine, axisTick, axisLabel, splitLine, splitArea);
+                type, name, nameLocation, nameTextStyle, nameGap, nameRotate, inverse, boundaryGap,
+                min, max, scale, splitNumber, minInterval, interval, silent, triggerEvent, axisLine,
+                axisTick, axisLabel, splitLine, splitArea);
     }
 
     protected Map<String, Object> toStringMap() {
@@ -312,8 +636,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
         map.put("nameTextStyle", getNameTextStyle());
         map.put("nameGap", getNameGap());
         map.put("nameRotate", getNameRotate());
-        map.put("nameTruncateLength", getNameTruncateLength());
-        map.put("nameTruncateEllipsis", getNameTruncateEllipsis());
         map.put("inverse", getInverse());
         map.put("boundaryGap", getBoundaryGap());
         map.put("min", getMin());

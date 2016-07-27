@@ -18,7 +18,7 @@ package org.aying.echarts.axis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.aying.echarts.BaseComponent;
 import org.aying.echarts.style.ShadowStyle;
 import org.aying.echarts.style.SimpleShadowStyle;
 
@@ -26,31 +26,58 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 坐标轴在 grid 区域中的分隔区域。
+ * 坐标轴在{@code grid} 区域中的分隔区域。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class SplitArea implements Serializable {
+public class SplitArea extends BaseComponent<SplitArea> implements Serializable {
 
     private static final long serialVersionUID = 6896512610727255610L;
 
-    /*是否显示分隔区域。*/
-    private Boolean show;
+    public static SplitArea showed() {
+        return new SplitArea();
+    }
+
+    public static SplitArea hidden() {
+        return new SplitArea(Boolean.FALSE);
+    }
+
     /* 坐标轴分隔区域的显示间隔，在类目轴中有效。默认同 axisLabel.interval 一样。
      * 默认会采用标签不重叠的策略间隔显示标签。类型：Integer | Function
      */
     private Object interval;
-    /*区域填充样式。*/
+    /* 区域填充样式。*/
     private ShadowStyle areaStyle;
 
-    @JsonProperty(required = false)
-    public Boolean getShow() {
-        return show;
+    public SplitArea() {
+        super();
     }
 
-    public void setShow(Boolean show) {
-        this.show = show;
+    public SplitArea(Boolean show) {
+        super(show);
+    }
+
+    /**
+     * 设置坐标轴分隔区域的显示间隔。
+     *
+     * @param interval 坐标轴分隔区域的显示间隔。
+     * @return 当前分隔区域模型。
+     */
+    public SplitArea interval(int interval) {
+        this.interval = interval;
+        return this;
+    }
+
+    /**
+     * 设置坐标轴分隔区域的样式。
+     *
+     * @param style 坐标轴分隔区域的样式。
+     * @return 当前分隔区域模型。
+     */
+    public SplitArea style(ShadowStyle style) {
+        this.areaStyle = style;
+        return this;
     }
 
     @JsonProperty(required = false)
@@ -63,7 +90,6 @@ public class SplitArea implements Serializable {
     }
 
     @JsonProperty(required = false)
-    @JsonSerialize
     @JsonDeserialize(as = SimpleShadowStyle.class)
     public ShadowStyle getAreaStyle() {
         return areaStyle;
@@ -92,7 +118,7 @@ public class SplitArea implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        sb.append("show=").append(show);
+        sb.append("show=").append(getShow());
         sb.append(", interval=").append(interval);
         sb.append(", areaStyle=").append(areaStyle);
         sb.append('}');

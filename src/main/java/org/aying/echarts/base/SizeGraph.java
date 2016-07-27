@@ -115,4 +115,9 @@ public abstract class SizeGraph<T extends SizeGraph<T>> extends Graph<T>
                 "simpleSize=" + simpleSize +
                 "} " + super.toString();
     }
+
+    protected void appendSizeGraph(StringBuilder sb) {
+        appendGraph(sb);
+        simpleSize.appendSize(sb);
+    }
 }

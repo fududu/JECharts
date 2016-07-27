@@ -16,7 +16,7 @@
 
 package org.aying.echarts.axis;
 
-import org.aying.echarts.style.BaseStyle;
+import org.aying.echarts.BaseComponent;
 
 import java.io.Serializable;
 import java.time.format.TextStyle;
@@ -28,12 +28,18 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class AxisLabel extends BaseStyle<AxisLabel> implements Serializable {
+public class AxisLabel extends BaseComponent<AxisLabel> implements Serializable {
 
     private static final long serialVersionUID = 8861673945986361136L;
 
-    /* 是否显示刻度标签。 */
-    private Boolean show;
+    public static AxisLabel showed() {
+        return new AxisLabel();
+    }
+
+    public static AxisLabel hidden() {
+        return new AxisLabel(Boolean.FALSE);
+    }
+
     /* 坐标轴刻度标签的显示间隔，在类目轴中有效。 */
     private Object interval;
     /*标签与刻度线的距离。*/
@@ -47,12 +53,68 @@ public class AxisLabel extends BaseStyle<AxisLabel> implements Serializable {
     /* 刻度标签文字样式 */
     private TextStyle textStyle;
 
-    public Boolean getShow() {
-        return show;
+    public AxisLabel() {
+        super();
     }
 
-    public void setShow(Boolean show) {
-        this.show = show;
+    public AxisLabel(Boolean show) {
+        super(show);
+    }
+
+    /**
+     * 设置坐标轴刻度标签朝内。
+     *
+     * @return 当前轴刻度标签设置模型。
+     */
+    public AxisLabel inside() {
+        this.inside = Boolean.TRUE;
+        return this;
+    }
+
+    /**
+     * 设置标签与刻度线的距离。
+     *
+     * @param distance 标签与刻度线的距离。
+     * @return 当前轴刻度标签设置模型。
+     */
+    public AxisLabel distance(int distance) {
+        this.distance = distance;
+        return this;
+    }
+
+    /**
+     * 设置刻度标签与轴线之间的距离。
+     *
+     * @param margin 刻度标签与轴线之间的距离。
+     * @return 当前轴刻度标签设置模型。
+     */
+    public AxisLabel margin(int margin) {
+        this.margin = margin;
+        return this;
+    }
+
+    /**
+     * 设置刻度标签的内容格式器。
+     * <p />
+     * NOTE: 目前暂时不支持回调函数。
+     *
+     * @param formatter 刻度标签的内容格式器。
+     * @return 当前轴刻度标签设置模型。
+     */
+    public AxisLabel formatter(String formatter) {
+        this.formatter = formatter;
+        return this;
+    }
+
+    /**
+     * 设置刻度标签的文本样式。
+     *
+     * @param textStyle 刻度标签的文本样式。
+     * @return 当前轴刻度标签设置模型。
+     */
+    public AxisLabel textStyle(TextStyle textStyle) {
+        this.textStyle = textStyle;
+        return this;
     }
 
     public Object getInterval() {

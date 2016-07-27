@@ -17,7 +17,15 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.aying.echarts.base.Align;
+import org.aying.echarts.base.LineType;
+import org.aying.echarts.base.Orient;
 import org.aying.echarts.base.SelectedMode;
+import org.aying.echarts.base.SizeGraph;
+import org.aying.echarts.style.ShapeStyle;
+import org.aying.echarts.style.SimpleShapeStyle;
+import org.aying.echarts.style.TextStyle;
 
 import java.util.List;
 import java.util.Map;
@@ -30,10 +38,19 @@ import java.util.TreeMap;
  * @author Fuchun
  * @since 1.0
  */
-public class Legend extends BaseProp<Legend> implements Data<Legend> {
+public class Legend extends SizeGraph<Legend>
+        implements Component<Legend>, ShapeStyle, Data<Legend> {
 
     private static final long serialVersionUID = -4466736220215040561L;
 
+    private final SimpleShapeStyle sss;
+    private final SimpleData sd;
+
+    private Boolean show;
+    private Orient orient;
+    private Align align;
+    private Object padding;
+    private Integer itemGap;
     private Integer itemWidth;
     private Integer itemHeight;
     private Object formatter;
@@ -42,12 +59,64 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
     private Map<String, Boolean> selected;
     private Tooltip tooltip;
 
-    @JsonIgnore
-    private Data<?> delegateData;
-
     public Legend() {
         super();
-        delegateData = BaseData.delegate();
+        sd = SimpleData.simple();
+        sss = new SimpleShapeStyle();
+    }
+
+    @Override
+    public Boolean getShow() {
+        return show;
+    }
+
+    @Override
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
+    @Override
+    public Legend hide() {
+        this.show = Boolean.FALSE;
+        return this;
+    }
+
+    @Override
+    public Legend show() {
+        this.show = Boolean.TRUE;
+        return this;
+    }
+
+    public Orient getOrient() {
+        return orient;
+    }
+
+    public void setOrient(Orient orient) {
+        this.orient = orient;
+    }
+
+    public Align getAlign() {
+        return align;
+    }
+
+    public void setAlign(Align align) {
+        this.align = align;
+    }
+
+    public Object getPadding() {
+        return padding;
+    }
+
+    public void setPadding(Object padding) {
+        this.padding = padding;
+    }
+
+    public Integer getItemGap() {
+        return itemGap;
+    }
+
+    public void setItemGap(Integer itemGap) {
+        this.itemGap = itemGap;
     }
 
     public Legend itemWidth(int itemWidth) {
@@ -150,6 +219,15 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
         this.selected = selected;
     }
 
+    @Override
+    public TextStyle getTextStyle() {
+        return sss.getTextStyle();
+    }
+
+    public void setTextStyle(TextStyle textStyle) {
+        sss.setTextStyle(textStyle);
+    }
+
     public Tooltip getTooltip() {
         return tooltip;
     }
@@ -159,24 +237,169 @@ public class Legend extends BaseProp<Legend> implements Data<Legend> {
     }
 
     public List<Data<?>> getData() {
-        return delegateData.getData();
+        return sd.getData();
     }
 
     public void setData(List<Data<?>> data) {
-        this.delegateData = BaseData.delegate(data);
+        this.sd.setData(data);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Legend add(Data<?> d) {
-        delegateData.add(d);
+        sd.add(d);
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Legend add(Data<?> d1, Data<?> d2, Data<?>... dn) {
-        delegateData.add(d1, d2, dn);
+        sd.add(d1, d2, dn);
         return this;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getColor() {
+        return null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Legend color(String color) {
+        return this;
+    }
+
+    @JsonProperty(required = false)
+    public String getBackgroundColor() {
+        return sss.getBackgroundColor();
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        sss.setBackgroundColor(backgroundColor);
+    }
+
+    @JsonProperty(required = false)
+    public String getBorderColor() {
+        return sss.getBorderColor();
+    }
+
+    public void setBorderColor(String borderColor) {
+        sss.setBorderColor(borderColor);
+    }
+
+    @JsonProperty(required = false)
+    public Integer getBorderWidth() {
+        return sss.getBorderWidth();
+    }
+
+    public void setBorderWidth(Integer borderWidth) {
+        sss.setBorderWidth(borderWidth);
+    }
+
+    @Override
+    @JsonIgnore
+    public LineType getBorderType() {
+        return null;
+    }
+
+    @JsonProperty(required = false)
+    public Integer getShadowBlur() {
+        return sss.getShadowBlur();
+    }
+
+    public void setShadowBlur(Integer shadowBlur) {
+        sss.setShadowBlur(shadowBlur);
+    }
+
+    @JsonProperty(required = false)
+    public String getShadowColor() {
+        return sss.getShadowColor();
+    }
+
+    public void setShadowColor(String shadowColor) {
+        sss.setShadowColor(shadowColor);
+    }
+
+    @JsonProperty(required = false)
+    public Integer getShadowOffsetX() {
+        return sss.getShadowOffsetX();
+    }
+
+    public void setShadowOffsetX(Integer shadowOffsetX) {
+        sss.setShadowOffsetX(shadowOffsetX);
+    }
+
+    @JsonProperty(required = false)
+    public Integer getShadowOffsetY() {
+        return sss.getShadowOffsetY();
+    }
+
+    public void setShadowOffsetY(Integer shadowOffsetY) {
+        sss.setShadowOffsetY(shadowOffsetY);
+    }
+
+    @Override
+    @JsonIgnore
+    public Double getOpacity() {
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Legend)) return false;
+        if (!super.equals(o)) return false;
+        Legend legend = (Legend) o;
+        return Objects.equals(sss, legend.sss) &&
+                Objects.equals(show, legend.show) &&
+                orient == legend.orient &&
+                align == legend.align &&
+                Objects.equals(padding, legend.padding) &&
+                Objects.equals(itemGap, legend.itemGap) &&
+                Objects.equals(itemWidth, legend.itemWidth) &&
+                Objects.equals(itemHeight, legend.itemHeight) &&
+                Objects.equals(formatter, legend.formatter) &&
+                Objects.equals(selectedMode, legend.selectedMode) &&
+                Objects.equals(inactiveColor, legend.inactiveColor) &&
+                Objects.equals(selected, legend.selected) &&
+                Objects.equals(tooltip, legend.tooltip) &&
+                Objects.equals(sd, legend.sd);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), sss, show, orient, align, padding, itemGap, itemWidth,
+                itemHeight, formatter, selectedMode, inactiveColor, selected, tooltip, sd);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder(32)
+                .append(getClass()).append("{");
+        sb.append("show=").append(show);
+        appendSizeGraph(sb);
+        sb.append(", orient=").append(orient);
+        sb.append(", align=").append(align);
+        sb.append(", padding=").append(padding);
+        sb.append(", itemGap=").append(itemGap);
+        sb.append(", itemWidth=").append(itemWidth);
+        sb.append(", itemHeight=").append(itemHeight);
+        sb.append(", formatter=").append(formatter);
+        sb.append(", selectedMode=").append(selectedMode);
+        sb.append(", inactiveColor='").append(inactiveColor).append('\'');
+        sb.append(", selected=").append(selected);
+        sb.append(", textStyle=").append(getTextStyle());
+        sb.append(", tooltip=").append(tooltip);
+        sb.append(", data=").append(getData());
+        sb.append(", backgroundColor='").append(getBackgroundColor()).append('\'');
+        sb.append(", borderColor='").append(getBorderColor()).append('\'');
+        sb.append(", borderWidth=").append(getBorderWidth());
+        sb.append(", shadowBlur=").append(getShadowBlur());
+        sb.append(", shadowColor='").append(getShadowColor()).append('\'');
+        sb.append(", shadowOffsetX=").append(getShadowOffsetX());
+        sb.append(", shadowOffsetY=").append(getShadowOffsetY());
+        sb.append('}');
+        return sb.toString();
     }
 }

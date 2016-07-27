@@ -16,31 +16,75 @@
 
 package org.aying.echarts.axis;
 
+import org.aying.echarts.BaseComponent;
 import org.aying.echarts.style.LineStyle;
+import org.aying.echarts.util.Validators;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 坐标轴在 grid 区域中的分隔线，默认显示。
+ * 坐标轴在{@code grid} 区域中的分隔线，默认显示。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class SplitLine implements Serializable {
+public class SplitLine extends BaseComponent<SplitLine> implements Serializable {
 
     private static final long serialVersionUID = 3450169892286658700L;
-    private Boolean show;
-    private Object interval;
-    private Integer length;
-    private LineStyle lineStyle;
 
-    public Boolean getShow() {
-        return show;
+    public static SplitLine showed() {
+        return new SplitLine();
     }
 
-    public void setShow(Boolean show) {
-        this.show = show;
+    public static SplitLine hidden() {
+        return new SplitLine(Boolean.FALSE);
+    }
+
+    private Object interval;
+    private Object length;
+    private LineStyle lineStyle;
+
+    public SplitLine() {
+        super();
+    }
+
+    public SplitLine(Boolean show) {
+        super(show);
+    }
+
+    /**
+     * 设置坐标轴分隔线的显示间隔。
+     *
+     * @param interval 坐标轴分隔线的显示间隔。
+     * @return 当前分隔线模型。
+     */
+    public SplitLine interval(int interval) {
+        this.interval = interval;
+        return this;
+    }
+
+    /**
+     * 设置分隔线样式。
+     *
+     * @param lineStyle 分隔线样式。
+     * @return 当前分隔线模型。
+     */
+    public SplitLine style(LineStyle lineStyle) {
+        this.lineStyle = lineStyle;
+        return this;
+    }
+
+    /**
+     * 设置分隔线线长。支持相对半径的百分比。
+     *
+     * @param length 分隔线线长（数值或百分比字符串）。
+     * @return 当前分隔线模型。
+     * @throws IllegalArgumentException 如果分隔线线长格式错误。
+     */
+    public SplitLine length(Object length) {
+        this.length = Validators.checkNumber(length, "splitLine.length");
+        return this;
     }
 
     public Object getInterval() {
@@ -51,11 +95,11 @@ public class SplitLine implements Serializable {
         this.interval = interval;
     }
 
-    public Integer getLength() {
+    public Object getLength() {
         return length;
     }
 
-    public void setLength(Integer length) {
+    public void setLength(Object length) {
         this.length = length;
     }
 
@@ -71,21 +115,27 @@ public class SplitLine implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SplitLine)) return false;
+        if (!super.equals(o)) return false;
         SplitLine splitLine = (SplitLine) o;
-        return Objects.equals(show, splitLine.show) &&
-                Objects.equals(interval, splitLine.interval) &&
+        return Objects.equals(interval, splitLine.interval) &&
                 Objects.equals(length, splitLine.length) &&
                 Objects.equals(lineStyle, splitLine.lineStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(show, interval, length, lineStyle);
+        return Objects.hash(super.hashCode(), interval, length, lineStyle);
     }
 
     @Override
     public String toString() {
-        return String.format("org.aying.echarts.axis.SplitLine{show=%s, interval=%s, length=%s, lineStyle=%s}",
-                show, interval, length, lineStyle);
+        final StringBuilder sb = new StringBuilder(32)
+                .append(getClass()).append("{");
+        sb.append("show=").append(getShow());
+        sb.append(", interval=").append(interval);
+        sb.append(", length=").append(length);
+        sb.append(", lineStyle=").append(lineStyle);
+        sb.append('}');
+        return sb.toString();
     }
 }

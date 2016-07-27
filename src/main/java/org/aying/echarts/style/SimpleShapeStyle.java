@@ -30,6 +30,8 @@ import java.util.Objects;
 public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implements ShapeStyle {
 
     private static final long serialVersionUID = -4421399723447580397L;
+
+    private String backgroundColor;
     private String borderColor;
     private Integer borderWidth;
     private LineType borderType;
@@ -38,6 +40,15 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
 
     public SimpleShapeStyle() {
         super();
+    }
+
+    @Override
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     @Override
@@ -77,12 +88,37 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
     }
 
     @Override
+    public ShapeStyle bgColor(String bgColor) {
+        this.backgroundColor = bgColor;
+        return this;
+    }
+
+    @Override
+    public ShapeStyle borderWidth(int borderWidth) {
+        this.borderWidth = borderWidth;
+        return this;
+    }
+
+    @Override
+    public ShapeStyle borderColor(String color) {
+        this.borderColor = color;
+        return this;
+    }
+
+    @Override
+    public ShapeStyle textStyle(TextStyle textStyle) {
+        this.textStyle = textStyle;
+        return this;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SimpleShapeStyle)) return false;
         if (!super.equals(o)) return false;
         SimpleShapeStyle that = (SimpleShapeStyle) o;
-        return Objects.equals(borderColor, that.borderColor) &&
+        return Objects.equals(backgroundColor, that.backgroundColor) &&
+                Objects.equals(borderColor, that.borderColor) &&
                 Objects.equals(borderWidth, that.borderWidth) &&
                 borderType == that.borderType &&
                 Objects.equals(textStyle, that.textStyle);
@@ -90,12 +126,13 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), borderColor, borderWidth, borderType, textStyle);
+        return Objects.hash(super.hashCode(), backgroundColor, borderColor, borderWidth, borderType, textStyle);
     }
 
     @Override
     protected Map<String, Object> toStringMap() {
         Map<String, Object> map = super.toStringMap();
+        map.put("backgroundColor", getBackgroundColor());
         map.put("borderColor", getBorderColor());
         map.put("borderWidth", getBorderWidth());
         map.put("borderType", getBorderType());

@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static org.aying.echarts.util.Validators.checkNumber;
+
 /**
  * 极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
  *
@@ -31,13 +33,38 @@ import java.util.Objects;
  */
 public class Polar extends BaseCanvasZ<Polar> implements Serializable {
 
+    public static final String KEY_CENTER = "center";
+    public static final String KEY_RADOUS = "radius";
+
     private static final long serialVersionUID = 5412105993067282426L;
+
+    public static Polar of(
+            Integer zlevel, Integer z,
+            Object[] center, Object[] radius) {
+        return new Polar(zlevel, z, center, radius);
+    }
 
     private Object[] center;
     private Object[] radius;
 
     public Polar() {
         super();
+    }
+
+    protected Polar(Integer zlevel, Integer z, Object[] center, Object[] radius) {
+        super(zlevel, z);
+        this.center = center;
+        this.radius = radius;
+    }
+
+    public Polar center(Object x, Object y) {
+        this.center = new Object[]{checkNumber(x, "center X"), checkNumber(y, "center Y")};
+        return this;
+    }
+
+    public Polar radius(Object inner, Object outer) {
+        this.radius = new Object[]{checkNumber(inner, "inner radius"), checkNumber(outer, "outer radius")};
+        return this;
     }
 
     @JsonProperty(required = false)
