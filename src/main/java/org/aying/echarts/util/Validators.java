@@ -55,7 +55,7 @@ public class Validators {
         if (m.find()) {
             String numStr = m.group(1);
             try {
-                BigDecimal d = new BigDecimal(numStr).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal d = new BigDecimal(numStr).setScale(0, RoundingMode.HALF_UP);
 
                 return d.toPlainString().concat("%");
             } catch (NumberFormatException ex) {

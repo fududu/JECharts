@@ -37,6 +37,12 @@ public class AxisLine extends BaseComponent<AxisLine> implements Serializable {
         return new AxisLine();
     }
 
+    public static AxisLine showed(LineStyle lineStyle) {
+        AxisLine line = new AxisLine();
+        line.setLineStyle(lineStyle);
+        return line;
+    }
+
     public static AxisLine hidden() {
         return new AxisLine(Boolean.FALSE);
     }

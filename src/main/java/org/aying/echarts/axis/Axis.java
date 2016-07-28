@@ -17,10 +17,9 @@
 package org.aying.echarts.axis;
 
 import org.aying.echarts.BaseData;
+import org.aying.echarts.style.TextStyle;
 import org.aying.echarts.util.Validators;
-import org.jetbrains.annotations.Contract;
 
-import java.time.format.TextStyle;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -213,7 +212,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
      * @throws NullPointerException 如果参数为{@code null}。
      * @throws IllegalArgumentException 如果轴类型{@code type == AxisType.category}。
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public A boundaryGap(Object min, Object max) {
         if (type == AxisType.category) {
             throw new IllegalArgumentException(
@@ -237,7 +235,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
      * @throws NullPointerException 如果参数值有{@code min == null}。
      * @throws IllegalArgumentException 如果坐标轴刻度最小值类型或格式错误。
      */
-    @Contract("null -> fail")
     public A min(Object min) {
         Objects.requireNonNull(min, "Axis.min");
         if (min instanceof String) {
@@ -267,7 +264,6 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
      * @throws NullPointerException 如果参数值有{@code max == null}。
      * @throws IllegalArgumentException 如果坐标轴刻度最大值类型或格式错误。
      */
-    @Contract("null -> fail")
     public A max(Object max) {
         Objects.requireNonNull(max, "Axis.max");
         if (max instanceof String) {

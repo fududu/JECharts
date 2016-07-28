@@ -46,6 +46,7 @@ public abstract class BaseCanvasZ<Z extends BaseCanvasZ<Z>> implements CanvasZ<Z
         return zlevel;
     }
 
+    @Override
     public void setZlevel(Integer zlevel) {
         this.zlevel = zlevel;
     }
@@ -56,6 +57,7 @@ public abstract class BaseCanvasZ<Z extends BaseCanvasZ<Z>> implements CanvasZ<Z
         return z;
     }
 
+    @Override
     public void setZ(Integer z) {
         this.z = z;
     }

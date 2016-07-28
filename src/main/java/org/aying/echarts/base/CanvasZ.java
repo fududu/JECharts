@@ -32,10 +32,14 @@ public interface CanvasZ<Z extends CanvasZ<Z>> {
      */
     Integer getZlevel();
 
+    void setZlevel(Integer zlevel);
+
     /**
      * 组件的所有图形的{@code z} 值。
      */
     Integer getZ();
+
+    void setZ(Integer z);
 
     /**
      * 设置所有图形的{@code zlevel} 值。

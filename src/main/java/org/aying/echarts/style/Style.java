@@ -29,7 +29,7 @@ public interface Style extends Serializable {
     /**
      * 字体颜色（16进制表示，或{@code rgba(...)}）。
      */
-    String getColor();
+    Object getColor();
 
     /**
      * 设置样式的颜色。
@@ -37,4 +37,14 @@ public interface Style extends Serializable {
      * @param color 样式颜色。
      */
     <S extends Style> S color(String color);
+
+    @SuppressWarnings("unchecked")
+    default <S extends Style> S color(String[] colors) {
+        return (S) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    default <S extends Style> S color(String c1, String c2, String... cn) {
+        return (S) this;
+    }
 }

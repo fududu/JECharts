@@ -47,12 +47,12 @@ public class ControlStyle extends BaseStyle<ControlStyle> {
 
     @Override
     @JsonIgnore
-    public String getColor() {
+    public Object getColor() {
         return null;
     }
 
     @Override
-    public void setColor(String color) {
+    public void setColor(Object color) {
         // controlStyle not support color property
     }
 

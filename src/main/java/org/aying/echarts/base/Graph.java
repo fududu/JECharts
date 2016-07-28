@@ -58,9 +58,19 @@ public abstract class Graph<T extends Graph<T>> extends BasePosition<T>
     }
 
     @Override
+    public void setZlevel(Integer zlevel) {
+        canvasZ.setZlevel(zlevel);
+    }
+
+    @Override
     @JsonProperty(required = false)
     public Integer getZ() {
         return canvasZ.getZ();
+    }
+
+    @Override
+    public void setZ(Integer z) {
+        canvasZ.setZ(z);
     }
 
     @Override

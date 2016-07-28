@@ -37,6 +37,12 @@ public class SplitLine extends BaseComponent<SplitLine> implements Serializable 
         return new SplitLine();
     }
 
+    public static SplitLine showed(LineStyle lineStyle) {
+        SplitLine line = new SplitLine();
+        line.setLineStyle(lineStyle);
+        return line;
+    }
+
     public static SplitLine hidden() {
         return new SplitLine(Boolean.FALSE);
     }

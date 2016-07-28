@@ -54,8 +54,18 @@ public class SingleAxis extends Axis<SingleAxis>
     }
 
     @Override
+    public void setZlevel(Integer zlevel) {
+        sizeGraph.setZlevel(zlevel);
+    }
+
+    @Override
     public Integer getZ() {
         return sizeGraph.getZ();
+    }
+
+    @Override
+    public void setZ(Integer z) {
+        sizeGraph.setZ(z);
     }
 
     @Override

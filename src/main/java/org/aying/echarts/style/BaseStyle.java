@@ -16,8 +16,12 @@
 
 package org.aying.echarts.style;
 
+import org.aying.echarts.util.CollectionUtils;
+
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -33,7 +37,7 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
     /**
      * 字体颜色。
      */
-    protected String color;
+    protected Object color;
 
     protected BaseStyle() {
         super();
@@ -57,11 +61,30 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
     }
 
     @Override
-    public String getColor() {
+    @SuppressWarnings("unchecked")
+    public T color(String[] colors) {
+        if (colors == null || colors.length == 0) {
+            this.color = null; return me();
+        }
+        LinkedList<String> list = new LinkedList<>();
+        Collections.addAll(list, colors);
+        this.color = list;
+        return me();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public T color(String c1, String c2, String... cn) {
+        this.color = CollectionUtils.linkedList("color", c1, c2, cn);
+        return me();
+    }
+
+    @Override
+    public Object getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Object color) {
         this.color = color;
     }
 
