@@ -30,7 +30,7 @@ public abstract class BaseSymbol<S extends BaseSymbol<S>> implements Symbol<S>, 
     private static final long serialVersionUID = 1L;
 
     private SymbolType symbol;
-    private Integer symbolSize;
+    private Object symbolSize;
     /* 标记的旋转角度。 */
     private Integer symbolRotate;
     private transient Offset _symbolOffset;
@@ -54,11 +54,11 @@ public abstract class BaseSymbol<S extends BaseSymbol<S>> implements Symbol<S>, 
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return symbolSize;
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         this.symbolSize = symbolSize;
     }
 
@@ -98,6 +98,12 @@ public abstract class BaseSymbol<S extends BaseSymbol<S>> implements Symbol<S>, 
     }
 
     @Override
+    public S symbolSize(int w, int h) {
+        this.symbolSize = new int[] { w, h };
+        return me();
+    }
+
+    @Override
     public S symbolRotate(Integer rotate) {
         this.symbolRotate = rotate;
         return me();
@@ -107,6 +113,11 @@ public abstract class BaseSymbol<S extends BaseSymbol<S>> implements Symbol<S>, 
     public S offset(Object x, Object y) {
         this._symbolOffset = Offset.of(x, y);
         return me();
+    }
+
+    public boolean isEmptyProps() {
+        return symbol == null && symbolSize == null &&
+                symbolRotate == null && _symbolOffset == null;
     }
 
     @Override

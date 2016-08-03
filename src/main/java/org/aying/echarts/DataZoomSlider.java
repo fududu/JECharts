@@ -16,8 +16,13 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.DataBackground;
 import org.aying.echarts.style.ShapeStyle;
+import org.aying.echarts.style.SimpleShapeStyle;
 
 import java.time.format.TextStyle;
 import java.util.LinkedHashMap;
@@ -30,6 +35,8 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeName("slider")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataZoomSlider extends DataZoomInside {
 
     private static final long serialVersionUID = 2369457355287996613L;
@@ -104,6 +111,7 @@ public class DataZoomSlider extends DataZoomInside {
         this.borderColor = borderColor;
     }
 
+    @JsonProperty(required = false)
     public String getHandleIcon() {
         return handleIcon;
     }
@@ -112,6 +120,7 @@ public class DataZoomSlider extends DataZoomInside {
         this.handleIcon = handleIcon;
     }
 
+    @JsonProperty(required = false)
     public Object getHandleSize() {
         return handleSize;
     }
@@ -120,6 +129,7 @@ public class DataZoomSlider extends DataZoomInside {
         this.handleSize = handleSize;
     }
 
+    @JsonDeserialize(as = SimpleShapeStyle.class)
     public ShapeStyle getHandleStyle() {
         return handleStyle;
     }
@@ -168,6 +178,7 @@ public class DataZoomSlider extends DataZoomInside {
         this.realtime = realtime;
     }
 
+    @JsonProperty(required = false)
     public TextStyle getTextStyle() {
         return textStyle;
     }

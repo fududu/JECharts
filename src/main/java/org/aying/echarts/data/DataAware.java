@@ -14,50 +14,26 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.data;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.List;
+
 /**
- * 水平对齐方式。
+ * ECharts data 属性观察者接口。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum Align {
+public interface DataAware<D, T extends DataAware<D, T>> {
 
-    /**
-     * 自动。
-     */
-    auto,
+    @Contract("null -> fail")
+    T addData(D d);
 
-    /**
-     * 居左。
-     */
-    left,
+    @Contract("null, _, _ -> fail; _, null, _ -> fail")
+    @SuppressWarnings("all")
+    T addData(D d1, D d2, D... dn);
 
-    /**
-     * 居中（水平）
-     */
-    center,
-
-    /**
-     * 居右。
-     */
-    right;
-
-    @Contract("_, !null -> !null")
-    public static Align of(Object v, Align a) {
-        if (v == null) return a;
-        if (v instanceof Align) {
-            return (Align) v;
-        }
-        String s = ((String) v).trim().toLowerCase();
-        for (Align align : values()) {
-            if (align.name().equals(s)) {
-                return align;
-            }
-        }
-        return a;
-    }
+    List<D> getData();
 }

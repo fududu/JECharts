@@ -35,12 +35,24 @@ public class RadarName implements Serializable {
 
     private static final long serialVersionUID = -1148495774727852942L;
 
+    /**
+     * 直接指定雷达图组件名称的样式。
+     *
+     * @param textStyle 雷达图组件名称的样式。
+     * @return 雷达图组件名称属性模型。
+     */
     public static RadarName styled(TextStyle textStyle) {
         RadarName radarName = new RadarName();
         radarName.setTextStyle(textStyle);
         return radarName;
     }
 
+    /**
+     * 指示器名称显示的格式器。支持字符串模版（暂时不支持回调函数）。
+     *
+     * @param formatter 指示器名称显示的格式器。
+     * @return 雷达图组件名称属性模型。
+     */
     public static RadarName named(String formatter) {
         RadarName radarName = new RadarName();
         radarName.setFormatter(formatter);

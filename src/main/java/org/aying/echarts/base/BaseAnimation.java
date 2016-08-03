@@ -181,7 +181,7 @@ public abstract class BaseAnimation<A extends BaseAnimation<A>>
         builder.append(", animationDurationUpdate=").append(animationDurationUpdate);
         builder.append(", animationEasingUpdate=").append(animationEasingUpdate);
         builder.append(", animationDelayUpdate=").append(animationDelayUpdate);
-        builder.append(", oseAnimation=").append(closeAnimation());
+//        builder.append(", oseAnimation=").append(closeAnimation());
     }
 
     @Override

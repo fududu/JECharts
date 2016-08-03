@@ -24,7 +24,7 @@ public interface Symbol<S extends Symbol<S>> {
 
     SymbolType getSymbol();
 
-    Integer getSymbolSize();
+    Object getSymbolSize();
 
     Integer getSymbolRotate();
 
@@ -34,7 +34,16 @@ public interface Symbol<S extends Symbol<S>> {
 
     S symbolSize(Integer size);
 
+    S symbolSize(int w, int h);
+
     S symbolRotate(Integer rotate);
 
     S offset(Object x, Object y);
+
+    default S offset(Object[] offset) {
+        if (offset == null || offset.length != 2) {
+            throw new IllegalArgumentException("The symbolOffset must be array [x, y]");
+        }
+        return offset(offset[0], offset[1]);
+    }
 }

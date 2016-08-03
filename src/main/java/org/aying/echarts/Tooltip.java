@@ -23,6 +23,7 @@ import org.aying.echarts.base.TriggerOn;
 
 import java.io.Serializable;
 import java.time.format.TextStyle;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -34,6 +35,11 @@ import java.util.Objects;
 public class Tooltip implements Serializable {
 
     private static final long serialVersionUID = 2124173085714755764L;
+
+    public static Tooltip convert(Map<String, Object> map) {
+
+        return null;
+    }
 
     /* 是否显示提示框组件，包括提示框浮层和 axisPointer。 */
     private Boolean show;

@@ -14,50 +14,36 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.base;
+package org.aying.echarts.data;
 
-import org.jetbrains.annotations.Contract;
+import org.aying.echarts.style.TextStyle;
+
+import java.io.Serializable;
 
 /**
- * 水平对齐方式。
+ * ECharts data 模型接口。
  *
  * @author Fuchun
  * @since 1.0
  */
-public enum Align {
+public interface Data extends Serializable {
 
     /**
-     * 自动。
+     * 数据项名称。
      */
-    auto,
+    String getName();
 
     /**
-     * 居左。
+     * 数据项值。
      */
-    left,
+    Object getValue();
 
     /**
-     * 居中（水平）
+     * 数据项的文本样式。
      */
-    center,
+    TextStyle getTextStyle();
 
-    /**
-     * 居右。
-     */
-    right;
-
-    @Contract("_, !null -> !null")
-    public static Align of(Object v, Align a) {
-        if (v == null) return a;
-        if (v instanceof Align) {
-            return (Align) v;
-        }
-        String s = ((String) v).trim().toLowerCase();
-        for (Align align : values()) {
-            if (align.name().equals(s)) {
-                return align;
-            }
-        }
-        return a;
+    default Object toSingleValue() {
+        return null;
     }
 }

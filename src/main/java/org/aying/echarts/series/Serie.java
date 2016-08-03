@@ -16,6 +16,9 @@
 
 package org.aying.echarts.series;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.aying.echarts.ChartType;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +28,31 @@ import org.jetbrains.annotations.NotNull;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = BarSerie.class, name = "bar"),
+        @JsonSubTypes.Type(value = BoxPlotSerie.class, name = "boxplot"),
+        @JsonSubTypes.Type(value = CandlestickSerie.class, name = "candlestick"),
+        @JsonSubTypes.Type(value = EffectScatterSerie.class, name = "effectscatter"),
+        @JsonSubTypes.Type(value = FunnelSerie.class, name = "funnel"),
+        @JsonSubTypes.Type(value = GaugeSerie.class, name = "gauge"),
+        @JsonSubTypes.Type(value = GraphSerie.class, name = "graph"),
+        @JsonSubTypes.Type(value = HeatMapSerie.class, name = "heatmap"),
+        @JsonSubTypes.Type(value = LineSerie.class, name = "line"),
+        @JsonSubTypes.Type(value = LinesSerie.class, name = "lines"),
+        @JsonSubTypes.Type(value = MapSerie.class, name = "map"),
+        @JsonSubTypes.Type(value = ParallelSerie.class, name = "parallel"),
+        @JsonSubTypes.Type(value = PieSerie.class, name = "pie"),
+        @JsonSubTypes.Type(value = RadarSerie.class, name = "radar"),
+        @JsonSubTypes.Type(value = SankeySerie.class, name = "sankey"),
+        @JsonSubTypes.Type(value = ScatterSerie.class, name = "scatter"),
+        @JsonSubTypes.Type(value = TreeMapSerie.class, name = "treemap")
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public interface Serie {
 
     /**

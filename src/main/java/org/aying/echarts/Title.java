@@ -175,7 +175,7 @@ public class Title extends Graph<Title>
     }
 
     @Override
-    public ShapeStyle borderColor(String color) {
+    public Title borderColor(String color) {
         sss.borderColor(color);
         return this;
     }

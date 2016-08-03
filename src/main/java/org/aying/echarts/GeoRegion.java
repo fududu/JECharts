@@ -16,10 +16,12 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.Label;
 import org.aying.echarts.base.SimpleLabel;
 import org.aying.echarts.style.AreaShapeStyle;
 import org.aying.echarts.style.ShapeStyle;
+import org.aying.echarts.style.SimpleShapeStyle;
 import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
@@ -140,6 +142,7 @@ public class GeoRegion implements Serializable {
         this.selected = selected;
     }
 
+    @JsonDeserialize(as = SimpleShapeStyle.class)
     public Map<String, ShapeStyle> getItemStyle() {
         return itemStyle;
     }

@@ -16,6 +16,9 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -26,6 +29,16 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = DataZoomInside.class, name = "inside"),
+        @JsonSubTypes.Type(value = DataZoomSelect.class, name = "select"),
+        @JsonSubTypes.Type(value = DataZoomSlider.class, name = "slider")
+})
 public abstract class DataZoom implements Serializable {
 
     private static final long serialVersionUID = 1L;

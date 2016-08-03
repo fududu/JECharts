@@ -17,6 +17,8 @@
 package org.aying.echarts.style;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.aying.echarts.base.Align;
+import org.aying.echarts.base.Baseline;
 import org.aying.echarts.style.font.FontStyle;
 import org.intellij.lang.annotations.MagicConstant;
 
@@ -33,6 +35,20 @@ import static org.aying.echarts.style.font.FontWeight.W900;
  */
 @JsonDeserialize(as = SimpleTextStyle.class)
 public interface TextStyle extends Style {
+
+    /**
+     * 文字水平对齐方式。
+     */
+    default Align getAlign() {
+        return null;
+    }
+
+    /**
+     * 文字垂直对齐方式。
+     */
+    default Baseline getBaseline() {
+        return null;
+    }
 
     /**
      * 文字样式。
@@ -54,6 +70,48 @@ public interface TextStyle extends Style {
      * 字体大小。
      */
     Integer getFontSize();
+
+    /**
+     * 文字文本左对齐。
+     */
+    default TextStyle alignLeft() {
+        return this;
+    }
+
+    /**
+     * 文字文本设置为水平居中对齐。
+     */
+    default TextStyle alignCenter() {
+        return this;
+    }
+
+    /**
+     * 文字文本设置为右对齐。
+     */
+    default TextStyle alignRight() {
+        return this;
+    }
+
+    /**
+     * 文字文本设置为顶部对齐。
+     */
+    default TextStyle alignTop() {
+        return this;
+    }
+
+    /**
+     * 文字文本设置为垂直居中对齐。
+     */
+    default TextStyle alignMiddle() {
+        return this;
+    }
+
+    /**
+     * 文字文本设置为垂直底部对齐。
+     */
+    default TextStyle alignBottom() {
+        return this;
+    }
 
     @SuppressWarnings("unchecked")
     TextStyle color(String color);

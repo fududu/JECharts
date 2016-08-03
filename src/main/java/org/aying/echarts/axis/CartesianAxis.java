@@ -92,6 +92,10 @@ public class CartesianAxis extends Axis<CartesianAxis> {
      */
     private Integer offset;
 
+    public CartesianAxis() {
+        this(null, null);
+    }
+
     public CartesianAxis(XY xy) {
         this(xy, null);
     }

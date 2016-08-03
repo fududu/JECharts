@@ -16,7 +16,6 @@
 
 package org.aying.echarts.style;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.LineType;
 
 /**
@@ -25,7 +24,6 @@ import org.aying.echarts.base.LineType;
  * @author Fuchun
  * @since 1.0
  */
-@JsonDeserialize(as = SimpleShapeStyle.class)
 public interface ShapeStyle extends ShadowStyle {
 
     /**

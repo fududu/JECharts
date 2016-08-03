@@ -16,11 +16,17 @@
 
 package org.aying.echarts.axis;
 
-import org.aying.echarts.BaseData;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.aying.echarts.data.BaseDataAware;
+import org.aying.echarts.data.SimpleData;
+import org.aying.echarts.json.converter.SimpleDataConverter;
+import org.aying.echarts.json.converter.ToSimpleDataConverter;
 import org.aying.echarts.style.TextStyle;
 import org.aying.echarts.util.Validators;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,7 +36,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
+public abstract class Axis<A extends Axis<A>> extends BaseDataAware<SimpleData, A> {
 
     private static final long serialVersionUID = 1L;
 
@@ -586,6 +592,18 @@ public abstract class Axis<A extends Axis<A>> extends BaseData<A> {
 
     public void setSplitArea(SplitArea splitArea) {
         this.splitArea = splitArea;
+    }
+
+    @Override
+    @JsonSerialize(contentConverter = SimpleDataConverter.class)
+    public List<SimpleData> getData() {
+        return super.getData();
+    }
+
+    @Override
+    @JsonDeserialize(contentConverter = ToSimpleDataConverter.class)
+    public void setData(List<SimpleData> data) {
+        super.setData(data);
     }
 
     @Override

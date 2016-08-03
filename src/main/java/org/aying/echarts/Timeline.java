@@ -19,11 +19,13 @@ package org.aying.echarts;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.aying.echarts.axis.AxisType;
 import org.aying.echarts.base.*;
+import org.aying.echarts.data.DataAware;
+import org.aying.echarts.data.SimpleDataAware;
+import org.aying.echarts.data.TimelineData;
 import org.aying.echarts.style.CheckpointStyle;
 import org.aying.echarts.style.ControlStyle;
 import org.aying.echarts.style.LineStyle;
 import org.aying.echarts.style.StateShapeStyle;
-import org.jetbrains.annotations.Contract;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,12 +37,11 @@ import java.util.Objects;
  * @since 1.0
  */
 public class Timeline extends Graph<Timeline>
-        implements Symbol<Timeline>, Data<Timeline> {
+        implements Symbol<Timeline>, DataAware<TimelineData, Timeline> {
 
     private static final long serialVersionUID = 642119678303367107L;
 
-    @JsonIgnore
-    private final Data<?> delegateData;
+    private final SimpleDataAware<TimelineData> sda;
     @JsonIgnore
     private final SimpleSymbol simpleSymbol;
 
@@ -80,7 +81,7 @@ public class Timeline extends Graph<Timeline>
     private ControlStyle controlStyle;
 
     public Timeline() {
-        this.delegateData = BaseData.delegate();
+        this.sda = new SimpleDataAware<>();
         this.simpleSymbol = new SimpleSymbol();
         this.type = "slider";
     }
@@ -195,11 +196,11 @@ public class Timeline extends Graph<Timeline>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return simpleSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         simpleSymbol.setSymbolSize(symbolSize);
     }
 
@@ -274,6 +275,12 @@ public class Timeline extends Graph<Timeline>
     }
 
     @Override
+    public Timeline symbolSize(int w, int h) {
+        simpleSymbol.symbolSize(w, h);
+        return this;
+    }
+
+    @Override
     public Timeline symbolRotate(Integer rotate) {
         simpleSymbol.setSymbolRotate(rotate);
         return this;
@@ -286,22 +293,24 @@ public class Timeline extends Graph<Timeline>
     }
 
     @Override
-    @Contract("null -> fail")
-    public Timeline add(Data<?> d) {
-        delegateData.add(d);
+    public Timeline addData(TimelineData data) {
+        sda.addData(data);
         return this;
     }
 
     @Override
-    @Contract("null, _, _ -> fail; _, null, _ -> fail")
-    public Timeline add(Data<?> d1, Data<?> d2, Data<?>... dn) {
-        delegateData.add(d1, d2, dn);
+    public Timeline addData(TimelineData d1, TimelineData d2, TimelineData... dn) {
+        sda.addData(d1, d2, dn);
         return this;
     }
 
     @Override
-    public List<Data<?>> getData() {
-        return delegateData.getData();
+    public List<TimelineData> getData() {
+        return sda.getData();
+    }
+
+    public void setData(List<TimelineData> data) {
+        sda.setData(data);
     }
 
     public static class TimelineLabel extends State<TimelineLabel, SimpleLabel> {
@@ -351,7 +360,7 @@ public class Timeline extends Graph<Timeline>
         if (!(o instanceof Timeline)) return false;
         if (!super.equals(o)) return false;
         Timeline timeline = (Timeline) o;
-        return Objects.equals(delegateData, timeline.delegateData) &&
+        return Objects.equals(sda, timeline.sda) &&
                 Objects.equals(type, timeline.type) &&
                 Objects.equals(simpleSymbol, timeline.simpleSymbol) &&
                 Objects.equals(show, timeline.show) &&
@@ -375,7 +384,7 @@ public class Timeline extends Graph<Timeline>
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), delegateData, type, simpleSymbol, show, axisType,
+        return Objects.hash(super.hashCode(), sda, type, simpleSymbol, show, axisType,
                 currentIndex, autoPlay, rewind, loop, playInterval, realtime, controlPosition, padding,
                 orient, inverse, lineStyle, label, itemStyle, checkpointStyle, controlStyle);
     }

@@ -226,4 +226,5 @@ public class RadarTest extends BaseTest {
             assertThat(ex, instanceOf(IllegalArgumentException.class));
         }
     }
+
 }

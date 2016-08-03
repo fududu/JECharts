@@ -17,7 +17,9 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.aying.echarts.style.ShapeStyle;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.aying.echarts.style.StateShapeStyle;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -28,13 +30,15 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeName("select")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataZoomSelect extends DataZoom {
 
     private static final long serialVersionUID = -1784906978413316044L;
 
     private Map<String, String> title;
     private Map<String, String> icon;
-    private Map<String, ShapeStyle> iconStyle;
+    private StateShapeStyle iconStyle;
 
     public DataZoomSelect() {
         super(DataZoomType.select);
@@ -49,12 +53,6 @@ public class DataZoomSelect extends DataZoom {
     protected void initIconMap() {
         if (icon == null) {
             icon = new HashMap<>(4);
-        }
-    }
-
-    protected void initIconStyleMap() {
-        if (iconStyle == null) {
-            iconStyle = new HashMap<>(4);
         }
     }
 
@@ -82,18 +80,6 @@ public class DataZoomSelect extends DataZoom {
         return this;
     }
 
-    public DataZoomSelect normalStyle(ShapeStyle normal) {
-        initIconStyleMap();
-        iconStyle.put("normal", normal);
-        return this;
-    }
-
-    public DataZoomSelect emphasisStyle(ShapeStyle emphasis) {
-        initIconStyleMap();
-        iconStyle.put("emphasis", emphasis);
-        return this;
-    }
-
     @Override
     @JsonIgnore
     public DataZoomType getType() {
@@ -116,11 +102,11 @@ public class DataZoomSelect extends DataZoom {
         this.icon = icon;
     }
 
-    public Map<String, ShapeStyle> getIconStyle() {
+    public StateShapeStyle getIconStyle() {
         return iconStyle;
     }
 
-    public void setIconStyle(Map<String, ShapeStyle> iconStyle) {
+    public void setIconStyle(StateShapeStyle iconStyle) {
         this.iconStyle = iconStyle;
     }
 

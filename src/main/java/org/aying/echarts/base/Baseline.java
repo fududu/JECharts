@@ -44,11 +44,14 @@ public enum Baseline {
     bottom;
 
     @Contract("_, !null -> !null")
-    public static Baseline of(String v, Baseline b) {
-        if (v == null || v.isEmpty()) {
+    public static Baseline of(Object v, Baseline b) {
+        if (v == null) {
             return b;
         }
-        String s = v.toLowerCase();
+        if (v instanceof Baseline) {
+            return (Baseline) v;
+        }
+        String s = ((String) v).trim().toLowerCase();
         for (Baseline bl : values()) {
             if (bl.name().equals(s)) {
                 return bl;

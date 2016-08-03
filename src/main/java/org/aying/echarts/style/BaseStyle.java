@@ -16,6 +16,8 @@
 
 package org.aying.echarts.style;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.aying.echarts.json.ser.JsFunctionSerializer;
 import org.aying.echarts.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -80,6 +82,7 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
     }
 
     @Override
+    @JsonSerialize(using = JsFunctionSerializer.class)
     public Object getColor() {
         return color;
     }

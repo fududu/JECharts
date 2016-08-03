@@ -16,10 +16,15 @@
 
 package org.aying.echarts.style;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.aying.echarts.base.Align;
+import org.aying.echarts.base.Baseline;
 import org.aying.echarts.style.font.FontStyle;
 import org.aying.echarts.style.font.FontWeight;
 import org.intellij.lang.annotations.MagicConstant;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.aying.echarts.style.font.FontWeight.*;
@@ -30,10 +35,13 @@ import static org.aying.echarts.style.font.FontWeight.*;
  * @author Fuchun
  * @since 1.0
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextStyle {
 
     private static final long serialVersionUID = -7037742340818566884L;
 
+    private Align align;
+    private Baseline baseline;
     private FontStyle fontStyle;
     private Object fontWeight;
     private String fontFamily;
@@ -43,11 +51,82 @@ public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextS
         super();
     }
 
+    public SimpleTextStyle(Map<String, Object> map) {
+        super();
+        initFromMap(map);
+    }
+
     public SimpleTextStyle(FontStyle fontStyle, Object fontWeight, Integer fontSize, String fontFamily) {
         this.fontStyle = fontStyle;
         this.fontWeight = fontWeight;
         this.fontSize = fontSize;
         this.fontFamily = fontFamily;
+    }
+
+    protected void initFromMap(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) return;
+        String color = (String) map.get("color");
+        Object oAlign = map.get("align");
+        Object oBaseline = map.get("baseline");
+        Object oFontStyle = map.get("fontStyle");
+        Object oFontWeight = map.get("fontWeight");
+        String fontFamily = (String) map.get("fontFamily");
+        Integer fontSize = (Integer) map.get("fontSize");
+
+        this.color = color;
+        this.align = Align.of(oAlign, null);
+        this.baseline = Baseline.of(oBaseline, null);
+        this.fontStyle = FontStyle.of(oFontStyle, null);
+        if (oFontWeight != null) {
+            if (oFontWeight instanceof Number) {
+                int fw = ((Number) oFontWeight).intValue();
+                if (FontWeight.isValid(fw)) this.fontWeight = fw;
+                else {
+                    throw new IllegalArgumentException("The textStyle.fontWeight value range is " +
+                            Arrays.toString(FontWeight.weights()));
+                }
+            } else if (oFontWeight instanceof String || oFontWeight instanceof FontWeight) {
+                this.fontWeight = FontWeight.of(oFontWeight, null);
+            }
+        }
+        this.fontFamily = fontFamily;
+        this.fontSize = fontSize;
+    }
+
+    @Override
+    public TextStyle alignLeft() {
+        this.align = Align.left;
+        return this;
+    }
+
+    @Override
+    public TextStyle alignCenter() {
+        this.align = Align.center;
+        return this;
+    }
+
+    @Override
+    public TextStyle alignRight() {
+        this.align = Align.right;
+        return this;
+    }
+
+    @Override
+    public TextStyle alignTop() {
+        this.baseline = Baseline.top;
+        return this;
+    }
+
+    @Override
+    public TextStyle alignMiddle() {
+        this.baseline = Baseline.middle;
+        return this;
+    }
+
+    @Override
+    public TextStyle alignBottom() {
+        this.baseline = Baseline.bottom;
+        return this;
     }
 
     @Override
@@ -106,6 +185,24 @@ public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextS
     public SimpleTextStyle fontSize(int fontSize) {
         this.fontSize = fontSize;
         return this;
+    }
+
+    @Override
+    public Align getAlign() {
+        return align;
+    }
+
+    public void setAlign(Align align) {
+        this.align = align;
+    }
+
+    @Override
+    public Baseline getBaseline() {
+        return baseline;
+    }
+
+    public void setBaseline(Baseline baseline) {
+        this.baseline = baseline;
     }
 
     @Override
@@ -185,14 +282,16 @@ public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextS
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(32)
+        final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        builder.append("color=").append(color)
-                .append("fontStyle=").append(fontStyle)
-                .append(", fontWeight=").append(fontWeight)
-                .append(", fontFamily='").append(fontFamily).append('\'')
-                .append(", fontSize=")
-                .append(fontSize).append('}');
-        return builder.toString();
+        sb.append("color=").append(getColor());
+        sb.append(", align=").append(align);
+        sb.append(", baseline=").append(baseline);
+        sb.append(", fontStyle=").append(fontStyle);
+        sb.append(", fontWeight=").append(fontWeight);
+        sb.append(", fontFamily='").append(fontFamily).append('\'');
+        sb.append(", fontSize=").append(fontSize);
+        sb.append('}');
+        return sb.toString();
     }
 }

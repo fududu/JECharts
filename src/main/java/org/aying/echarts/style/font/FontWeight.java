@@ -94,11 +94,14 @@ public enum FontWeight {
     }
 
     @Contract("_, !null -> !null")
-    public static FontWeight of(String v, FontWeight def) {
-        if (v == null || v.isEmpty()) {
+    public static FontWeight of(Object v, FontWeight def) {
+        if (v == null) {
             return def;
         }
-        String n = v.toLowerCase();
+        if (v instanceof FontWeight) {
+            return (FontWeight) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
         for (FontWeight fw : values()) {
             if (fw.name().equals(n)) {
                 return fw;

@@ -14,38 +14,17 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.json.converter;
+
+import org.aying.echarts.data.LegendData;
 
 /**
- * 图形阴影样式。
- *
  * @author Fuchun
  * @since 1.0
  */
-public interface ShadowStyle extends Style {
+public class LegendDataConverter extends DataToObjectConverter<LegendData> {
 
-    /**
-     * 图形阴影的模糊大小。
-     */
-    Integer getShadowBlur();
-
-    /**
-     * 阴影颜色。
-     */
-    String getShadowColor();
-
-    /**
-     * 阴影水平方向上的偏移距离。
-     */
-    Integer getShadowOffsetX();
-
-    /**
-     * 阴影垂直方向上的偏移距离。
-     */
-    Integer getShadowOffsetY();
-
-    /**
-     * 图形透明度。{@code 0..1}
-     */
-    Double getOpacity();
+    public LegendDataConverter() {
+        super(LegendData.class);
+    }
 }

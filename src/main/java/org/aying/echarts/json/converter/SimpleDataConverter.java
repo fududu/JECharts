@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.json.converter;
+
+import org.aying.echarts.data.SimpleData;
 
 /**
- * 分隔区域的样式设置。
- *
  * @author Fuchun
  * @since 1.0
  */
-public class AreaStyle extends SimpleShadowStyle {
+public class SimpleDataConverter extends DataToObjectConverter<SimpleData> {
 
-    private static final long serialVersionUID = -8616474491137117656L;
-
-    public AreaStyle() {
-        super();
+    public SimpleDataConverter() {
+        super(SimpleData.class);
     }
 }

@@ -27,8 +27,8 @@ import org.aying.echarts.style.TextStyle;
 import java.util.Objects;
 
 /**
- * ECharts 网络选项模型。
- * 直角坐标系内绘图网格，单个 grid 内最多可以放置上下两个 X 轴，左右两个 Y 轴。
+ * 直角坐标系内绘图网格，单个{@code grid} 内最多可以放置上下两个{@code X} 轴，左右两个{@code Y} 轴。
+ * 可以在网格上绘制折线图，柱状图，散点图（气泡图）。
  *
  * @author Fuchun
  * @since 1.0
@@ -38,13 +38,25 @@ public class Grid extends SizeGraph<Grid>
 
     private static final long serialVersionUID = 7959187036320536290L;
 
+    public static Grid showed() {
+        return new Grid(Boolean.TRUE);
+    }
+
+    public static Grid hidden() {
+        return new Grid();
+    }
+
     private final SimpleShapeStyle sss;
 
     private Boolean show;
     private Boolean containLabel;
 
     public Grid() {
-        super();
+        this(null);
+    }
+
+    public Grid(Boolean show) {
+        this.show = show;
         sss = new SimpleShapeStyle();
     }
 

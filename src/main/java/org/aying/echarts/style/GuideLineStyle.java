@@ -36,7 +36,7 @@ public class GuideLineStyle implements Serializable {
     /*视觉引导项第二段的长度。*/
     private Integer length2;
     /*是否平滑视觉引导线，默认不平滑*/
-    private Boolean smooth;
+    private Object smooth;
     /*线条样式*/
     private LineStyle lineStyle;
 
@@ -94,11 +94,11 @@ public class GuideLineStyle implements Serializable {
         this.length2 = length2;
     }
 
-    public Boolean getSmooth() {
+    public Object getSmooth() {
         return smooth;
     }
 
-    public void setSmooth(Boolean smooth) {
+    public void setSmooth(Object smooth) {
         this.smooth = smooth;
     }
 

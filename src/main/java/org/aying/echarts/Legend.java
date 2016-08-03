@@ -18,11 +18,19 @@ package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.aying.echarts.base.Align;
 import org.aying.echarts.base.LineType;
 import org.aying.echarts.base.Orient;
 import org.aying.echarts.base.SelectedMode;
 import org.aying.echarts.base.SizeGraph;
+import org.aying.echarts.data.DataAware;
+import org.aying.echarts.data.LegendData;
+import org.aying.echarts.data.SimpleDataAware;
+import org.aying.echarts.json.converter.LegendDataConverter;
+import org.aying.echarts.json.converter.ToLegendDataConverter;
+import org.aying.echarts.json.ser.JsFunctionSerializer;
 import org.aying.echarts.style.ShapeStyle;
 import org.aying.echarts.style.SimpleShapeStyle;
 import org.aying.echarts.style.TextStyle;
@@ -39,12 +47,13 @@ import java.util.TreeMap;
  * @since 1.0
  */
 public class Legend extends SizeGraph<Legend>
-        implements Component<Legend>, ShapeStyle, Data<Legend> {
+        implements Component<Legend>, ShapeStyle, DataAware<LegendData, Legend> {
 
     private static final long serialVersionUID = -4466736220215040561L;
 
     private final SimpleShapeStyle sss;
     private final SimpleData sd;
+    private final SimpleDataAware<LegendData> sda;
 
     private Boolean show;
     private Orient orient;
@@ -63,6 +72,7 @@ public class Legend extends SizeGraph<Legend>
         super();
         sd = SimpleData.simple();
         sss = new SimpleShapeStyle();
+        sda = new SimpleDataAware<>();
     }
 
     @Override
@@ -187,6 +197,7 @@ public class Legend extends SizeGraph<Legend>
         this.itemHeight = itemHeight;
     }
 
+    @JsonSerialize(using = JsFunctionSerializer.class)
     public Object getFormatter() {
         return formatter;
     }
@@ -236,26 +247,27 @@ public class Legend extends SizeGraph<Legend>
         this.tooltip = tooltip;
     }
 
-    public List<Data<?>> getData() {
-        return sd.getData();
-    }
-
-    public void setData(List<Data<?>> data) {
-        this.sd.setData(data);
-    }
-
     @Override
-    @SuppressWarnings("unchecked")
-    public Legend add(Data<?> d) {
-        sd.add(d);
+    public Legend addData(LegendData d) {
+        sda.addData(d);
         return this;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Legend add(Data<?> d1, Data<?> d2, Data<?>... dn) {
-        sd.add(d1, d2, dn);
+    public Legend addData(LegendData d1, LegendData d2, LegendData... dn) {
+        sda.addData(d1, d2, dn);
         return this;
+    }
+
+    @Override
+    @JsonSerialize(contentConverter = LegendDataConverter.class)
+    public List<LegendData> getData() {
+        return sda.getData();
+    }
+
+    @JsonDeserialize(contentConverter = ToLegendDataConverter.class)
+    public void setData(List<LegendData> dataList) {
+        sda.setData(dataList);
     }
 
     @Override

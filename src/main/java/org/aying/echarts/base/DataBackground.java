@@ -16,8 +16,8 @@
 
 package org.aying.echarts.base;
 
-import org.aying.echarts.style.AreaStyle;
 import org.aying.echarts.style.LineStyle;
+import org.aying.echarts.style.ShadowStyle;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -33,13 +33,13 @@ public class DataBackground implements Serializable {
     private static final long serialVersionUID = -1094837092391729555L;
 
     private LineStyle lineStyle;
-    private AreaStyle areaStyle;
+    private ShadowStyle areaStyle;
 
     public DataBackground() {
         super();
     }
 
-    public DataBackground(LineStyle lineStyle, AreaStyle areaStyle) {
+    public DataBackground(LineStyle lineStyle, ShadowStyle areaStyle) {
         this.lineStyle = lineStyle;
         this.areaStyle = areaStyle;
     }
@@ -52,11 +52,11 @@ public class DataBackground implements Serializable {
         this.lineStyle = lineStyle;
     }
 
-    public AreaStyle getAreaStyle() {
+    public ShadowStyle getAreaStyle() {
         return areaStyle;
     }
 
-    public void setAreaStyle(AreaStyle areaStyle) {
+    public void setAreaStyle(ShadowStyle areaStyle) {
         this.areaStyle = areaStyle;
     }
 

@@ -16,6 +16,8 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * ECharts 内置的图元（标记）枚举。
  *
@@ -62,5 +64,20 @@ public enum SymbolType {
     /**
      * 箭头。
      */
-    arrow
+    arrow;
+
+    @Contract("_, !null -> !null")
+    public static SymbolType of(Object v, SymbolType def) {
+        if (v == null) return def;
+        if (v instanceof SymbolType) {
+            return (SymbolType) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
+        for (SymbolType type : values()) {
+            if (type.name().equalsIgnoreCase(n)) {
+                return type;
+            }
+        }
+        return def;
+    }
 }

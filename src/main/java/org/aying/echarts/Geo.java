@@ -16,11 +16,13 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.Graph;
 import org.aying.echarts.base.Limit;
 import org.aying.echarts.base.SelectedMode;
 import org.aying.echarts.base.SimpleLabel;
 import org.aying.echarts.style.ShapeStyle;
+import org.aying.echarts.style.SimpleShapeStyle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -301,6 +303,7 @@ public class Geo extends Graph<Geo> {
         this.label = label;
     }
 
+    @JsonDeserialize(contentAs = SimpleShapeStyle.class)
     public Map<String, ShapeStyle> getItemStyle() {
         return itemStyle;
     }

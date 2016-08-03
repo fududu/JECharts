@@ -95,4 +95,22 @@ public class SimpleTextStyleTest extends BaseTest {
             assertThat(ex, instanceOf(IllegalArgumentException.class));
         }
     }
+
+    @Test
+    public void testColorFunction() throws Exception {
+        String json = "{color:'function() {return \"#ccc\"}'}";
+        SimpleTextStyle textStyle = objectMapper.readValue(json, SimpleTextStyle.class);
+
+        assertThat(textStyle, notNullValue());
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(textStyle));
+
+        json = "{color:\"#999990\"}";
+        textStyle = objectMapper.readValue(json, SimpleTextStyle.class);
+
+        assertThat(textStyle, notNullValue());
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(textStyle));
+    }
+
 }

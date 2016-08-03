@@ -16,6 +16,8 @@
 
 package org.aying.echarts.style.font;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * ECharts style font enumeration.
  *
@@ -37,5 +39,23 @@ public enum FontStyle {
     /**
      * 使正常文字倾斜（使用没有斜体字时，使用该选项，可使字体倾斜）。
      */
-    oblique
+    oblique;
+
+    @Contract("_, !null -> !null")
+    public static FontStyle of(Object v, FontStyle def) {
+        if (v == null) {
+            return def;
+        }
+        if (v instanceof FontStyle) {
+            return (FontStyle) v;
+        }
+
+        String n = ((String) v).trim().toLowerCase();
+        for (FontStyle fs : values()) {
+            if (fs.name().equals(n)) {
+                return fs;
+            }
+        }
+        return def;
+    }
 }

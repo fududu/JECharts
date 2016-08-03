@@ -16,6 +16,8 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.aying.echarts.base.FilterMode;
 import org.aying.echarts.base.Orient;
 
@@ -38,6 +40,8 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeName("inside")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataZoomInside extends DataZoom {
 
     private static final long serialVersionUID = -2382724220047595212L;
