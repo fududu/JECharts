@@ -33,8 +33,10 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
 
     private String backgroundColor;
     private String borderColor;
+    private Object borderColorSaturation;
     private Integer borderWidth;
     private LineType borderType;
+    private Integer gapWidth;
     // 文本样式（极少数会用到）
     private TextStyle textStyle;
 
@@ -61,6 +63,15 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
     }
 
     @Override
+    public Object getBorderColorSaturation() {
+        return borderColorSaturation;
+    }
+
+    public void setBorderColorSaturation(Object borderColorSaturation) {
+        this.borderColorSaturation = borderColorSaturation;
+    }
+
+    @Override
     public Integer getBorderWidth() {
         return borderWidth;
     }
@@ -76,6 +87,15 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
 
     public void setBorderType(LineType borderType) {
         this.borderType = borderType;
+    }
+
+    @Override
+    public Integer getGapWidth() {
+        return gapWidth;
+    }
+
+    public void setGapWidth(Integer gapWidth) {
+        this.gapWidth = gapWidth;
     }
 
     @Override
@@ -119,14 +139,17 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
         SimpleShapeStyle that = (SimpleShapeStyle) o;
         return Objects.equals(backgroundColor, that.backgroundColor) &&
                 Objects.equals(borderColor, that.borderColor) &&
+                Objects.equals(borderColorSaturation, that.borderColorSaturation) &&
                 Objects.equals(borderWidth, that.borderWidth) &&
                 borderType == that.borderType &&
+                Objects.equals(gapWidth, that.gapWidth) &&
                 Objects.equals(textStyle, that.textStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), backgroundColor, borderColor, borderWidth, borderType, textStyle);
+        return Objects.hash(super.hashCode(), backgroundColor, borderColor, borderColorSaturation,
+                borderWidth, borderType, gapWidth, textStyle);
     }
 
     @Override
@@ -134,8 +157,10 @@ public class SimpleShapeStyle extends BaseShadowStyle<SimpleShapeStyle> implemen
         Map<String, Object> map = super.toStringMap();
         map.put("backgroundColor", getBackgroundColor());
         map.put("borderColor", getBorderColor());
+        map.put("borderColorSaturation", getBorderColorSaturation());
         map.put("borderWidth", getBorderWidth());
         map.put("borderType", getBorderType());
+        map.put("gapWidth", getGapWidth());
         map.put("textStyle", getTextStyle());
         return map;
     }

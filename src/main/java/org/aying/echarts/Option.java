@@ -16,6 +16,8 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.aying.echarts.axis.AngleAxis;
 import org.aying.echarts.axis.CartesianAxis;
 import org.aying.echarts.axis.ParallelAxis;
@@ -23,11 +25,12 @@ import org.aying.echarts.axis.RadiusAxis;
 import org.aying.echarts.axis.SingleAxis;
 import org.aying.echarts.base.BaseAnimation;
 import org.aying.echarts.series.Serie;
+import org.aying.echarts.style.TextStyle;
 import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
-import java.time.format.TextStyle;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,25 +38,40 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * ECharts 选项配置模型。
+ * ECharts 选项配置（原子）模型。
  *
  * @author Fuchun
  * @since 1.0
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Option extends BaseAnimation<Option> implements Serializable {
 
     private static final long serialVersionUID = -2913905133593279045L;
 
+    /**
+     * 创建并返回一个新的原子配置模型。
+     */
+    public static Option option() {
+        return new Option();
+    }
+
+    /**
+     * 创建并返回一个新的{@code timeline} 的配置模型。
+     */
+    public static TimelineOption timeline() {
+        return new TimelineOption();
+    }
+
     /* 标题组件配置。 */
-    private Title title;
+    private List<Title> titles;
     /* 图例组件配置。 */
-    private Legend legend;
+    private List<Legend> legends;
     /* 绘图网格配置。 */
-    private Grid grid;
+    private List<Grid> grids;
     /* 直角坐标系 grid 中的 x 轴配置 */
-    private CartesianAxis xAxis;
+    private List<CartesianAxis> xAxises;
     /* 直角坐标系 grid 中的 y 轴配置 */
-    private CartesianAxis yAxis;
+    private List<CartesianAxis> yAxises;
     /* 极坐标系配置 */
     private Polar polar;
     /* 极坐标系的半径轴配置 */
@@ -61,7 +79,7 @@ public class Option extends BaseAnimation<Option> implements Serializable {
     /* 极坐标系的角度轴配置。 */
     private AngleAxis angleAxis;
     /* 雷达图坐标系配置 */
-    private Radar radar;
+    private List<Radar> radars;
     /* 区域缩放组件配置 */
     private Set<DataZoom> dataZooms;
     /* 视觉映射组件配置 */
@@ -77,9 +95,9 @@ public class Option extends BaseAnimation<Option> implements Serializable {
     /* 平行坐标系配置 */
     private Parallel parallel;
     /* 平行坐标系中的坐标轴配置 */
-    private ParallelAxis parallelAxis;
+    private List<ParallelAxis> parallelAxis;
     /* 单轴配置 */
-    private SingleAxis singleAxis;
+    private List<SingleAxis> singleAxis;
     /* timeline 配置 */
     private Timeline timeline;
     /* 系列列表。 */
@@ -107,28 +125,87 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         super();
     }
 
+    /**
+     * 设置单独的标题组件配置。
+     *
+     * @param title 标题组件配置。
+     * @return 当前配置模型。
+     */
     public Option title(Title title) {
-        this.title = title;
+        this.titles = Collections.singletonList(title);
+        return this;
+    }
+
+    /**
+     * 设置一组标题组件配置。
+     * <p />
+     * 当{@code titles == null || titles.isEmpty()}，则标题组件配置会被删除。
+     *
+     * @param titles 一组标题组件配置。
+     * @return 当前配置模型。
+     */
+    public Option titles(Collection<Title> titles) {
+        if (titles == null || titles.isEmpty()) {
+            this.titles = null;
+            return this;
+        }
+        this.titles = new LinkedList<>(titles);
         return this;
     }
 
     public Option legend(Legend legend) {
-        this.legend = legend;
+        this.legends = Collections.singletonList(legend);
+        return this;
+    }
+
+    public Option legends(Collection<Legend> legends) {
+        if (legends == null || legends.isEmpty()) {
+            this.legends = null;
+            return this;
+        }
+        this.legends = new LinkedList<>(legends);
         return this;
     }
 
     public Option grid(Grid grid) {
-        this.grid = grid;
+        this.grids = Collections.singletonList(grid);
+        return this;
+    }
+
+    public Option grids(Collection<Grid> grids) {
+        if (grids == null || grids.isEmpty()) {
+            this.grids = null;
+            return this;
+        }
+        this.grids = new LinkedList<>(grids);
         return this;
     }
 
     public Option xAxis(CartesianAxis xAxis) {
-        this.xAxis = xAxis;
+        this.xAxises = Collections.singletonList(xAxis);
+        return this;
+    }
+
+    public Option xAxises(Collection<CartesianAxis> xAxises) {
+        if (xAxises == null || xAxises.isEmpty()) {
+            this.xAxises = null;
+            return this;
+        }
+        this.xAxises = new LinkedList<>(xAxises);
         return this;
     }
 
     public Option yAxis(CartesianAxis yAxis) {
-        this.yAxis = yAxis;
+        this.yAxises = Collections.singletonList(yAxis);
+        return this;
+    }
+
+    public Option yAxises(Collection<CartesianAxis> yAxises) {
+        if (yAxises == null || yAxises.isEmpty()) {
+            this.yAxises = null;
+            return this;
+        }
+        this.yAxises = new LinkedList<>(yAxises);
         return this;
     }
 
@@ -148,7 +225,16 @@ public class Option extends BaseAnimation<Option> implements Serializable {
     }
 
     public Option radar(Radar radar) {
-        this.radar = radar;
+        this.radars = Collections.singletonList(radar);
+        return this;
+    }
+
+    public Option radars(Collection<Radar> radars) {
+        if (radars == null || radars.isEmpty()) {
+            this.radars = null;
+            return this;
+        }
+        this.radars = new LinkedList<>(radars);
         return this;
     }
 
@@ -219,12 +305,12 @@ public class Option extends BaseAnimation<Option> implements Serializable {
     }
 
     public Option parallelAxis(ParallelAxis parallelAxis) {
-        this.parallelAxis = parallelAxis;
+        this.parallelAxis = Collections.singletonList(parallelAxis);
         return this;
     }
 
     public Option singleAxis(SingleAxis singleAxis) {
-        this.singleAxis = singleAxis;
+        this.singleAxis = Collections.singletonList(singleAxis);
         return this;
     }
 
@@ -280,44 +366,49 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         return this;
     }
 
-    public Title getTitle() {
-        return title;
+    @JsonProperty("title")
+    public List<Title> getTitles() {
+        return titles;
     }
 
-    public void setTitle(Title title) {
-        this.title = title;
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
     }
 
-    public Legend getLegend() {
-        return legend;
+    @JsonProperty("legend")
+    public List<Legend> getLegends() {
+        return legends;
     }
 
-    public void setLegend(Legend legend) {
-        this.legend = legend;
+    public void setLegends(List<Legend> legends) {
+        this.legends = legends;
     }
 
-    public Grid getGrid() {
-        return grid;
+    @JsonProperty("grid")
+    public List<Grid> getGrids() {
+        return grids;
     }
 
-    public void setGrid(Grid grid) {
-        this.grid = grid;
+    public void setGrids(List<Grid> grids) {
+        this.grids = grids;
     }
 
-    public CartesianAxis getxAxis() {
-        return xAxis;
+    @JsonProperty("xAxis")
+    public List<CartesianAxis> getxAxises() {
+        return xAxises;
     }
 
-    public void setxAxis(CartesianAxis xAxis) {
-        this.xAxis = xAxis;
+    public void setxAxises(List<CartesianAxis> xAxises) {
+        this.xAxises = xAxises;
     }
 
-    public CartesianAxis getyAxis() {
-        return yAxis;
+    @JsonProperty("yAxis")
+    public List<CartesianAxis> getyAxises() {
+        return yAxises;
     }
 
-    public void setyAxis(CartesianAxis yAxis) {
-        this.yAxis = yAxis;
+    public void setyAxises(List<CartesianAxis> yAxises) {
+        this.yAxises = yAxises;
     }
 
     public Polar getPolar() {
@@ -344,14 +435,16 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         this.angleAxis = angleAxis;
     }
 
-    public Radar getRadar() {
-        return radar;
+    @JsonProperty("radar")
+    public List<Radar> getRadars() {
+        return radars;
     }
 
-    public void setRadar(Radar radar) {
-        this.radar = radar;
+    public void setRadars(List<Radar> radars) {
+        this.radars = radars;
     }
 
+    @JsonProperty("dataZoom")
     public Set<DataZoom> getDataZooms() {
         return dataZooms;
     }
@@ -360,6 +453,7 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         this.dataZooms = dataZooms;
     }
 
+    @JsonProperty("visualMap")
     public Set<VisualMap<?>> getVisualMaps() {
         return visualMaps;
     }
@@ -408,19 +502,19 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         this.parallel = parallel;
     }
 
-    public ParallelAxis getParallelAxis() {
+    public List<ParallelAxis> getParallelAxis() {
         return parallelAxis;
     }
 
-    public void setParallelAxis(ParallelAxis parallelAxis) {
+    public void setParallelAxis(List<ParallelAxis> parallelAxis) {
         this.parallelAxis = parallelAxis;
     }
 
-    public SingleAxis getSingleAxis() {
+    public List<SingleAxis> getSingleAxis() {
         return singleAxis;
     }
 
-    public void setSingleAxis(SingleAxis singleAxis) {
+    public void setSingleAxis(List<SingleAxis> singleAxis) {
         this.singleAxis = singleAxis;
     }
 
@@ -502,15 +596,15 @@ public class Option extends BaseAnimation<Option> implements Serializable {
         if (!(o instanceof Option)) return false;
         if (!super.equals(o)) return false;
         Option option = (Option) o;
-        return Objects.equals(title, option.title) &&
-                Objects.equals(legend, option.legend) &&
-                Objects.equals(grid, option.grid) &&
-                Objects.equals(xAxis, option.xAxis) &&
-                Objects.equals(yAxis, option.yAxis) &&
+        return Objects.equals(titles, option.titles) &&
+                Objects.equals(legends, option.legends) &&
+                Objects.equals(grids, option.grids) &&
+                Objects.equals(xAxises, option.xAxises) &&
+                Objects.equals(yAxises, option.yAxises) &&
                 Objects.equals(polar, option.polar) &&
                 Objects.equals(radiusAxis, option.radiusAxis) &&
                 Objects.equals(angleAxis, option.angleAxis) &&
-                Objects.equals(radar, option.radar) &&
+                Objects.equals(radars, option.radars) &&
                 Objects.equals(dataZooms, option.dataZooms) &&
                 Objects.equals(visualMaps, option.visualMaps) &&
                 Objects.equals(tooltip, option.tooltip) &&
@@ -533,8 +627,8 @@ public class Option extends BaseAnimation<Option> implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, legend, grid, xAxis, yAxis, polar, radiusAxis,
-                angleAxis, radar, dataZooms, visualMaps, tooltip, toolbox, brush, geo, parallel,
+        return Objects.hash(super.hashCode(), titles, legends, grids, xAxises, yAxises, polar, radiusAxis,
+                angleAxis, radars, dataZooms, visualMaps, tooltip, toolbox, brush, geo, parallel,
                 parallelAxis, singleAxis, timeline, series, color, backgroundColor, textStyle,
                 progressive, progressiveThreshold, blendMode, hoverLayerThreshold);
     }
@@ -543,15 +637,15 @@ public class Option extends BaseAnimation<Option> implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder(32)
                 .append(getClass()).append("{");
-        sb.append("title=").append(title);
-        sb.append(", legend=").append(legend);
-        sb.append(", grid=").append(grid);
-        sb.append(", xAxis=").append(xAxis);
-        sb.append(", yAxis=").append(yAxis);
+        sb.append("titles=").append(titles);
+        sb.append(", legends=").append(legends);
+        sb.append(", grids=").append(grids);
+        sb.append(", xAxises=").append(xAxises);
+        sb.append(", yAxises=").append(yAxises);
         sb.append(", polar=").append(polar);
         sb.append(", radiusAxis=").append(radiusAxis);
         sb.append(", angleAxis=").append(angleAxis);
-        sb.append(", radar=").append(radar);
+        sb.append(", radars=").append(radars);
         sb.append(", dataZooms=").append(dataZooms);
         sb.append(", visualMaps=").append(visualMaps);
         sb.append(", tooltip=").append(tooltip);

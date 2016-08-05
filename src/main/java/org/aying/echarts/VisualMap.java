@@ -16,6 +16,8 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.aying.echarts.base.Align;
 import org.aying.echarts.base.Graph;
 import org.aying.echarts.base.Orient;
@@ -33,6 +35,15 @@ import java.util.Map;
  * @author Fuchun
  * @since 1.0
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ContinuousVisualMap.class, name = "continuous"),
+        @JsonSubTypes.Type(value = PiecewiseVisualMap.class, name = "piecewise")
+})
 public abstract class VisualMap<V extends VisualMap<V>>
         extends Graph<V> implements Serializable {
 

@@ -37,6 +37,16 @@ public interface ShapeStyle extends ShadowStyle {
     String getBorderColor();
 
     /**
+     * 图形的边框颜色的饱和度。取值范围是{@code 0 ~ 1} 之间的浮点数。
+     * <p />
+     * 支持的类型：{@code Double}、{@code Object[]} 或{@code List}；
+     * 类型为数组或列表时，长度只能为{@code 2} 或者{@code 4}。
+     */
+    default Object getBorderColorSaturation() {
+        return null;
+    }
+
+    /**
      * 边框线宽度。为 0 时无描边。
      */
     Integer getBorderWidth();
@@ -45,6 +55,14 @@ public interface ShapeStyle extends ShadowStyle {
      * 图形的描边类型。
      */
     LineType getBorderType();
+
+    /**
+     * 图形的内部图形（子节点）的间隔距离。
+     * NOTE：此属性只用于{@code TreeMap} 系列的配置中，矩形内部子矩形（子节点）的间隔距离。
+     */
+    default Integer getGapWidth() {
+        return null;
+    }
 
     /**
      * 文本样式（极少数会用到）

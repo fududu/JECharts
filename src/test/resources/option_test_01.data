@@ -1,0 +1,25 @@
+#--- multi title for option
+{
+  title: [{
+    textAlign: 'center',
+    text: 'linear',
+    textStyle: {
+      fontSize: 12,
+      fontWeight: 'normal'
+    }
+  }, {
+     textAlign: 'center',
+     text: 'quadraticIn',
+     textStyle: {
+       fontSize: 12,
+       fontWeight: 'normal'
+     }
+   }]
+}
+#--- single title for option
+{
+  title: {
+    text: 'Disk Usage',
+    left: 'center'
+  }
+}

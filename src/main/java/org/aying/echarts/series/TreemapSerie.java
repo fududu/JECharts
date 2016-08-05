@@ -24,7 +24,6 @@ import org.aying.echarts.base.SimplePosition;
 import org.aying.echarts.base.SimpleSize;
 import org.aying.echarts.base.Size;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,13 +33,14 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class TreeMapSerie extends BaseSerie<TreeMapSerie>
-        implements Position<TreeMapSerie>, Size<TreeMapSerie> {
+public class TreeMapSerie extends BaseSerie<TreeMapSerie, TreeMapSerieData>
+        implements TreeMapCommon<TreeMapSerie>, Position<TreeMapSerie>, Size<TreeMapSerie> {
 
     private static final long serialVersionUID = -6989958138682423400L;
 
     private final SimplePosition sp;
     private final SimpleSize ss;
+    private final SimpleTreeMapCommon stm;
 
     /*期望矩形长宽比率。默认为黄金比：0.5 * (1 + Math.sqrt(5))。 */
     private Double squareRatio;
@@ -51,24 +51,13 @@ public class TreeMapSerie extends BaseSerie<TreeMapSerie>
     /*点击某个节点，会自动放大那个节点到合适的比例（节点占可视区域的面积比例），这个配置项就是这个比例。*/
     private Double zoomToNodeRatio;
     private List<TreeLevel> levels;
-    /*treemap 中支持对数据其他维度进行视觉映射。*/
-    private Integer visualDimension;
-    /*本系列默认的 颜色透明度 选取范围。数值范围 0 ~ 1。*/
-    private Object[] colorAlpha;
-    /*本系列默认的 颜色饱和度 选取范围。数值范围 0 ~ 1。*/
-    private Double colorSaturation;
-    /*表示同一层级节点，在颜色列表中（参见 color 属性）选择时，按照什么来选择。*/
-    private ColorMappingBy colorMappingBy;
-    /*如果某个节点的矩形的面积，小于这个数值（单位：px平方），这个节点就不显示。*/
-    private Integer visibleMin;
-    /*如果某个节点的矩形面积，小于这个数值（单位：px平方），则不显示这个节点的子节点。*/
-    private Double childrenVisibleMin;
     private Breadcrumb breadcrumb;
 
     public TreeMapSerie() {
         super(ChartType.treemap, false);
         sp = new SimplePosition();
         ss = new SimpleSize();
+        stm = new SimpleTreeMapCommon();
     }
 
     @Override
@@ -242,51 +231,51 @@ public class TreeMapSerie extends BaseSerie<TreeMapSerie>
     }
 
     public Integer getVisualDimension() {
-        return visualDimension;
+        return stm.getVisualDimension();
     }
 
     public void setVisualDimension(Integer visualDimension) {
-        this.visualDimension = visualDimension;
+        stm.setVisualDimension(visualDimension);
     }
 
     public Object[] getColorAlpha() {
-        return colorAlpha;
+        return stm.getColorAlpha();
     }
 
     public void setColorAlpha(Object[] colorAlpha) {
-        this.colorAlpha = colorAlpha;
+        stm.setColorAlpha(colorAlpha);
     }
 
-    public Double getColorSaturation() {
-        return colorSaturation;
+    public Object getColorSaturation() {
+        return stm.getColorSaturation();
     }
 
-    public void setColorSaturation(Double colorSaturation) {
-        this.colorSaturation = colorSaturation;
+    public void setColorSaturation(Object colorSaturation) {
+        stm.setColorSaturation(colorSaturation);
     }
 
     public ColorMappingBy getColorMappingBy() {
-        return colorMappingBy;
+        return stm.getColorMappingBy();
     }
 
     public void setColorMappingBy(ColorMappingBy colorMappingBy) {
-        this.colorMappingBy = colorMappingBy;
+        stm.setColorMappingBy(colorMappingBy);
     }
 
     public Integer getVisibleMin() {
-        return visibleMin;
+        return stm.getVisibleMin();
     }
 
     public void setVisibleMin(Integer visibleMin) {
-        this.visibleMin = visibleMin;
+        stm.setVisibleMin(visibleMin);
     }
 
     public Double getChildrenVisibleMin() {
-        return childrenVisibleMin;
+        return stm.getChildrenVisibleMin();
     }
 
     public void setChildrenVisibleMin(Double childrenVisibleMin) {
-        this.childrenVisibleMin = childrenVisibleMin;
+        stm.setChildrenVisibleMin(childrenVisibleMin);
     }
 
     public Breadcrumb getBreadcrumb() {
@@ -329,20 +318,14 @@ public class TreeMapSerie extends BaseSerie<TreeMapSerie>
                 Objects.equals(nodeClick, that.nodeClick) &&
                 Objects.equals(zoomToNodeRatio, that.zoomToNodeRatio) &&
                 Objects.equals(levels, that.levels) &&
-                Objects.equals(visualDimension, that.visualDimension) &&
-                Arrays.equals(colorAlpha, that.colorAlpha) &&
-                Objects.equals(colorSaturation, that.colorSaturation) &&
-                colorMappingBy == that.colorMappingBy &&
-                Objects.equals(visibleMin, that.visibleMin) &&
-                Objects.equals(childrenVisibleMin, that.childrenVisibleMin) &&
+                Objects.equals(stm, that.stm) &&
                 Objects.equals(breadcrumb, that.breadcrumb);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), sp, ss, squareRatio, leafDepth, roam, nodeClick,
-                zoomToNodeRatio, levels, visualDimension, colorAlpha, colorSaturation, colorMappingBy,
-                visibleMin, childrenVisibleMin, breadcrumb);
+                zoomToNodeRatio, levels, stm, breadcrumb);
     }
 
     @Override
@@ -358,12 +341,7 @@ public class TreeMapSerie extends BaseSerie<TreeMapSerie>
         sb.append(", nodeClick=").append(nodeClick);
         sb.append(", zoomToNodeRatio=").append(zoomToNodeRatio);
         sb.append(", levels=").append(levels);
-        sb.append(", visualDimension=").append(visualDimension);
-        sb.append(", colorAlpha=").append(Arrays.toString(colorAlpha));
-        sb.append(", colorSaturation=").append(colorSaturation);
-        sb.append(", colorMappingBy=").append(colorMappingBy);
-        sb.append(", visibleMin=").append(visibleMin);
-        sb.append(", childrenVisibleMin=").append(childrenVisibleMin);
+        stm.appendTreeMapCommon(sb);
         sb.append(", label=").append(getLabel());
         sb.append(", itemStyle=").append(getItemStyle());
         sb.append(", breadcrumb=").append(breadcrumb);

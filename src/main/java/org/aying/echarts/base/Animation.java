@@ -29,17 +29,38 @@ public interface Animation {
      */
     Boolean getAnimation();
 
+    /**
+     * 是否开启动画的阈值，当显示的图形数量大于这个阈值时会关闭动画。
+     */
     Integer getAnimationThreshold();
 
+    /**
+     * 初始动画的时长。
+     */
     Integer getAnimationDuration();
 
+    /**
+     * 初始动画的缓动效果。
+     */
     AnimationEasing getAnimationEasing();
 
+    /**
+     * 初始动画的延迟，支持回调函数，可以通过每个数据返回不同的{@code delay} 时间实现更戏剧的初始动画效果。
+     */
     Object getAnimationDelay();
 
+    /**
+     * 数据更新动画的时长。
+     */
     Integer getAnimationDurationUpdate();
 
+    /**
+     * 数据更新动画的缓动效果。
+     */
     AnimationEasing getAnimationEasingUpdate();
 
+    /**
+     * 数据更新动画的延迟，支持回调函数，可以通过每个数据返回不同的{@code delay} 时间实现更戏剧的更新动画效果。
+     */
     Object getAnimationDelayUpdate();
 }

@@ -29,6 +29,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ToString {
 
+    public static void appendTo(StringBuilder sb, Object val) {
+        if (val == null) {
+            sb.append("null");
+        } else if (val.getClass().isArray()) {
+            sb.append(Arrays.toString((Object[]) val));
+        } else {
+            sb.append(val);
+        }
+    }
+
     /**
      * Creates an instance of {@link ToStringHelper}.
      *

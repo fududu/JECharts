@@ -16,23 +16,23 @@
 
 package org.aying.echarts;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.Graph;
+import org.aying.echarts.base.Label;
 import org.aying.echarts.base.Limit;
 import org.aying.echarts.base.SelectedMode;
-import org.aying.echarts.base.SimpleLabel;
-import org.aying.echarts.style.ShapeStyle;
-import org.aying.echarts.style.SimpleShapeStyle;
+import org.aying.echarts.base.StateLabel;
+import org.aying.echarts.style.StateShapeStyle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * 地理坐标系组件。
+ * <p />
+ * 地理坐标系组件用于地图的绘制，支持在地理坐标系上绘制散点图，线集。
  *
  * @author Fuchun
  * @since 1.0
@@ -65,9 +65,9 @@ public class Geo extends Graph<Geo> {
     /* 选中模型。支持 SelectedMode 和 Boolean，默认：false */
     private Object selectedMode;
     /* 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等 */
-    private Map<String, SimpleLabel> label;
+    private StateLabel label;
     /* 地图区域的多边形 图形样式，有 normal 和 emphasis 两个状态。 */
-    private Map<String, ShapeStyle> itemStyle;
+    private StateShapeStyle itemStyle;
     /* layoutCenter 和 layoutSize 提供了除了 left/right/top/bottom/width/height 之外的布局手段。 */
     private List<Object> layoutCenter;
     /* 地图的大小，见 layoutCenter。支持相对于屏幕宽高的百分比或者绝对的像素大小。 String|Integer */
@@ -123,39 +123,32 @@ public class Geo extends Graph<Geo> {
     }
 
     /**
-     * 设置普通状态下的多边形样式。
-     *
-     * @param style 多边形样式。
-     */
-    public Geo normalStyle(ShapeStyle style) {
-        return itemStyle("normal", style);
-    }
-
-    /**
-     * 设置高亮状态下的多边形样式。
-     *
-     * @param style 多边形样式。
-     */
-    public Geo emphasisStyle(ShapeStyle style) {
-        return itemStyle("emphasis", style);
-    }
-
-    /**
      * 设置普通状态下的标签属性及样式。
      *
-     * @param label 标签属性及样式。
+     * @param normal 标签属性及样式。
      */
-    public Geo normalLabel(SimpleLabel label) {
-        return label("normal", label);
+    public Geo normal(Label normal) {
+        Objects.requireNonNull(normal, "geo.label.normal");
+        getOrInitLabel().normal(normal);
+        return this;
     }
 
     /**
      * 设置高亮状态下的标签属性及样式。
      *
-     * @param label 标签属性及样式。
+     * @param emphasis 标签属性及样式。
      */
-    public Geo emphasisLabel(SimpleLabel label) {
-        return label("emphasis", label);
+    public Geo emphasis(Label emphasis) {
+        Objects.requireNonNull(emphasis, "geo.label.emphasis");
+        getOrInitLabel().emphasis(emphasis);
+        return this;
+    }
+
+    protected StateLabel getOrInitLabel() {
+        if (label == null) {
+            label = new StateLabel();
+        }
+        return label;
     }
 
     /**
@@ -178,9 +171,10 @@ public class Geo extends Graph<Geo> {
         if (regions == null) {
             regions = new ArrayList<>();
         }
-        regions.add(0, region);
+        int currLen = regions.size();
+        regions.add(currLen, region);
         if (rn != null && rn.length > 0) {
-            int i = 1;
+            int i = regions.size();
             for (GeoRegion r : rn) {
                 regions.add(i++, r);
             }
@@ -212,22 +206,6 @@ public class Geo extends Graph<Geo> {
             this.layoutCenter = null;
         }
         this.layoutSize = size;
-        return this;
-    }
-
-    protected Geo label(String key, SimpleLabel label) {
-        if (this.label == null) {
-            this.label = new HashMap<>(2);
-        }
-        this.label.put(key, label);
-        return this;
-    }
-
-    protected Geo itemStyle(String key, ShapeStyle style) {
-        if (itemStyle == null) {
-            itemStyle = new HashMap<>(2);
-        }
-        itemStyle.put(key, style);
         return this;
     }
 
@@ -295,20 +273,19 @@ public class Geo extends Graph<Geo> {
         this.selectedMode = selectedMode;
     }
 
-    public Map<String, SimpleLabel> getLabel() {
+    public StateLabel getLabel() {
         return label;
     }
 
-    public void setLabel(Map<String, SimpleLabel> label) {
+    public void setLabel(StateLabel label) {
         this.label = label;
     }
 
-    @JsonDeserialize(contentAs = SimpleShapeStyle.class)
-    public Map<String, ShapeStyle> getItemStyle() {
+    public StateShapeStyle getItemStyle() {
         return itemStyle;
     }
 
-    public void setItemStyle(Map<String, ShapeStyle> itemStyle) {
+    public void setItemStyle(StateShapeStyle itemStyle) {
         this.itemStyle = itemStyle;
     }
 

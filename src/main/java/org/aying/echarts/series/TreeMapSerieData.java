@@ -16,7 +16,6 @@
 
 package org.aying.echarts.series;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,31 +23,18 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class TreeMapSerieData extends SerieData {
+public class TreeMapSerieData extends SerieData implements TreeMapCommon<TreeMapSerieData> {
 
     private static final long serialVersionUID = 6874560193210562590L;
 
+    private final SimpleTreeMapCommon stm;
+
     private String id;
-    /*treemap 中支持对数据其他维度进行视觉映射。*/
-    private Integer visualDimension;
-    /* 表示同一层级的节点的 颜色 选取列表。默认为空时，选取系统color列表。 */
-    private List<Object> color;
-    /*表示同一层级的节点的 颜色透明度 选取范围。数值范围 0 ~ 1。*/
-    private Object[] colorAlpha;
-
-    /*表示同一层级的节点的 颜色饱和度 选取范围。数值范围 0 ~ 1。*/
-    private Double colorSaturation;
-    /*表示同一层级节点，在颜色列表中（参见 color 属性）选择时，按照什么来选择。*/
-    private ColorMappingBy colorMappingBy;
-    /*如果某个节点的矩形的面积，小于这个数值（单位：px平方），这个节点就不显示。*/
-    private Integer visibleMin;
-    /*如果某个节点的矩形面积，小于这个数值（单位：px平方），则不显示这个节点的子节点。*/
-    private Integer childrenVisibleMin;
-
     private List<TreeMapSerieData> children;
 
     public TreeMapSerieData() {
         super();
+        this.stm = new SimpleTreeMapCommon();
     }
 
     public String getId() {
@@ -60,59 +46,51 @@ public class TreeMapSerieData extends SerieData {
     }
 
     public Integer getVisualDimension() {
-        return visualDimension;
+        return stm.getVisualDimension();
     }
 
     public void setVisualDimension(Integer visualDimension) {
-        this.visualDimension = visualDimension;
-    }
-
-    public List<Object> getColor() {
-        return color;
-    }
-
-    public void setColor(List<Object> color) {
-        this.color = color;
+        stm.setVisualDimension(visualDimension);
     }
 
     public Object[] getColorAlpha() {
-        return colorAlpha;
+        return stm.getColorAlpha();
     }
 
     public void setColorAlpha(Object[] colorAlpha) {
-        this.colorAlpha = colorAlpha;
+        stm.setColorAlpha(colorAlpha);
     }
 
-    public Double getColorSaturation() {
-        return colorSaturation;
+    public Object getColorSaturation() {
+        return stm.getColorSaturation();
     }
 
-    public void setColorSaturation(Double colorSaturation) {
-        this.colorSaturation = colorSaturation;
+    public void setColorSaturation(Object colorSaturation) {
+        stm.setColorSaturation(colorSaturation);
     }
 
     public ColorMappingBy getColorMappingBy() {
-        return colorMappingBy;
+        return stm.getColorMappingBy();
     }
 
     public void setColorMappingBy(ColorMappingBy colorMappingBy) {
-        this.colorMappingBy = colorMappingBy;
+        stm.setColorMappingBy(colorMappingBy);
     }
 
     public Integer getVisibleMin() {
-        return visibleMin;
+        return stm.getVisibleMin();
     }
 
     public void setVisibleMin(Integer visibleMin) {
-        this.visibleMin = visibleMin;
+        stm.setVisibleMin(visibleMin);
     }
 
-    public Integer getChildrenVisibleMin() {
-        return childrenVisibleMin;
+    public Double getChildrenVisibleMin() {
+        return stm.getChildrenVisibleMin();
     }
 
-    public void setChildrenVisibleMin(Integer childrenVisibleMin) {
-        this.childrenVisibleMin = childrenVisibleMin;
+    public void setChildrenVisibleMin(Double childrenVisibleMin) {
+        stm.setChildrenVisibleMin(childrenVisibleMin);
     }
 
     public List<TreeMapSerieData> getChildren() {
@@ -130,20 +108,13 @@ public class TreeMapSerieData extends SerieData {
         if (!super.equals(o)) return false;
         TreeMapSerieData that = (TreeMapSerieData) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(visualDimension, that.visualDimension) &&
-                Objects.equals(color, that.color) &&
-                Arrays.equals(colorAlpha, that.colorAlpha) &&
-                Objects.equals(colorSaturation, that.colorSaturation) &&
-                colorMappingBy == that.colorMappingBy &&
-                Objects.equals(visibleMin, that.visibleMin) &&
-                Objects.equals(childrenVisibleMin, that.childrenVisibleMin) &&
+                Objects.equals(stm, that.stm) &&
                 Objects.equals(children, that.children);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, visualDimension, color, colorAlpha, colorSaturation,
-                colorMappingBy, visibleMin, childrenVisibleMin, children);
+        return Objects.hash(super.hashCode(), id, stm, children);
     }
 
     @Override
@@ -152,13 +123,7 @@ public class TreeMapSerieData extends SerieData {
                 .append(getClass()).append("{");
         appendSimpleData(sb);
         sb.append(", id='").append(id).append('\'');
-        sb.append(", visualDimension=").append(visualDimension);
-        sb.append(", color=").append(color);
-        sb.append(", colorAlpha=").append(Arrays.toString(colorAlpha));
-        sb.append(", colorSaturation=").append(colorSaturation);
-        sb.append(", colorMappingBy=").append(colorMappingBy);
-        sb.append(", visibleMin=").append(visibleMin);
-        sb.append(", childrenVisibleMin=").append(childrenVisibleMin);
+        stm.appendTreeMapCommon(sb);
         sb.append(", children=").append(children);
         sb.append(", label=").append(getLabel());
         sb.append(", itemStyle=").append(getItemStyle());

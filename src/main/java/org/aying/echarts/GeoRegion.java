@@ -16,17 +16,13 @@
 
 package org.aying.echarts;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.aying.echarts.base.Label;
-import org.aying.echarts.base.SimpleLabel;
+import org.aying.echarts.base.StateLabel;
 import org.aying.echarts.style.AreaShapeStyle;
-import org.aying.echarts.style.ShapeStyle;
-import org.aying.echarts.style.SimpleShapeStyle;
+import org.aying.echarts.style.StateAreaShapeStyle;
 import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -35,7 +31,7 @@ import java.util.Objects;
  * Geo geo = Geo.geo("China")
  *         ... ...
  *         .regions(
- *             GeoRegion.named("广东").normalStyle()
+ *             GeoRegion.named("广东")
  *         );
  * }</pre>
  *
@@ -56,9 +52,9 @@ public class GeoRegion implements Serializable {
     /* 该区域是否选中。默认：false */
     private Boolean selected;
     /* 该区域的多边形样式设置 */
-    private Map<String, ShapeStyle> itemStyle;
+    private StateAreaShapeStyle itemStyle;
     /* 该区域的标签样式设置 */
-    private Map<String, Label> label;
+    private StateLabel label;
 
     public GeoRegion() {
         super();
@@ -75,55 +71,51 @@ public class GeoRegion implements Serializable {
     }
 
     /**
-     * 设置普通状态下的多边形样式。
-     *
-     * @param style 多边形样式。
-     */
-    public GeoRegion normalStyle(AreaShapeStyle style) {
-        return itemStyle("normal", style);
-    }
-
-    /**
-     * 设置高亮状态下的多边形样式。
-     *
-     * @param style 多边形样式。
-     */
-    public GeoRegion emphasisStyle(AreaShapeStyle style) {
-        return itemStyle("emphasis", style);
-    }
-
-    /**
      * 设置普通状态下的标签属性及样式。
      *
-     * @param label 标签属性及样式。
+     * @param normal 标签属性及样式。
      */
-    public GeoRegion normalLabel(SimpleLabel label) {
-        return label("normal", label);
+    public GeoRegion normal(Label normal) {
+        Objects.requireNonNull(normal, "geo.regions[i].label.normal");
+        getOrInitLabel().normal(normal);
+        return this;
     }
 
     /**
      * 设置高亮状态下的标签属性及样式。
      *
-     * @param label 标签属性及样式。
+     * @param emphasis 标签属性及样式。
      */
-    public GeoRegion emphasisLabel(SimpleLabel label) {
-        return label("emphasis", label);
-    }
-
-    protected GeoRegion label(String key, SimpleLabel label) {
-        if (this.label == null) {
-            this.label = new HashMap<>(2);
-        }
-        this.label.put(key, label);
+    public GeoRegion emphasis(Label emphasis) {
+        Objects.requireNonNull(emphasis, "geo.regions[i].label.emphasis");
+        getOrInitLabel().emphasis(emphasis);
         return this;
     }
 
-    protected GeoRegion itemStyle(String key, ShapeStyle style) {
+    public GeoRegion normal(AreaShapeStyle normal) {
+        Objects.requireNonNull(normal, "geo.regions[i].itemStyle.normal");
+        getOrInitItemStyle().normal(normal);
+        return this;
+    }
+
+    public GeoRegion emphasis(AreaShapeStyle emphasis) {
+        Objects.requireNonNull(emphasis, "geo.regions[i].itemStyle.emphasis");
+        getOrInitItemStyle().emphasis(emphasis);
+        return this;
+    }
+
+    protected StateAreaShapeStyle getOrInitItemStyle() {
         if (itemStyle == null) {
-            itemStyle = new HashMap<>(2);
+            itemStyle = new StateAreaShapeStyle();
         }
-        itemStyle.put(key, style);
-        return this;
+        return itemStyle;
+    }
+
+    protected StateLabel getOrInitLabel() {
+        if (label == null) {
+            label = new StateLabel();
+        }
+        return label;
     }
 
     public String getName() {
@@ -142,20 +134,19 @@ public class GeoRegion implements Serializable {
         this.selected = selected;
     }
 
-    @JsonDeserialize(as = SimpleShapeStyle.class)
-    public Map<String, ShapeStyle> getItemStyle() {
+    public StateAreaShapeStyle getItemStyle() {
         return itemStyle;
     }
 
-    public void setItemStyle(Map<String, ShapeStyle> itemStyle) {
+    public void setItemStyle(StateAreaShapeStyle itemStyle) {
         this.itemStyle = itemStyle;
     }
 
-    public Map<String, Label> getLabel() {
+    public StateLabel getLabel() {
         return label;
     }
 
-    public void setLabel(Map<String, Label> label) {
+    public void setLabel(StateLabel label) {
         this.label = label;
     }
 
@@ -181,8 +172,8 @@ public class GeoRegion implements Serializable {
                 .append(getClass()).append("{");
         sb.append("name='").append(name).append('\'');
         sb.append(", selected=").append(selected);
-        sb.append(", itemStyle=").append(itemStyle);
         sb.append(", label=").append(label);
+        sb.append(", itemStyle=").append(itemStyle);
         sb.append('}');
         return sb.toString();
     }

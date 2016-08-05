@@ -27,9 +27,23 @@ import java.io.Serializable;
 public interface Style extends Serializable {
 
     /**
-     * 字体颜色（16进制表示，或{@code rgba(...)}）。
+     * 组件（或字体、图形）颜色（16进制表示，或{@code rgba(...)}）。
      */
     Object getColor();
+
+    /**
+     * 组件（或图莆）颜色的透明度。取值范围是{@code 0 ~ 1} 之间的浮点数。
+     */
+    default Object getColorAlpha() {
+        return null;
+    }
+
+    /**
+     * 组件（或图莆）颜色的饱和度。取值范围是{@code 0 ~ 1} 之间的浮点数。
+     */
+    default Object getColorSaturation() {
+        return null;
+    }
 
     /**
      * 设置样式的颜色。

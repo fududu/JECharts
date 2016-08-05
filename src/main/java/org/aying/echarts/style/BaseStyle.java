@@ -21,6 +21,7 @@ import org.aying.echarts.json.ser.JsFunctionSerializer;
 import org.aying.echarts.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -37,9 +38,19 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
 
     private static final long serialVersionUID = 1L;
     /**
-     * 字体颜色。
+     * 组件（或字体、图形）颜色。
      */
     protected Object color;
+
+    /**
+     * 组件（或字体、图形）颜色的透明度。取值范围是{@code 0 ~ 1} 之间的浮点数。
+     */
+    protected Object colorAlpha;
+
+    /**
+     * 组件（或字体、图形）颜色的饱和度。取值范围是{@code 0 ~ 1} 之间的浮点数。
+     */
+    protected Object colorSaturation;
 
     protected BaseStyle() {
         super();
@@ -92,22 +103,68 @@ public abstract class BaseStyle<T extends BaseStyle<T>> implements Style, Serial
     }
 
     @Override
+    public Object getColorAlpha() {
+        return colorAlpha;
+    }
+
+    public void setColorAlpha(Object colorAlpha) {
+        this.colorAlpha = colorAlpha;
+    }
+
+    @Override
+    public Object getColorSaturation() {
+        return colorSaturation;
+    }
+
+    public void setColorSaturation(Object colorSaturation) {
+        this.colorSaturation = colorSaturation;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BaseStyle)) return false;
         BaseStyle that = (BaseStyle) o;
-        return Objects.equals(color, that.color);
+        return Objects.equals(color, that.color) &&
+                Objects.equals(colorAlpha, that.colorAlpha) &&
+                Objects.equals(colorSaturation, that.colorSaturation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color);
+        return Objects.hash(color, colorAlpha, colorSaturation);
+    }
+
+    protected void appendStyle(StringBuilder sb) {
+        sb.append(", ");
+        appendToString(sb);
+    }
+
+    private void appendToString(StringBuilder sb) {
+        sb.append("color=").append(color);
+        sb.append(", colorAlpha=");
+        appendArray(sb, colorAlpha);
+        sb.append(", colorSaturation=");
+        appendArray(sb, colorSaturation);
+    }
+
+    private void appendArray(StringBuilder sb, Object target) {
+        if (target == null) {
+            sb.append("null");
+        } else if (target instanceof Object[]) {
+            sb.append(Arrays.toString((Object[]) target));
+        } else {
+            sb.append(target);
+        }
     }
 
     @Override
     public String toString() {
-        return String.format("%s{color='%s'}",
-                getClass(), color);
+        final StringBuilder sb = new StringBuilder(32)
+                .append(getClass()).append("{");
+        appendToString(sb);
+        sb.append('}');
+        return sb.toString();
     }
 
     protected Map<String, Object> toStringMap() {

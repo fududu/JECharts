@@ -17,9 +17,10 @@
 package org.aying.echarts.base;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * 水平对齐方式。
+ * 水平对齐方式枚举。
  *
  * @author Fuchun
  * @since 1.0
@@ -45,6 +46,11 @@ public enum Align {
      * 居右。
      */
     right;
+
+    @Nullable
+    public static Align ofNullable(Object v) {
+        return of(v, null);
+    }
 
     @Contract("_, !null -> !null")
     public static Align of(Object v, Align a) {
