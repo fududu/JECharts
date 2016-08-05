@@ -35,7 +35,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class PieSerie extends BaseSerie<PieSerie> {
+public class PieSerie extends BaseSerie<PieSerie, SerieData> {
 
     private static final long serialVersionUID = -3019341061363800600L;
 

@@ -29,7 +29,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class LinesSerie extends BaseSerie<LinesSerie> {
+public class LinesSerie extends BaseSerie<LinesSerie, LinesSerieData> {
 
     private static final long serialVersionUID = 42758664974614680L;
 

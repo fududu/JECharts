@@ -16,6 +16,8 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * 提示框触发的条件枚举。
  *
@@ -26,5 +28,24 @@ public enum TriggerOn {
 
     mousemove,
 
-    click
+    click;
+
+    public static TriggerOn ofNullable(Object v) {
+        return of(v, null);
+    }
+
+    @Contract("_, !null -> !null")
+    public static TriggerOn of(Object v, TriggerOn def) {
+        if (v == null) return def;
+        if (v instanceof TriggerOn) {
+            return (TriggerOn) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
+        for (TriggerOn triggerOn : values()) {
+            if (triggerOn.name().equals(n)) {
+                return triggerOn;
+            }
+        }
+        return def;
+    }
 }

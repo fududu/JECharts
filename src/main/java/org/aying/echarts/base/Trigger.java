@@ -16,6 +16,9 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * 触发类型枚举。
  *
@@ -32,5 +35,25 @@ public enum Trigger {
     /**
      * 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
      */
-    axis
+    axis;
+
+    @Nullable
+    public static Trigger ofNullable(Object v) {
+        return of(v, null);
+    }
+
+    @Contract("_, !null -> !null")
+    public static Trigger of(Object v, Trigger def) {
+        if (v == null) return def;
+        if (v instanceof Trigger) {
+            return (Trigger) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
+        for (Trigger trigger : values()) {
+            if (trigger.name().equals(n)) {
+                return trigger;
+            }
+        }
+        return def;
+    }
 }

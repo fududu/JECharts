@@ -16,6 +16,8 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,12 @@ public class JsFunction implements Serializable {
     protected static final Pattern FUNC_PATTERN = Pattern.compile("^function\\s*\\(");
 
     private static final long serialVersionUID = -3010962153138396348L;
+
+    @Contract("null -> null")
+    public static JsFunction withRaw(Object raw) {
+        if (raw == null) return null;
+        return new JsFunction(raw);
+    }
 
     private final Object raw;
 

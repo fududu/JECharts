@@ -41,7 +41,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class MapSerie extends BaseSerie<MapSerie>
+public class MapSerie extends BaseSerie<MapSerie, SerieData>
         implements Position<MapSerie> {
 
     private static final long serialVersionUID = -5523803918487404105L;

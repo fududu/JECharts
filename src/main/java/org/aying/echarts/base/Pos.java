@@ -17,6 +17,7 @@
 package org.aying.echarts.base;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 位置枚举。
@@ -74,6 +75,23 @@ public enum Pos {
 
     public Pos getParent() {
         return parent;
+    }
+
+    public static Object parse(Object p) {
+        if (p == null) return null;
+        if (p instanceof Pos || p instanceof Object[]) {
+            // Pos or [top, left]
+            return p;
+        } else if (p instanceof List) {
+            return ((List) p).toArray();
+        } else if (p instanceof String) {
+            Pos pos = of((String) p, null);
+            if (pos == null) {
+                return p;
+            }
+            return pos;
+        }
+        throw new IllegalArgumentException("The position value is invalid " + p);
     }
 
     public static Pos of(String v, Pos def) {

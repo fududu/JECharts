@@ -32,7 +32,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie> {
+public class LineSerie extends BaseSerie<LineSerie, SerieData> implements Symbol<LineSerie> {
 
     private static final long serialVersionUID = -7764877237401130022L;
 
@@ -89,6 +89,12 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     }
 
     @Override
+    public LineSerie symbolSize(int w, int h) {
+        simpleSymbol.symbolSize(w, h);
+        return this;
+    }
+
+    @Override
     public LineSerie symbolRotate(Integer rotate) {
         simpleSymbol.symbolRotate(rotate);
         return this;
@@ -134,11 +140,11 @@ public class LineSerie extends BaseSerie<LineSerie> implements Symbol<LineSerie>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return simpleSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         simpleSymbol.setSymbolSize(symbolSize);
     }
 

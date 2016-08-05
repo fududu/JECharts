@@ -32,7 +32,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class EffectScatterSerie extends BaseSerie<EffectScatterSerie>
+public class EffectScatterSerie extends BaseSerie<EffectScatterSerie, SerieData>
         implements Symbol<EffectScatterSerie> {
 
     private static final long serialVersionUID = 6367722045266896974L;
@@ -145,11 +145,11 @@ public class EffectScatterSerie extends BaseSerie<EffectScatterSerie>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return simpleSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         simpleSymbol.setSymbolSize(symbolSize);
     }
 
@@ -180,6 +180,12 @@ public class EffectScatterSerie extends BaseSerie<EffectScatterSerie>
     @Override
     public EffectScatterSerie symbolSize(Integer size) {
         simpleSymbol.symbolSize(size);
+        return this;
+    }
+
+    @Override
+    public EffectScatterSerie symbolSize(int w, int h) {
+        simpleSymbol.symbolSize(w, h);
         return this;
     }
 

@@ -40,6 +40,13 @@ public class SimpleTextStyle extends BaseStyle<SimpleTextStyle> implements TextS
 
     private static final long serialVersionUID = -7037742340818566884L;
 
+    public static SimpleTextStyle convert(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
+        return new SimpleTextStyle(map);
+    }
+
     private Align align;
     private Baseline baseline;
     private FontStyle fontStyle;

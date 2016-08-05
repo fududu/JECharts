@@ -29,7 +29,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class FunnelSerie extends BaseSerie<FunnelSerie> {
+public class FunnelSerie extends BaseSerie<FunnelSerie, SerieData> {
 
     public static final String ASCENDING = "ascending";
     public static final String DESCENDING = "descending";

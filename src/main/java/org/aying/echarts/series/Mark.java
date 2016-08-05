@@ -75,11 +75,11 @@ public abstract class Mark<M extends Mark<M>> extends BaseAnimation<M>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return simpleSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         simpleSymbol.setSymbolSize(symbolSize);
     }
 
@@ -134,6 +134,12 @@ public abstract class Mark<M extends Mark<M>> extends BaseAnimation<M>
     @Override
     public M symbolSize(Integer size) {
         simpleSymbol.symbolSize(size);
+        return me();
+    }
+
+    @Override
+    public M symbolSize(int w, int h) {
+        simpleSymbol.symbolSize(w, h);
         return me();
     }
 

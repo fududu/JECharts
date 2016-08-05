@@ -47,11 +47,16 @@ public class JsFunctionSerializer extends StdSerializer<Object> {
     public void serialize(Object value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         if (value instanceof Number || value instanceof Boolean) {
             gen.writeRawValue(value.toString());
-        } else {
-            JsFunction jsFunc = new JsFunction(value.toString());
-            String function = jsFunc.toRawString();
-            gen.writeRawValue(function);
+            return;
         }
+        JsFunction jsFunc;
+        if (value instanceof JsFunction) {
+            jsFunc = (JsFunction) value;
+        } else {
+            jsFunc = new JsFunction(value.toString());
+        }
+        String function = jsFunc.toRawString();
+        gen.writeRawValue(function);
     }
 
     @Override

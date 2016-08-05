@@ -17,11 +17,15 @@
 package org.aying.echarts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.aying.echarts.axis.AxisType;
 import org.aying.echarts.base.*;
 import org.aying.echarts.data.DataAware;
 import org.aying.echarts.data.SimpleDataAware;
 import org.aying.echarts.data.TimelineData;
+import org.aying.echarts.json.converter.TimelineDataConverter;
+import org.aying.echarts.json.converter.ToTimelineDataConverter;
 import org.aying.echarts.style.CheckpointStyle;
 import org.aying.echarts.style.ControlStyle;
 import org.aying.echarts.style.LineStyle;
@@ -83,6 +87,7 @@ public class Timeline extends Graph<Timeline>
     public Timeline() {
         this.sda = new SimpleDataAware<>();
         this.simpleSymbol = new SimpleSymbol();
+        // 目前只支持一个单独的值。
         this.type = "slider";
     }
 
@@ -305,10 +310,12 @@ public class Timeline extends Graph<Timeline>
     }
 
     @Override
+    @JsonSerialize(contentConverter = TimelineDataConverter.class)
     public List<TimelineData> getData() {
         return sda.getData();
     }
 
+    @JsonDeserialize(contentConverter = ToTimelineDataConverter.class)
     public void setData(List<TimelineData> data) {
         sda.setData(data);
     }

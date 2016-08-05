@@ -28,7 +28,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class ParallelSerie extends BaseSerie<ParallelSerie> {
+public class ParallelSerie extends BaseSerie<ParallelSerie, SerieData> {
 
     private static final long serialVersionUID = -6174500811812587862L;
 

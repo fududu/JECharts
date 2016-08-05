@@ -26,7 +26,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class BarSerie extends BaseSerie<BarSerie> {
+public class BarSerie extends BaseSerie<BarSerie, SerieData> {
 
     private static final long serialVersionUID = 8162458174781724980L;
 

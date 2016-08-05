@@ -16,19 +16,25 @@
 
 package org.aying.echarts.axis;
 
+import org.aying.echarts.base.BaseAnimation;
 import org.aying.echarts.style.LineStyle;
 import org.aying.echarts.style.ShadowStyle;
+import org.aying.echarts.style.SimpleLineStyle;
+import org.aying.echarts.style.SimpleShadowStyle;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 /**
- * 坐标轴指示器配置项，在 trigger 为 'axis' 时有效。
+ * 坐标轴指示器配置项，在{@code trigger} 为{@link org.aying.echarts.base.Trigger#axis axis} 时有效。
  *
  * @author Fuchun
  * @since 1.0
  */
-public class AxisPointer implements Serializable {
+public class AxisPointer extends BaseAnimation<AxisPointer> implements Serializable {
 
     private static final long serialVersionUID = 3909748157637044400L;
 
@@ -40,34 +46,88 @@ public class AxisPointer implements Serializable {
         cross,
 
         /** 阴影指示器 */
-        shadow
+        shadow;
+
+        @Nullable
+        public static APType ofNullable(Object v) {
+            return of(v, null);
+        }
+
+        @Contract("_, !null -> !null")
+        public static APType of(Object v, APType def) {
+            if (v == null) return def;
+            if (v instanceof APType) {
+                return (APType) v;
+            }
+            String n = ((String) v).trim().toLowerCase();
+            for (APType type : values()) {
+                if (type.name().equals(n)) {
+                    return type;
+                }
+            }
+            return def;
+        }
+    }
+
+    public static AxisPointer line() {
+        return new AxisPointer(APType.line);
+    }
+
+    public static AxisPointer cross() {
+        return new AxisPointer(APType.cross);
+    }
+
+    public static AxisPointer shadow() {
+        return new AxisPointer(APType.shadow);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static AxisPointer convert(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) return null;
+        Object oType = map.get("type");
+        APType type = APType.ofNullable(oType);
+        if (oType != null && type == null) {
+            throw new IllegalArgumentException("Unsupported axisPointer.type (" + oType + ")");
+        }
+        AxisPointer ap = new AxisPointer(type);
+        ap.axis = AxisType.ofNullable(map.get("axis"));
+        BaseAnimation.transform(ap, map);
+        Object oLineStyle = map.get("lineStyle");
+        Object oCrossStyle = map.get("crossStyle");
+        Object oShadowStyle = map.get("shadowStyle");
+        if (oLineStyle != null && oLineStyle instanceof Map) {
+            Map<String, Object> lsMap = (Map<String, Object>) oLineStyle;
+            ap.lineStyle = SimpleLineStyle.convert(lsMap);
+        }
+        if (oCrossStyle != null && oCrossStyle instanceof Map) {
+            Map<String, Object> csMap = (Map<String, Object>) oCrossStyle;
+            ap.crossStyle = SimpleLineStyle.convert(csMap);
+        }
+        if (oShadowStyle != null && oShadowStyle instanceof Map) {
+            Map<String, Object> ssMap = (Map<String, Object>) oShadowStyle;
+            ap.shadowStyle = SimpleShadowStyle.convert(ssMap);
+        }
+        return ap;
     }
 
     private APType type;
     /* 指示器的坐标轴。可以是 'x', 'y', 'radius', 'angle'。默认取类目轴或者时间轴。 */
     private AxisType axis;
-    /* 是否开启动画，默认开启。 */
-    private Boolean animation;
-    /* 是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。默认：2000 */
-    private Integer animationThreshold;
-    /* 初始动画的时长。默认：1000 */
-    private Integer animationDuration;
-    /* 初始动画的缓动效果。 */
-    private String animationEasing;
-    /* 初始动画的延迟，支持回调函数，可以通过每个数据返回不同的 delay 时间实现更戏剧的初始动画效果。默认：0 */
-    private Object animationDelay;
-    /* 数据更新动画的时长。默认：300 */
-    private Integer animationDurationUpdate;
-    /* 数据更新动画的缓动效果。默认：cubicOut */
-    private String animationEasingUpdate;
-    /* 数据更新动画的延迟，支持回调函数，可以通过每个数据返回不同的 delay 时间实现更戏剧的更新动画效果。默认：0 */
-    private Integer animationDelayUpdate;
     /* 直线指示器线条样式。axisPointer.type 为 'line' 时有效。 */
     private LineStyle lineStyle;
     /* 十字准星指示器线条样式。axisPointer.type 为 'cross' 时有效。 */
     private LineStyle crossStyle;
     /* 阴影指示器样式。axisPointer.type 为 'shadow' 时有效。 */
     private ShadowStyle shadowStyle;
+
+    public AxisPointer() {
+        super();
+    }
+
+    public AxisPointer(APType type) {
+        super();
+        this.type = type;
+    }
 
     public APType getType() {
         return type;
@@ -83,70 +143,6 @@ public class AxisPointer implements Serializable {
 
     public void setAxis(AxisType axis) {
         this.axis = axis;
-    }
-
-    public Boolean getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Boolean animation) {
-        this.animation = animation;
-    }
-
-    public Integer getAnimationThreshold() {
-        return animationThreshold;
-    }
-
-    public void setAnimationThreshold(Integer animationThreshold) {
-        this.animationThreshold = animationThreshold;
-    }
-
-    public Integer getAnimationDuration() {
-        return animationDuration;
-    }
-
-    public void setAnimationDuration(Integer animationDuration) {
-        this.animationDuration = animationDuration;
-    }
-
-    public String getAnimationEasing() {
-        return animationEasing;
-    }
-
-    public void setAnimationEasing(String animationEasing) {
-        this.animationEasing = animationEasing;
-    }
-
-    public Object getAnimationDelay() {
-        return animationDelay;
-    }
-
-    public void setAnimationDelay(Object animationDelay) {
-        this.animationDelay = animationDelay;
-    }
-
-    public Integer getAnimationDurationUpdate() {
-        return animationDurationUpdate;
-    }
-
-    public void setAnimationDurationUpdate(Integer animationDurationUpdate) {
-        this.animationDurationUpdate = animationDurationUpdate;
-    }
-
-    public String getAnimationEasingUpdate() {
-        return animationEasingUpdate;
-    }
-
-    public void setAnimationEasingUpdate(String animationEasingUpdate) {
-        this.animationEasingUpdate = animationEasingUpdate;
-    }
-
-    public Integer getAnimationDelayUpdate() {
-        return animationDelayUpdate;
-    }
-
-    public void setAnimationDelayUpdate(Integer animationDelayUpdate) {
-        this.animationDelayUpdate = animationDelayUpdate;
     }
 
     public LineStyle getLineStyle() {
@@ -177,17 +173,10 @@ public class AxisPointer implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AxisPointer)) return false;
+        if (!super.equals(o)) return false;
         AxisPointer that = (AxisPointer) o;
         return type == that.type &&
-                Objects.equals(axis, that.axis) &&
-                Objects.equals(animation, that.animation) &&
-                Objects.equals(animationThreshold, that.animationThreshold) &&
-                Objects.equals(animationDuration, that.animationDuration) &&
-                Objects.equals(animationEasing, that.animationEasing) &&
-                Objects.equals(animationDelay, that.animationDelay) &&
-                Objects.equals(animationDurationUpdate, that.animationDurationUpdate) &&
-                Objects.equals(animationEasingUpdate, that.animationEasingUpdate) &&
-                Objects.equals(animationDelayUpdate, that.animationDelayUpdate) &&
+                axis == that.axis &&
                 Objects.equals(lineStyle, that.lineStyle) &&
                 Objects.equals(crossStyle, that.crossStyle) &&
                 Objects.equals(shadowStyle, that.shadowStyle);
@@ -195,8 +184,20 @@ public class AxisPointer implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, axis, animation, animationThreshold, animationDuration,
-                animationEasing, animationDelay, animationDurationUpdate, animationEasingUpdate,
-                animationDelayUpdate, lineStyle, crossStyle, shadowStyle);
+        return Objects.hash(super.hashCode(), type, axis, lineStyle, crossStyle, shadowStyle);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder(32)
+                .append(getClass()).append("{");
+        sb.append("type=").append(type);
+        sb.append(", axis=").append(axis);
+        appendAnimation(sb);
+        sb.append(", lineStyle=").append(lineStyle);
+        sb.append(", crossStyle=").append(crossStyle);
+        sb.append(", shadowStyle=").append(shadowStyle);
+        sb.append('}');
+        return sb.toString();
     }
 }

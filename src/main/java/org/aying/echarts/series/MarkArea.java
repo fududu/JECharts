@@ -66,6 +66,11 @@ public class MarkArea extends Mark<MarkArea> {
     }
 
     @Override
+    public MarkArea symbolSize(int w, int h) {
+        return this;
+    }
+
+    @Override
     public MarkArea symbolRotate(Integer rotate) {
         return this;
     }

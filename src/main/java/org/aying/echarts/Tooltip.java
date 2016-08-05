@@ -16,13 +16,18 @@
 
 package org.aying.echarts;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.aying.echarts.axis.AxisPointer;
+import org.aying.echarts.base.JsFunction;
 import org.aying.echarts.base.Pos;
 import org.aying.echarts.base.Trigger;
 import org.aying.echarts.base.TriggerOn;
+import org.aying.echarts.json.ser.JsFunctionSerializer;
+import org.aying.echarts.style.SimpleTextStyle;
+import org.aying.echarts.style.TextStyle;
+import org.aying.echarts.util.Parser;
 
 import java.io.Serializable;
-import java.time.format.TextStyle;
 import java.util.Map;
 import java.util.Objects;
 
@@ -32,13 +37,41 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class Tooltip implements Serializable {
+public class Tooltip extends BaseComponent<Tooltip> implements Serializable {
 
     private static final long serialVersionUID = 2124173085714755764L;
 
+    @SuppressWarnings("unchecked")
     public static Tooltip convert(Map<String, Object> map) {
-
-        return null;
+        if (map == null || map.isEmpty()) return null;
+        Tooltip t = new Tooltip();
+        t.show = (Boolean) map.get(KEY_SHOW);
+        t.showContent = (Boolean) map.get("showContent");
+        t.trigger = Trigger.ofNullable(map.get("trigger"));
+        t.triggerOn = TriggerOn.ofNullable(map.get("triggerOn"));
+        t.alwaysShowContent = (Boolean) map.get("alwaysShowContent");
+        t.showDelay = (Integer) map.get("showDelay");
+        t.hideDelay = (Integer) map.get("hideDelay");
+        t.enterable = (Boolean) map.get("enterable");
+        t.position = Pos.parse(map.get("position"));
+        t.transitionDuration = (Double) map.get("transitionDuration");
+        t.formatter = JsFunction.withRaw(map.get("formatter"));
+        t.backgroundColor = (String) map.get("backgroundColor");
+        t.borderColor = (String) map.get("borderColor");
+        t.borderWidth = (Integer) map.get("borderWidth");
+        t.padding = Parser.padding(map.get("padding"));
+        Object oTextStyle = map.get("textStyle");
+        if (oTextStyle != null && oTextStyle instanceof Map) {
+            Map<String, Object> tsMap = (Map<String, Object>) oTextStyle;
+            t.textStyle = SimpleTextStyle.convert(tsMap);
+        }
+        t.extraCssText = (String) map.get("extraCssText");
+        Object oAxisPointer = map.get("axisPointer");
+        if (oAxisPointer != null && oAxisPointer instanceof Map) {
+            Map<String, Object> apMap = (Map<String, Object>) oAxisPointer;
+            t.axisPointer = AxisPointer.convert(apMap);
+        }
+        return t;
     }
 
     /* 是否显示提示框组件，包括提示框浮层和 axisPointer。 */
@@ -77,6 +110,14 @@ public class Tooltip implements Serializable {
     private String extraCssText;
     /* 坐标轴指示器配置项，在 trigger 为 'axis' 时有效。 */
     private AxisPointer axisPointer;
+
+    public Tooltip() {
+        super();
+    }
+
+    public Tooltip(Boolean show) {
+        super(show);
+    }
 
     /**
      * 设置提示框的绝对位置。
@@ -142,14 +183,6 @@ public class Tooltip implements Serializable {
     public Tooltip padding(int top, int right, int bottom, int left) {
         this.padding = new int[]{top, right, bottom, left};
         return this;
-    }
-
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
     }
 
     public Boolean getShowContent() {
@@ -224,6 +257,7 @@ public class Tooltip implements Serializable {
         this.transitionDuration = transitionDuration;
     }
 
+    @JsonSerialize(using = JsFunctionSerializer.class)
     public Object getFormatter() {
         return formatter;
     }

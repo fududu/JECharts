@@ -26,6 +26,9 @@ import java.io.Serializable;
  */
 public interface Component<C extends Component<C>> extends Serializable {
 
+    /** 组件显示或隐藏属性名称：{@code show}。 */
+    String KEY_SHOW = "show";
+
     /**
      * 是否显示组件（标签、文本、图形、线条等）。
      */

@@ -30,7 +30,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class HeatMapSerie extends BaseSerie<HeatMapSerie> {
+public class HeatMapSerie extends BaseSerie<HeatMapSerie, SerieData> {
 
     private static final long serialVersionUID = -3322962895956958775L;
 

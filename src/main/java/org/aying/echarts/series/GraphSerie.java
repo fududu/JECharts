@@ -17,7 +17,6 @@
 package org.aying.echarts.series;
 
 import org.aying.echarts.ChartType;
-import org.aying.echarts.Data;
 import org.aying.echarts.base.*;
 import org.aying.echarts.style.StateLineStyle;
 
@@ -30,7 +29,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class GraphSerie extends BaseSerie<GraphSerie>
+public class GraphSerie extends BaseSerie<GraphSerie, SerieData>
         implements Symbol<GraphSerie>, Position<GraphSerie>, Size<GraphSerie> {
 
     private static final long serialVersionUID = 5838063241099847182L;
@@ -87,6 +86,12 @@ public class GraphSerie extends BaseSerie<GraphSerie>
     @Override
     public GraphSerie symbolSize(Integer size) {
         sSymbol.symbolSize(size);
+        return this;
+    }
+
+    @Override
+    public GraphSerie symbolSize(int w, int h) {
+        sSymbol.symbolSize(w, h);
         return this;
     }
 
@@ -208,11 +213,11 @@ public class GraphSerie extends BaseSerie<GraphSerie>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return sSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         sSymbol.setSymbolSize(symbolSize);
     }
 
@@ -282,7 +287,7 @@ public class GraphSerie extends BaseSerie<GraphSerie>
         this.links = links;
     }
 
-    public void setNodes(List<Data<?>> nodes) {
+    public void setNodes(List<SerieData> nodes) {
         setData(nodes);
     }
 

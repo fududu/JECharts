@@ -35,7 +35,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class RadarSerie extends BaseSerie<RadarSerie>
+public class RadarSerie extends BaseSerie<RadarSerie, RadarSerieData>
         implements Symbol<RadarSerie> {
 
     private static final long serialVersionUID = -761601048686030067L;
@@ -93,11 +93,11 @@ public class RadarSerie extends BaseSerie<RadarSerie>
     }
 
     @Override
-    public Integer getSymbolSize() {
+    public Object getSymbolSize() {
         return simpleSymbol.getSymbolSize();
     }
 
-    public void setSymbolSize(Integer symbolSize) {
+    public void setSymbolSize(Object symbolSize) {
         simpleSymbol.setSymbolSize(symbolSize);
     }
 
@@ -128,6 +128,12 @@ public class RadarSerie extends BaseSerie<RadarSerie>
     @Override
     public RadarSerie symbolSize(Integer size) {
         simpleSymbol.symbolSize(size);
+        return this;
+    }
+
+    @Override
+    public RadarSerie symbolSize(int w, int h) {
+        simpleSymbol.symbolSize(w, h);
         return this;
     }
 

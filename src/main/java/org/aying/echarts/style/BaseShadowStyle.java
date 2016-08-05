@@ -16,6 +16,8 @@
 
 package org.aying.echarts.style;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +32,16 @@ public class BaseShadowStyle<S extends BaseShadowStyle<S>> extends BaseStyle<S>
         implements ShadowStyle, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    protected static <S extends BaseShadowStyle<S>> void transform(
+            @NotNull S s, @NotNull Map<String, Object> map) {
+        s.setColor(map.get("color"));
+        s.setShadowBlur((Integer) map.get("shadowBlur"));
+        s.setShadowColor((String) map.get("shadowColor"));
+        s.setShadowOffsetX((Integer) map.get("shadowOffsetX"));
+        s.setShadowOffsetY((Integer) map.get("shadowOffsetY"));
+        s.setOpacity((Double) map.get("opacity"));
+    }
 
     private Integer shadowBlur;
     private String shadowColor;

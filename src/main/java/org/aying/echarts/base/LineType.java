@@ -16,6 +16,9 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * 线的类型。
  *
@@ -37,5 +40,25 @@ public enum LineType {
     /**
      * 点线。
      */
-    dotted
+    dotted;
+
+    @Nullable
+    public static LineType ofNullable(Object v) {
+        return of(v, null);
+    }
+
+    @Contract("_, !null -> !null")
+    public static LineType of(Object v, LineType def) {
+        if (v == null) return def;
+        if (v instanceof LineType) {
+            return (LineType) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
+        for (LineType type : values()) {
+            if (type.name().equals(n)) {
+                return type;
+            }
+        }
+        return def;
+    }
 }

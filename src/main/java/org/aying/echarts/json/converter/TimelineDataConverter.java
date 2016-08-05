@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package org.aying.echarts.style;
+package org.aying.echarts.json.converter;
 
-import java.util.Map;
+import org.aying.echarts.data.TimelineData;
 
 /**
- * The simple implementation of the {@code ShadowStyle}.
+ * The {@link TimelineData} to object converter.
  *
  * @author Fuchun
  * @since 1.0
  */
-public class SimpleShadowStyle extends BaseShadowStyle<SimpleShadowStyle> {
+public class TimelineDataConverter extends DataToObjectConverter<TimelineData> {
 
-    private static final long serialVersionUID = 5576447656565225217L;
-
-    public static SimpleShadowStyle convert(Map<String, Object> map) {
-        if (map == null || map.isEmpty()) return null;
-        SimpleShadowStyle ss = new SimpleShadowStyle();
-        transform(ss, map);
-        return ss;
-    }
-
-    public SimpleShadowStyle() {
-        super();
+    public TimelineDataConverter() {
+        super(TimelineData.class);
     }
 }

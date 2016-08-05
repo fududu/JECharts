@@ -16,7 +16,10 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,6 +30,18 @@ public abstract class BaseAnimation<A extends BaseAnimation<A>>
         implements Animation, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    protected static <A extends BaseAnimation<A>> void transform(
+            @NotNull A a, @NotNull Map<String, Object> map) {
+        a.setAnimation((Boolean) map.get("animation"));
+        a.setAnimationThreshold((Integer) map.get("animationThreshold"));
+        a.setAnimationDuration((Integer) map.get("animationDuration"));
+        a.setAnimationEasing(AnimationEasing.ofNullable(map.get("animationEasing")));
+        a.setAnimationDelay(map.get("animationDelay"));
+        a.setAnimationDurationUpdate((Integer) map.get("animationDurationUpdate"));
+        a.setAnimationEasingUpdate(AnimationEasing.ofNullable(map.get("animationEasingUpdate")));
+        a.setAnimationDelayUpdate(map.get("animationDelayUpdate"));
+    }
 
     /* 是否开启动画，默认开启。 */
     private Boolean animation;

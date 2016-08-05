@@ -16,14 +16,14 @@
 
 package org.aying.echarts.series;
 
-import org.aying.echarts.BaseData;
 import org.aying.echarts.ChartType;
-import org.aying.echarts.Data;
 import org.aying.echarts.base.BaseAnimation;
 import org.aying.echarts.base.CanvasZ;
 import org.aying.echarts.base.CoordinateSystem;
 import org.aying.echarts.base.SimpleCanvasZ;
 import org.aying.echarts.base.StateLabel;
+import org.aying.echarts.data.DataAware;
+import org.aying.echarts.data.SimpleDataAware;
 import org.aying.echarts.style.StateShapeStyle;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,14 +37,14 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
-        implements Serie, CanvasZ<S>, Data<S>, Serializable {
+public abstract class BaseSerie<S extends BaseSerie<S, D>, D extends SerieData> extends BaseAnimation<S>
+        implements Serie, CanvasZ<S>, DataAware<D, S>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final ChartType type;
     /* Data proxy delegate */
-    private final BaseData<?> data;
+    private SimpleDataAware<D> sda;
     /* CanvasZ proxy delegate */
     private final SimpleCanvasZ simpleCanvasZ;
     private final transient boolean hasName;
@@ -69,7 +69,7 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
 
     protected BaseSerie(@NotNull ChartType type, boolean hasName) {
         this.type = type;
-        this.data = BaseData.delegate();
+        this.sda = new SimpleDataAware<>();
         this.simpleCanvasZ = new SimpleCanvasZ();
         this.hasName = hasName;
     }
@@ -80,14 +80,14 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
     }
 
     @Override
-    public S add(Data<?> d) {
-        data.add(d);
+    public S addData(D d) {
+        sda.addData(d);
         return me();
     }
 
     @Override
-    public S add(Data<?> d1, Data<?> d2, Data<?>... dn) {
-        data.add(d1, d2, dn);
+    public S addData(D d1, D d2, D... dn) {
+        sda.addData(d1, d2, dn);
         return me();
     }
 
@@ -105,12 +105,12 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
     }
 
     @Override
-    public List<Data<?>> getData() {
-        return data.getData();
+    public List<D> getData() {
+        return sda.getData();
     }
 
-    public void setData(List<Data<?>> data) {
-        this.data.setData(data);
+    public void setData(List<D> data) {
+        sda.setData(data);
     }
 
     @NotNull
@@ -217,11 +217,11 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         if (this == o) return true;
         if (!(o instanceof BaseSerie)) return false;
         if (!super.equals(o)) return false;
-        BaseSerie<?> baseSerie = (BaseSerie<?>) o;
+        BaseSerie<?, ?> baseSerie = (BaseSerie<?, ?>) o;
         return type == baseSerie.type &&
                 Objects.equals(name, baseSerie.name) &&
                 coordinateSystem == baseSerie.coordinateSystem &&
-                Objects.equals(data, baseSerie.data) &&
+                Objects.equals(sda, baseSerie.sda) &&
                 Objects.equals(simpleCanvasZ, baseSerie.simpleCanvasZ) &&
                 Objects.equals(silent, baseSerie.silent) &&
                 Objects.equals(label, baseSerie.label) &&
@@ -233,7 +233,7 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), type, name, coordinateSystem, data, simpleCanvasZ,
+        return Objects.hash(super.hashCode(), type, name, coordinateSystem, sda, simpleCanvasZ,
                 silent, label, itemStyle, markPoint, markLine, markArea);
     }
 
@@ -266,7 +266,7 @@ public abstract class BaseSerie<S extends BaseSerie<S>> extends BaseAnimation<S>
         sb.append(", label=").append(label);
         sb.append(", itemStyle=").append(itemStyle);
         appendMarks(sb);
-        sb.append(", data=").append(data);
+        sb.append(", data=").append(getData());
         sb.append('}');
         return sb.toString();
     }

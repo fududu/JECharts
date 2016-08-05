@@ -16,6 +16,9 @@
 
 package org.aying.echarts.base;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * ECharts 缓动效果枚举。
  *
@@ -84,5 +87,25 @@ public enum AnimationEasing {
 
     bounceOut,
 
-    bounceInOut
+    bounceInOut;
+
+    @Nullable
+    public static AnimationEasing ofNullable(Object v) {
+        return of(v, null);
+    }
+
+    @Contract("_, !null -> !null")
+    public static AnimationEasing of(Object v, AnimationEasing def) {
+        if (v == null) return def;
+        if (v instanceof AnimationEasing) {
+            return (AnimationEasing) v;
+        }
+        String n = ((String) v).trim();
+        for (AnimationEasing ae : values()) {
+            if (ae.name().equalsIgnoreCase(n)) {
+                return ae;
+            }
+        }
+        return def;
+    }
 }

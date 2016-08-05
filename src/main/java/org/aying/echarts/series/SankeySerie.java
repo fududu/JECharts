@@ -17,7 +17,6 @@
 package org.aying.echarts.series;
 
 import org.aying.echarts.ChartType;
-import org.aying.echarts.Data;
 import org.aying.echarts.base.Position;
 import org.aying.echarts.base.SimplePosition;
 import org.aying.echarts.base.SimpleSize;
@@ -35,7 +34,7 @@ import java.util.Objects;
  * @author Fuchun
  * @since 1.0
  */
-public class SankeySerie extends BaseSerie<SankeySerie>
+public class SankeySerie extends BaseSerie<SankeySerie, SerieData>
         implements Position<SankeySerie>, Size<SankeySerie> {
 
     private static final long serialVersionUID = 1813174144295445754L;
@@ -217,7 +216,7 @@ public class SankeySerie extends BaseSerie<SankeySerie>
         return this;
     }
 
-    public void setNodes(List<Data<?>> nodes) {
+    public void setNodes(List<SerieData> nodes) {
         setData(nodes);
     }
 

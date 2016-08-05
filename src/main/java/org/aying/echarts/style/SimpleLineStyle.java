@@ -17,6 +17,7 @@
 package org.aying.echarts.style;
 
 import org.aying.echarts.base.LineType;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +31,16 @@ import java.util.Objects;
 public class SimpleLineStyle extends BaseShadowStyle<SimpleLineStyle> implements LineStyle {
 
     private static final long serialVersionUID = -7035070045694988070L;
+
+    @Contract("null -> null")
+    public static SimpleLineStyle convert(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) return null;
+        SimpleLineStyle sls = new SimpleLineStyle();
+        BaseShadowStyle.transform(sls, map);
+        sls.width = (Integer) map.get("width");
+        sls.type = LineType.ofNullable(map.get("type"));
+        return sls;
+    }
 
     private Integer width;
     private LineType type;

@@ -16,6 +16,9 @@
 
 package org.aying.echarts.axis;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * 坐标轴类型。
  *
@@ -58,5 +61,25 @@ public enum AxisType {
     radius,
 
     /** 角度轴（极坐标）*/
-    angle
+    angle;
+
+    @Nullable
+    public static AxisType ofNullable(Object v) {
+        return of(v, null);
+    }
+
+    @Contract("_, !null -> !null")
+    public static AxisType of(Object v, AxisType def) {
+        if (v == null) return def;
+        if (v instanceof AxisType) {
+            return (AxisType) v;
+        }
+        String n = ((String) v).trim().toLowerCase();
+        for (AxisType type : values()) {
+            if (type.name().equals(n)) {
+                return type;
+            }
+        }
+        return def;
+    }
 }
